@@ -9,7 +9,6 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/delay';
-import { TEST_KIDGEN } from "../data/kidgendata";
 
 @Injectable()
 export class ClinapiService implements OnDestroy {
@@ -278,7 +277,6 @@ export class ClinapiService implements OnDestroy {
             headers: new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('idToken')}`})
         };
         if(authorize){
-            return of<any>(TEST_KIDGEN);
             return this.http.get<any>(`${environment.vsalUrl2}?pheno=true&dataset=kidgen`, httpOptions).map(res => {
                 return JSON.parse(res.pheno)
             });
