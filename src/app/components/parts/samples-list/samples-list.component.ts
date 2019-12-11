@@ -27,27 +27,32 @@ export class SamplesListComponent implements OnInit, OnDestroy {
 
   onSelect(sample, e){
     let samples = []
-    if(e.ctrlKey || e.metaKey){
-      if(this.selectedSamples.some(id => id===sample)){
-        let i = this.selectedSamples.indexOf(sample);
-        samples = Object.assign([],this.selectedSamples);
-        samples.splice(i, 1);
-      }else{
-        samples = this.selectedSamples.concat([sample]);
-      }
-      this.lastClickedIndex = this.sampleIDs.indexOf(sample)
-    }else if(e.shiftKey){
-        const lastIndex = this.sampleIDs.indexOf(sample);
-        samples = Object.assign([], this.sampleIDs);
-        if(this.lastClickedIndex > lastIndex){
-          samples = samples.slice(lastIndex, this.lastClickedIndex + 1)
+    if(this.multiple){
+      if(e.ctrlKey || e.metaKey){
+        if(this.selectedSamples.some(id => id===sample)){
+          let i = this.selectedSamples.indexOf(sample);
+          samples = Object.assign([],this.selectedSamples);
+          samples.splice(i, 1);
         }else{
-          samples = samples.slice(this.lastClickedIndex, lastIndex + 1)
+          samples = this.selectedSamples.concat([sample]);
         }
+        this.lastClickedIndex = this.sampleIDs.indexOf(sample)
+      }else if(e.shiftKey){
+          const lastIndex = this.sampleIDs.indexOf(sample);
+          samples = Object.assign([], this.sampleIDs);
+          if(this.lastClickedIndex > lastIndex){
+            samples = samples.slice(lastIndex, this.lastClickedIndex + 1)
+          }else{
+            samples = samples.slice(this.lastClickedIndex, lastIndex + 1)
+          }
+      }else{
+        samples=[sample];
+        this.lastClickedIndex = this.sampleIDs.indexOf(sample)
+      }
     }else{
-      samples=[sample];
-      this.lastClickedIndex = this.sampleIDs.indexOf(sample)
+        samples=[sample];
     }
+    
     this.onSelectSamples.emit(samples);
   }
 
