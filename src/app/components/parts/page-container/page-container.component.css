@@ -112,8 +112,8 @@ mat-sidenav .title {
 }
 
 .logo-small img {
-    height: auto;
-    width: 260px;
+    height: 50px;
+    width: auto;
 }
 .mat-icon {
     font-size: 19px;
