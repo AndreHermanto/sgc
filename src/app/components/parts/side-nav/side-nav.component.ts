@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Auth } from '../../../services/auth-service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -14,6 +14,7 @@ export class SideNavComponent implements OnInit {
     termsDropdown = false;
     termsLinkActive = false;
     cohort = this.searchBarService.options[0].getValue();
+    @Input() isMobile = false;
 
     constructor(public auth: Auth,
                 private router: Router,
@@ -34,10 +35,10 @@ export class SideNavComponent implements OnInit {
         this.termsDropdown = this.termsDropdown ? false : true;
     }
 
-    /*goToMgrbTerms(event: Event) {
+    goToMgrbTerms(event: Event) {
         this.termsDropdown = false;
         this.router.navigate(['/terms/mgrb']);
-    }*/
+    }
 
     openSignUpDialog() {
         this.dialog.open(

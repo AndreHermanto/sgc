@@ -13,7 +13,7 @@
     <div class="title">
         {{ smallTitle }}
     </div>
-    <app-side-nav></app-side-nav>
+    <app-side-nav [isMobile]="isMobile"></app-side-nav>
 </mat-sidenav>
 
 <header class="header">
@@ -23,7 +23,7 @@
                     routerLink="/">
                     <div class="logo-small">
                         <img src="assets/logos/circa/circa_temp_logo.png" style="width:40px;">
-                        <h2>CIRCA</h2>
+                        <h2 *ngIf="!isMobile">CIRCA</h2>
                     </div>
             </div>
         </span>
