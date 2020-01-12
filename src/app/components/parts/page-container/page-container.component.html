@@ -13,7 +13,7 @@
     <div class="title">
         {{ smallTitle }}
     </div>
-    <app-side-nav></app-side-nav>
+    <app-side-nav [isMobile]="isMobile"></app-side-nav>
 </mat-sidenav>
 
 <header class="header">
@@ -23,7 +23,7 @@
                     routerLink="/">
                     <div class="logo-small">
                         <img src="assets/sgc/SGC_logo_rev.png"/>
-                        <div class="title">Sydney Genomics Collaborative</div>
+                        <div *ngIf="!isMobile" class="title">Sydney Genomics Collaborative</div>
                     </div>
             </div>
         </span>

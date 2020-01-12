@@ -2,9 +2,11 @@ import { Component, HostListener, Input, OnInit, ChangeDetectorRef, ChangeDetect
 import { NavigationEnd, Router } from '@angular/router';
 import { ScrollService } from '../../../services/scroll-service';
 import { SearchBarService } from '../../../services/search-bar-service';
-import { COHORT_SAMPLES_INFO } from '../../../model/cohort-value-mapping'
+import { COHORT_SAMPLES_INFO } from '../../../model/cohort-value-mapping';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 const MIN_NAV_WIDTH = 1285;
+const MOBILE_WIDTH = 480;
 
 @Component({
     selector: 'app-page-container',
@@ -19,6 +21,7 @@ export class PageContainerComponent implements OnInit {
     title = '';
     smallTitle = '';
     showHamburger = false;
+    isMobile = false;
     totalSamplesGen = '';
     totalSamplesPhen = '';
     cohort = ''
@@ -26,12 +29,20 @@ export class PageContainerComponent implements OnInit {
 
     @HostListener('window:resize') windowResized() {
         this.showHamburger = window.innerWidth <= MIN_NAV_WIDTH;
+        this.isMobile = window.innerWidth <= MOBILE_WIDTH;
+
+        if(this.isMobile){
+            this._snackBar.open("This site is not optimized for mobile. Some features might not be available", "Close", {
+                duration: 2000,
+            });
+        }
     }
 
     constructor(private router: Router,
                 private scrollService: ScrollService,
                 public searchBarService: SearchBarService,
-                public cd: ChangeDetectorRef) {
+                public cd: ChangeDetectorRef,
+                private _snackBar: MatSnackBar) {
         this.windowResized();
         this.router.events
             .filter((x, idx) => x instanceof NavigationEnd)
@@ -39,8 +50,10 @@ export class PageContainerComponent implements OnInit {
                 window.scrollTo(0, 0);
             });
     }
-
+        
     ngOnInit() {
+        
+
         this.searchBarService.selectedCohort.subscribe(cohort => {
             this.cohort = cohort;
             if(this.cohort === 'Demo'){
