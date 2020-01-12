@@ -23,7 +23,7 @@ export class GenomicsEnglandService {
                  this.getPanels(data.next,fullData)
         }),
         catchError((e) => {
-            return of(new PanelsList([], 'Genomic England is currently not available. Please try again later.'))
+            return of(new PanelsList([], 'Genomics England is currently not available. Please try again later.'))
         })
       )
     }
@@ -39,7 +39,7 @@ export class GenomicsEnglandService {
             })
             .catch((e) => {
                 Raven.captureMessage("GENOMICS ENGLAND: " + JSON.stringify(e));
-                return of(new GenesList([], 'Genomic England is currently not available. Please try again later.'));
+                return of(new GenesList([], 'Genomics England is currently not available. Please try again later.'));
             });
     }
 
