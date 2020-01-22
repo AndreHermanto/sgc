@@ -23,3 +23,7 @@ mat-sidenav {
 .mat-list, .mat-nav-list, .mat-selection-list {
     padding-top: 0px;
 }
+
+.mat-sidenav-container{
+    position: unset!important;
+} 
