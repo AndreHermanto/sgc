@@ -1,5 +1,5 @@
 import { Component, Input, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
-import { SearchBarService } from '../../../services/search-bar-service';
+import { SearchBarService, ENSEMBL_LENGTH_LIMIT } from '../../../services/search-bar-service';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
 import { ScrollService } from '../../../services/scroll-service';
 import { Router } from '@angular/router';
@@ -25,6 +25,7 @@ export class SearchBarWithOptionsComponent implements AfterViewInit, OnInit {
     @Input() bgColor = 'white';
     private subscriptions: Subscription[] = [];
     regionError: boolean = false;
+    ensemblLimit = ENSEMBL_LENGTH_LIMIT;
 
     @HostListener('document:click', ['$event']) onClick($event: Event) {
         this.toggleExpansion($event);

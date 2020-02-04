@@ -13,8 +13,9 @@ import { GenomicsEnglandService } from './genomics-england.service';
 import { of, Observable, combineLatest } from "rxjs";
 import { RegionAutocomplete } from '../model/region-autocomplete';
 import { GeneAutocomplete } from '../model/gene-autocomplete';
-import { genePanelsFull } from '../shared/genePanelList';
 import { forEach } from '../../../node_modules/@angular/router/src/utils/collection';
+
+export const ENSEMBL_LENGTH_LIMIT = 5000000;
 
 export const QUERY_LIST_ERROR = "You query is incorrect. Please check your query and try again"
 
@@ -79,7 +80,7 @@ export class SearchBarService {
                 return handleAutocompleteError('Failed to find any results for: ' + query);
             }
             if(this.checkErrorRegion(query)){
-                return handleAutocompleteError('Start position cannot be greater than end');
+                return handleAutocompleteError('Your query is incorrect');
             }
             let bestMatch = v[0];
             if(bestMatch instanceof GeneAutocomplete){
@@ -270,6 +271,9 @@ export class SearchBarService {
             const end = Number(results[3]);
             if(checkChromosome.test(chromosome) && !isNaN(start) && !isNaN(end)){
                 if(start > end){
+                    return true;
+                }
+                if(end-start > ENSEMBL_LENGTH_LIMIT){
                     return true;
                 }
             }
