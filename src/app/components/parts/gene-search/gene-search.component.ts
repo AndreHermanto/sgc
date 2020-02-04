@@ -30,6 +30,9 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
     selectedCohort: string;
     COHORT_PERMISSION_VSAL_PHENO_MAPPING = COHORT_PERMISSION_VSAL_PHENO_MAPPING;
 
+    //currently does not support multiple gene search for MGRB
+    geneSearchError = false;
+
 
     constructor(public router: Router,
                 public clinicalFilteringService: ClinicalFilteringService,
@@ -100,35 +103,42 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     search() {
-      let error: boolean = false
-      this.queries.forEach(q => {
-        if(!q.verified){
-          error = true;
-        }
-      })
-
-      if(!error&&(this.queries.length || this.searchBarService.panel)){
-        this.searchBarService.autocompleteError = '';
-        this.searchBarService.query = this.queries.map(query => query.term).join();
-        const cohort = this.searchBarService.options[0].getValue();
-        const obj = {query: this.searchBarService.query, cohort: cohort, panelGroup: this.searchBarService.panelGroup, panel:this.searchBarService.panel, timestamp: Date.now()};
-        this.clinicalFilteringService.clearFilters();
-        this.router.navigate(['/clinical/results', obj]);
+      if(this.queries.length > 1 && this.selectedCohort === "MGRB"){
+        this.geneSearchError = true;
       }else{
-        this.searchBarService.autocompleteError = QUERY_LIST_ERROR;
-      }  
+        this.geneSearchError = false;
+
+        let error: boolean = false
+        this.queries.forEach(q => {
+          if(!q.verified){
+            error = true;
+          }
+        })
+
+        if(!error&&(this.queries.length || this.searchBarService.panel)){
+          this.searchBarService.autocompleteError = '';
+          this.searchBarService.query = this.queries.map(query => query.term).join();
+          const cohort = this.searchBarService.options[0].getValue();
+          const obj = {query: this.searchBarService.query, cohort: cohort, panelGroup: this.searchBarService.panelGroup, panel:this.searchBarService.panel, timestamp: Date.now()};
+          this.clinicalFilteringService.clearFilters();
+          this.router.navigate(['/clinical/results', obj]);
+        }else{
+          this.searchBarService.autocompleteError = QUERY_LIST_ERROR;
+        }  
+      }
     }
 
     searchExample(query) {
-      this.searchBarService.autocompleteError = '';
-      this.searchBarService.query = query;
-      const cohort = this.searchBarService.options[0].getValue();
-      this.searchBarService.panel = "";
-      this.searchBarService.panelGroup = '';
-      this.searchBarService.setGeneList("");
-      const obj = {query: this.searchBarService.query, cohort: cohort, panel:"", timestamp: Date.now()};
-      this.clinicalFilteringService.clearFilters();
-      this.router.navigate(['/clinical/results', obj]);
+
+        this.searchBarService.autocompleteError = '';
+        this.searchBarService.query = query;
+        const cohort = this.searchBarService.options[0].getValue();
+        this.searchBarService.panel = "";
+        this.searchBarService.panelGroup = '';
+        this.searchBarService.setGeneList("");
+        const obj = {query: this.searchBarService.query, cohort: cohort, panel:"", timestamp: Date.now()};
+        this.clinicalFilteringService.clearFilters();
+        this.router.navigate(['/clinical/results', obj]);
  
     }
 
