@@ -5,7 +5,7 @@
         </div>
         <div class="search-bar-results" *ngIf="expanded">
             <div class="message message-error" *ngIf="searchBarService.autocompleteError">{{ searchBarService.autocompleteError }}</div>
-            <div class="message message-error" *ngIf="regionError && !searchBarService.autocompleteError">Start position cannot be greater than end</div>
+            <div class="message message-error" *ngIf="regionError && !searchBarService.autocompleteError">Your query is incorrect.</div>
             <div class="search-examples">
                 Examples: <a (click)="action(example1)">{{ example1 }}</a> or
                 <a (click)="action(example2)">{{ example2 }}</a>
