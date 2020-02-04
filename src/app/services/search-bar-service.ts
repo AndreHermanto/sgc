@@ -13,6 +13,7 @@ import { GenomicsEnglandService } from './genomics-england.service';
 import { of, Observable, combineLatest } from "rxjs";
 import { RegionAutocomplete } from '../model/region-autocomplete';
 import { GeneAutocomplete } from '../model/gene-autocomplete';
+import { genePanelsFull } from '../shared/genePanelList';
 import { forEach } from '../../../node_modules/@angular/router/src/utils/collection';
 
 export const ENSEMBL_LENGTH_LIMIT = 5000000;
