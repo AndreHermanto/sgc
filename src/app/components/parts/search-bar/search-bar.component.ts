@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
-import { SearchBarService } from '../../../services/search-bar-service';
+import { SearchBarService, ENSEMBL_LENGTH_LIMIT } from '../../../services/search-bar-service';
 import { GenericAutocompleteResult } from '../../../model/autocomplete-result';
 import { of, Observable } from "rxjs";
 
@@ -30,6 +30,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     private searchResults: Observable<GenericAutocompleteResult<any>[]>;
     private searchTerms: Subject<string> = new Subject<string>();
     private subscriptions: Subscription[] = [];
+    ensemblLimit = ENSEMBL_LENGTH_LIMIT
 
     @HostListener('document:click', ['$event']) outsideClick($event: Event) {
         if (!$event) {

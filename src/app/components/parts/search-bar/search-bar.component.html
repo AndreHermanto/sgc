@@ -18,6 +18,7 @@
              (mouseover)="highlightAutocompleteResult(i)"
              class="gene-search-result">
             <span *ngIf="!options.mobile" class="result-type">{{ result.categoryName() }}:</span>
+            <span *ngIf="result.categoryName() === 'Region'">(Region cannot be greater than {{ensemblLimit}}) </span>
             <span class="symbol">{{ result.displayName() }}</span>
             <span *ngIf="!options.mobile" class="description">{{ searchBarService.displayDescription(result.description) }}</span>
         </div>
