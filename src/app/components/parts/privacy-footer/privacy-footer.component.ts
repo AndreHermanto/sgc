@@ -11,7 +11,7 @@ import { SearchBarService } from '../../../services/search-bar-service';
     styleUrls: ['./privacy-footer.component.css']
 })
 export class PrivacyFooterComponent implements OnInit, OnDestroy {
-    year = '2019';
+    year = '2020';
     subscriptions: Subscription[] = [];
     selectedCohort = this.searchBarService.options[0].getValue();
     hover=false;
