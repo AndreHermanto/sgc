@@ -3,7 +3,7 @@
     Examples: <a (click)="searchExample('TTN')">TTN</a> or <a (click)="searchExample('TP53')">TP53</a> or <a (click)="searchExample('WASH7P')">WASH7P</a>
 </div>
 <i (click)='clearFilter()' class="reset material-icons">refresh</i>
-<mat-error *ngIf="geneSearchError">MGRB query currently does not support multiple genes or regions</mat-error>
+<mat-error *ngIf="geneSearchError">MGRB queries are restricted to single gene or region</mat-error>
 <app-search-bar-clinical [options]="{autofocus: false}" [action]='addGene'></app-search-bar-clinical>
 <mat-form-field class="chip-list">
     <mat-chip-list #chipList>
