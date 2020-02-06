@@ -20,7 +20,7 @@ export const COHORT_PERMISSION_SUMMARY_MAPPING = {
 
 export const COHORT_PERMISSION_VSAL_PHENO_MAPPING = {
     Demo: '',
-    MGRB: 'circa/pheno'
+    MGRB: 'mgrb/pheno'
 }
 
 export const COHORT_PHENO_GET_MAPPING = {
