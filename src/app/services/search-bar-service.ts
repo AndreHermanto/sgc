@@ -18,7 +18,7 @@ import { forEach } from '../../../node_modules/@angular/router/src/utils/collect
 
 export const ENSEMBL_LENGTH_LIMIT = 5000000;
 
-export const QUERY_LIST_ERROR = "You query is incorrect. Please check your query and try again"
+export const QUERY_LIST_ERROR = "Unable to match variants or gene symbols. Please correct the errors highlighted in red"
 
 @Injectable()
 export class SearchBarService {
