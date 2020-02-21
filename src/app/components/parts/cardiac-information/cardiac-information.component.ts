@@ -28,13 +28,12 @@ export class CardiacInformationComponent{
   
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('sex', 'sex', 'Sex', 'pie'),
-        new ClinicalFields('Participant Ethnicity', 'ethnicity', 'Participant Ethnicity', 'row'),
-        new ClinicalFields('Maternal Ethnicity', 'maternalEthnicity', 'Maternal Ethnicity', 'row'),
-        new ClinicalFields('Paternal Ethnicity', 'paternalEthnicity', 'Paternal Ethnicity', 'row'),
-        new ClinicalFields('Is participant adopted?', 'isParticipantAdopted', 'Is participant adopted?', 'pie'),
-        new ClinicalFields('Number of affected first degree relatives', 'noOfAffectedFirstDegreeRelatives', 'Number of affected first degree relatives', 'row'),
-        new ClinicalFields('Number of affected second degree relatives', 'noOfAffectedSecondDegreeRelatives', 'Number of affected second degree relatives', 'row'),
-        new ClinicalFields('Diagnosis:', 'diagnosis', 'Diagnosis', 'row'),
+        new ClinicalFields('Family history of disease', 'famDiseaseHistory', 'Family history of disease', 'pie'),
+        new ClinicalFields('Family history of sudden death', 'famSuddenDeathHistory', 'Family history of sudden death', 'pie'),
+        new ClinicalFields('Cardiomyopathies', 'cardiomyopathies', 'Cardiomyopathies', 'row'),
+        new ClinicalFields('Primary arrhythymias', 'primaryArrhythymias', 'Primary Arrhythymias', 'row'),
+        new ClinicalFields('Congenital heart disease', 'congenitalHeartDisease', 'Congenital heart disease', 'row'),
+        new ClinicalFields('Symptoms at diagnosis', 'symptomsAtDiagnosis', 'Symptoms at diagnosis', 'pie'),
     ];
     phenoService: string = 'getCardiac'
 
