@@ -55,7 +55,7 @@ export class AcutecareInformationComponent{
                 });
             return filters;  
         }),
-        new ClinicalFields('ac_preg_info_hpo', 'ac_preg_info_hpo', 'ac_preg_info_hpo', 'row', false, true, (dimension, filters) => {
+        new ClinicalFields('ac_preg_info_hpo', 'ac_preg_info_hpo', 'Pregnancy Phenotype (HPO)', 'row', false, true, (dimension, filters) => {
             dimension.filter(null);   
             if (filters.length === 0)
                 dimension.filter(null);
@@ -66,7 +66,7 @@ export class AcutecareInformationComponent{
                 });
             return filters;  
         }),
-        new ClinicalFields('ac_pheno_hpo', 'ac_pheno_hpo', 'ac_pheno_hpo', 'row', false, true, (dimension, filters) => {
+        new ClinicalFields('ac_pheno_hpo', 'ac_pheno_hpo', 'Proband Phenotype (HPO)', 'row', false, true, (dimension, filters) => {
             dimension.filter(null);   
             if (filters.length === 0)
                 dimension.filter(null);
