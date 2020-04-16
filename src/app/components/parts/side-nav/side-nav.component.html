@@ -1,7 +1,7 @@
 <nav>
     <a routerLink="/search" routerLinkActive="is-active">SEARCH</a>
-    <a *ngIf="!isMobile" routerLink="/clinical" routerLinkActive="is-active">CLINICAL FILTERING</a>
     <a class="explore-beta" [routerLink]="['/explore', cohort]" routerLinkActive="is-active">EXPLORE</a>
+    <a *ngIf="!isMobile" routerLink="/clinical" routerLinkActive="is-active">CLINICAL FILTERING</a>
     <a routerLink="/beacon" routerLinkActive="is-active">BEACON</a>
     <a routerLink="/about" routerLinkActive="is-active">ABOUT</a>
     <!--<a [ngClass]="{'is-active': termsLinkActive}" (click)="toggleTerms($event)">
