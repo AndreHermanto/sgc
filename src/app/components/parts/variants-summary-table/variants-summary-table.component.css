@@ -27,6 +27,11 @@
     float: right;
 }
 
+::ng-deep .help-tooltip {
+    white-space: pre-line;
+    max-width: 300px !important;
+}
+
 @media (min-width: 0px) and (max-width: 800px) {
 
     .location {
