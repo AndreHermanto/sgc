@@ -23,7 +23,6 @@ export const environment = {
     auth0Domain: '',
     auth0Connection: '',
     auth0MachineClientId: '',
-    auth0MachineClientSecret: '',
     beaconNetworkUrl: '',
     vsalUrl: '',
     vsalUrl2: '',

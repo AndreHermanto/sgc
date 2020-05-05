@@ -9,7 +9,6 @@ export const environment = {
     auth0Domain: 'sgc.au.auth0.com',
     auth0Connection: 'Production',
     auth0MachineClientId: '9O0wRIq6yuPaUYp7YGskT0DwFQ3C6Bvj',
-    auth0MachineClientSecret: 'xcLNeH7df-f8v6tHuiHkkX8x200fB7U5oyd4WFMMOWcgqCCBrLeTQ3Rc4yuC6RYv',
     beaconNetworkUrl: 'https://beacon-network.org/api',
     vsalUrl: 'https://sgc.garvan.org.au/ssvs/query',
     vsalUrl2: 'https://vsal.garvan.org.au/vsal/core/find',
