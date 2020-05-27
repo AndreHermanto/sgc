@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
 import { Auth } from '../../../services/auth-service';
 import { ClinapiService } from '../../../services/clinapi.service';
+import { VecticAnalyticsService } from '../../../services/analytics-service';
 import {COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PHENO_GET_MAPPING, COHORT_FAMILY_WITH_PHENO} from '../../../model/cohort-value-mapping';
 import { of, Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -52,7 +53,8 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                 private sampleSearch: SampleSearch,
                 private auth: Auth,
                 public cs: ClinapiService,
-                public rs: RegionService
+                public rs: RegionService,
+                public vas: VecticAnalyticsService
             ) {
     }
 
@@ -162,6 +164,29 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                             
                             return this.searchService.getVariants(this.searchQueries, this.mappingSamples.join(), false, this.searchBarService.refInput, this.searchBarService.altInput)
                             .then(() => {
+                                if(this.selectedCohort !== 'Demo'){
+                                    if(this.searchBarService.query){
+                                        const terms = this.searchBarService.query.split(',');
+                                        terms.forEach(t => {
+                                            if(!this.searchBarService.isRegion(t)){
+                                                this.vas.addSearchQueries(t,'', '', this.selectedCohort, 'clinical').subscribe((res) => {
+                                                    return res;
+                                                })
+                                            }
+                                        })
+                                    }
+                                    if(this.searchBarService.panel && this.searchBarService.panelGroup){
+                                        this.vas.addSearchQueries('', this.searchBarService.panelGroup, this.searchBarService.panel, this.selectedCohort, 'clinical').subscribe((res) => {
+                                            return res;
+                                        })
+                                    }
+                                    this.auth.getUser().subscribe(user => {
+                                        this.vas.addUserQuery(user.email, this.selectedCohort).subscribe((res) => {
+                                            return res;
+                                        })
+                                    })
+                                }
+                            
                                 this.loadingVariants = false;
                                 this.cd.detectChanges();
                             })

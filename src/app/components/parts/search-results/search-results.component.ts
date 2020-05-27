@@ -11,6 +11,7 @@ import { Region } from '../../../model/region';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
 import { Auth } from '../../../services/auth-service';
+import { VecticAnalyticsService } from '../../../services/analytics-service';
 import { constants } from '../../../app.constants';
 
 @Component({
@@ -36,7 +37,8 @@ export class SearchResultsComponent implements OnInit, OnDestroy, AfterViewInit 
                 private auth: Auth,
                 private router: Router,
                 private route: ActivatedRoute,
-                private clinicalFilteringService: ClinicalFilteringService
+                private clinicalFilteringService: ClinicalFilteringService,
+                public vas: VecticAnalyticsService
             ) {
     }
 
@@ -50,6 +52,24 @@ export class SearchResultsComponent implements OnInit, OnDestroy, AfterViewInit 
                 ){
                     this.subscriptions.push(this.searchSummaryService.results.subscribe(v => {
                         this.variantsSummary = v.variants;
+
+                        if(this.selectedCohort !== 'Demo'){
+                            if(!this.searchBarService.isRegion(this.searchBarService.query)){
+                                this.vas.addSearchQueries(this.searchBarService.query,'', '', this.selectedCohort, 'summary').subscribe((res) => {
+                                    return res;
+                                })
+                            }else{
+                                this.vas.addSearchQueries('','', '', this.selectedCohort, 'summary').subscribe((res) => {
+                                    return res;
+                                })
+                            }
+    
+                            this.auth.getUser().subscribe(user => {
+                                this.vas.addUserQuery(user.email, this.selectedCohort).subscribe((res) => {
+                                    return res;
+                                })
+                            })
+                        }
                         this.cd.detectChanges();
                     }));
             

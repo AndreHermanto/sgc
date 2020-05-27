@@ -30,5 +30,6 @@ export const environment = {
     durlUrl: '',
     sentryUrl: '',
     clinicalUrl: '',
+    vectisAnalyticsUrl: '',
     mapd: new MapDSettings(),
 };

@@ -16,6 +16,7 @@ export const environment = {
     durlUrl: 'https://wt-ec1ac815dce38c76c2e7662693b82189-0.run.webtask.io/durl-dev',
     sentryUrl: 'https://90b2013bdfef4fef9491990e6ad379c6@sentry.io/158605',
     clinicalUrl: 'http://localhost:3000',
+    vectisAnalyticsUrl: '',
     mapd: {
         protocol: 'https',
         host: 'mapd.vectis-api.com',
