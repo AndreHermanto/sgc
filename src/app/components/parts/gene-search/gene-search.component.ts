@@ -103,7 +103,7 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     search() {
-      if(this.queries.length > 1 && this.selectedCohort === "MGRB"){
+      if(this.queries.length > 10 && this.selectedCohort === "MGRB"){
         this.geneSearchError = true;
       }else{
         this.geneSearchError = false;
