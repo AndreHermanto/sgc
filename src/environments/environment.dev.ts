@@ -16,6 +16,7 @@ export const environment = {
     durlUrl: 'https://wt-ec1ac815dce38c76c2e7662693b82189-0.run.webtask.io/durl-dev',
     sentryUrl: 'https://91961fd51bf94364979610dea632f679@sentry.io/1471909',
     clinicalUrl: 'http://localhost:3000',
+    vectisAnalyticsUrl: 'http://129.94.14.234:3321/analytics',
     mapd: {
         protocol: 'https',
         host: 'vsal.garvan.org.au',
