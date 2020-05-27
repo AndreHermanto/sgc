@@ -327,6 +327,15 @@ export class SearchBarService {
         }
     }
 
+    isRegion(query): boolean{
+        const results = new RegExp(/^([\dxy]+|mt+)[:\-\.,\\/](\d+)[:\-\.,\\/](\d+)$/, "i").exec(query);
+        if(results !== null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     private navigateToSearch(query: string) {
         const obj = {query: query, timestamp: Date.now()};
         this.router.navigate(['/search/results', obj]);

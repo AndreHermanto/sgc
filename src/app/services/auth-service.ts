@@ -11,6 +11,7 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { of } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { COHORT_PERMISSION_SUMMARY_MAPPING } from '../model/cohort-value-mapping'
+import {VecticAnalyticsService} from './analytics-service';
 
 export const expiredAtKey = 'expired_at';
 export const uidKey = 'uid';
@@ -28,6 +29,7 @@ export class Auth {
     
     constructor(private router: Router,
                 public dialog: MatDialog,
+                private vas: VecticAnalyticsService,
                 private http: HttpClient) {
     }
 
@@ -70,7 +72,7 @@ export class Auth {
         localStorage.setItem(uidKey, idToken.email);
         localStorage.setItem('userId', idToken.sub);
         const expiresAt = JSON.stringify(idToken.exp * 1000);
-		localStorage.setItem(expiredAtKey, expiresAt);
+        localStorage.setItem(expiredAtKey, expiresAt);
     }
 
     public getUser(){
@@ -173,7 +175,11 @@ export class Auth {
         } else if (authResult && authResult.idToken && authResult.idToken !== 'undefined') {
             this.setSession(authResult);
             const path = localStorage.getItem(urlStateKey);
-			this.router.navigateByUrl(path);
+            this.router.navigateByUrl(path);
+            
+            this.getUser().subscribe(user=>{ 
+                this.vas.addUserLogin(user.email).subscribe(res => res);;
+             })
         }
     };
 
