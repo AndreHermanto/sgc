@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { FAKE_CLINICAL_DATA } from "../mocks/clindata";
 import { FAKE_DEMO_DATA } from "../mocks/demodata";
 import { VariantSearchService } from './variant-search-service';
+import { SearchBarService } from './search-bar-service';
 import { Subscription } from 'rxjs/Subscription';
 import { of, throwError, Observable } from "rxjs";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
@@ -26,7 +27,8 @@ export class ClinapiService implements OnDestroy {
 
     constructor(
         private vss: VariantSearchService,
-        private http: HttpClient
+        private http: HttpClient,
+        private searchBarService: SearchBarService
     ) {
         this.subs.push(
             this.changes.debounceTime(100).subscribe(family => {
@@ -39,8 +41,7 @@ export class ClinapiService implements OnDestroy {
                     this.samples = this.samples.concat(family)
                 }
                 this.internalSampleIDs.next(this.samples);
-                
-                this.vss.getVariants(this.vss.lastQuery, this.samples.join());
+                this.vss.getVariants(this.vss.lastQuery, this.samples.join(), false, this.searchBarService.refInput, this.searchBarService.altInput);
             })
         );
     }

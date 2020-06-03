@@ -52,6 +52,8 @@ export class ClinicalComponent implements OnInit, OnDestroy {
         this.searchBarService.panel = '';
         this.searchBarService.panelGroup ='';
         this.searchBarService.setGeneList('');
+        this.searchBarService.altInput = '';
+        this.searchBarService.refInput = '';
           return;
       }else{
         this.loadingParseParams = true;

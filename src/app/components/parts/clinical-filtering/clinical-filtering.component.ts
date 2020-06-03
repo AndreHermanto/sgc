@@ -160,7 +160,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                                 return list_pheno_ids_have_family.includes(r);
                             })
                             
-                            return this.searchService.getVariants(this.searchQueries, this.mappingSamples.join())
+                            return this.searchService.getVariants(this.searchQueries, this.mappingSamples.join(), false, this.searchBarService.refInput, this.searchBarService.altInput)
                             .then(() => {
                                 this.loadingVariants = false;
                                 this.cd.detectChanges();

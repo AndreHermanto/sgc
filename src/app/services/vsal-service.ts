@@ -20,7 +20,7 @@ export class VsalService {
     constructor(private http: HttpClient) {
     }
 
-    getVariants(query: SearchQueries, samples, noSamples): Observable<VariantRequest> {
+    getVariants(query: SearchQueries, samples, noSamples, ref, alt): Observable<VariantRequest> {
         const chromosome = query.regions.map(q => q.chromosome).join();
         const start = query.regions.map(q => q.start).join();
         const end = query.regions.map(q => q.end).join();
@@ -37,6 +37,13 @@ export class VsalService {
             positionEnd: end,
             limit: VSAL_VARIANT_LIMIT.toString(),
             skip: 0
+        }
+
+        if(ref !== ''){
+            objParams['refAllele'] = ref;
+        }
+        if(alt !== ''){
+            objParams['altAllele'] = alt;
         }
 
         if(samples.length){
