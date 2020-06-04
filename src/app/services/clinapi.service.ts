@@ -10,6 +10,7 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/delay';
+import { Params, ActivatedRoute, Router } from '@angular/router';
 
 @Injectable()
 export class ClinapiService implements OnDestroy {
@@ -18,6 +19,8 @@ export class ClinapiService implements OnDestroy {
     changes = new Subject();
     subs: Subscription[] = [];
     internalSampleIDs = new Subject<string[]>();
+    ref = '';
+    alt = ';'
     
     private selectedExternalSamplesClinSource = new BehaviorSubject<string[]>([]);
     selectedExternalSamplesClin = this.selectedExternalSamplesClinSource.asObservable();
@@ -28,8 +31,13 @@ export class ClinapiService implements OnDestroy {
     constructor(
         private vss: VariantSearchService,
         private http: HttpClient,
-        private searchBarService: SearchBarService
+        private searchBarService: SearchBarService,
+        private route: ActivatedRoute
     ) {
+        this.route.params.subscribe(p => {
+            this.ref = p['ref'];
+            this.alt = p['alt'];
+        })
         this.subs.push(
             this.changes.debounceTime(100).subscribe(family => {
                 this.vss.filter = this.filterVariants;
@@ -41,7 +49,7 @@ export class ClinapiService implements OnDestroy {
                     this.samples = this.samples.concat(family)
                 }
                 this.internalSampleIDs.next(this.samples);
-                this.vss.getVariants(this.vss.lastQuery, this.samples.join(), false, this.searchBarService.refInput, this.searchBarService.altInput);
+                this.vss.getVariants(this.vss.lastQuery, this.samples.join(), false, this.ref, this.alt);
             })
         );
     }

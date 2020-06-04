@@ -149,7 +149,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                            })
                         }
                         
-                        return this.sampleSearch.getSamples(this.searchQueries).then((result) => {
+                        return this.sampleSearch.getSamples(this.searchQueries, this.searchBarService.refInput, this.searchBarService.altInput).then((result) => {
                             const list_pheno_ids = this.pheno.map(sample => sample.internalIDs)
                             this.mappingSamples = result.filter(r => {
                                 return list_pheno_ids.includes(r);

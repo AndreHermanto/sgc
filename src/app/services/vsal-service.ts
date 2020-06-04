@@ -121,7 +121,7 @@ export class VsalService {
         });
     }
 
-    getSamples(query: SearchQueries): Observable<SampleRequest> {
+    getSamples(query: SearchQueries, ref, alt): Observable<SampleRequest> {
         const chromosome = query.regions.map(q => q.chromosome).join();
         const start = query.regions.map(q => q.start).join();
         const end = query.regions.map(q => q.end).join();
@@ -137,6 +137,13 @@ export class VsalService {
             selectSamplesByGT: 'true',
             positionStart: start,
             positionEnd: end
+        }
+
+        if(ref !== ''){
+            objParams['refAllele'] = ref;
+        }
+        if(alt !== ''){
+            objParams['altAllele'] = alt;
         }
 
         query.options.forEach(o => {
