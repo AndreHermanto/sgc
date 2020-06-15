@@ -28,6 +28,8 @@ export class SearchBarService {
     autocompleteServices: AutocompleteService<any>[] = [];
     options: SearchOption[];
     autocompleteError = '';
+    altInput = '';
+    refInput = '';
     searchedEvent = new Subject();
 
     private startGreaterThanEndSource = new BehaviorSubject<boolean>(false);
@@ -149,18 +151,15 @@ export class SearchBarService {
         if (!this.query) {
             this.query = query;
         }
-
         if (!this.panel) {
             this.panel = panel;
         }
-
         this.searchedEvent.next();
         let arrayOfQueries = [];
 
         if(query.length){
             arrayOfQueries = query.split(',');
         }
-
         if(query.length){
             arrayOfQueries = query.split(',');
         }
