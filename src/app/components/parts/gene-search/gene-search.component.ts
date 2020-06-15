@@ -72,6 +72,12 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
         if(p['panel']){
           this.searchBarService.panel = p['panel'];
         }
+        if(p['ref']){
+          this.searchBarService.refInput = p['ref'];
+        }
+        if(p['alt']){
+          this.searchBarService.altInput = p['alt'];
+        }
       }));
 
       this.subscription.push(this.searchBarService.selectedCohort.subscribe(cohort => {
@@ -115,12 +121,13 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
         this.searchBarService.autocompleteError = '';
         this.searchBarService.query = this.queries.map(query => query.term).join();
         const cohort = this.searchBarService.options[0].getValue();
-        const obj = {query: this.searchBarService.query, cohort: cohort, panelGroup: this.searchBarService.panelGroup, panel:this.searchBarService.panel, timestamp: Date.now()};
+        const obj = {query: this.searchBarService.query, cohort: cohort, panelGroup: this.searchBarService.panelGroup, panel:this.searchBarService.panel, ref:this.searchBarService.refInput, alt: this.searchBarService.altInput, timestamp: Date.now()};
         this.clinicalFilteringService.clearFilters();
         this.router.navigate(['/clinical/results', obj]);
       }else{
         this.searchBarService.autocompleteError = QUERY_LIST_ERROR;
       }  
+
     }
 
     searchExample(query) {
@@ -129,8 +136,10 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
       const cohort = this.searchBarService.options[0].getValue();
       this.searchBarService.panel = "";
       this.searchBarService.panelGroup = '';
+      this.searchBarService.refInput = '';
+      this.searchBarService.altInput = '';
       this.searchBarService.setGeneList("");
-      const obj = {query: this.searchBarService.query, cohort: cohort, panel:"", timestamp: Date.now()};
+      const obj = {query: this.searchBarService.query, cohort: cohort, panel:"",ref:"", alt:'', timestamp: Date.now()};
       this.clinicalFilteringService.clearFilters();
       this.router.navigate(['/clinical/results', obj]);
  
@@ -199,6 +208,13 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
       this.searchBarService.panel = '';
       this.searchBarService.panelGroup ='';
       this.searchBarService.setGeneList('');
+    }
+
+    onType(e){
+      let keys = ['A', 'C', 'T', 'G'] 
+      if(!keys.includes(e.key.toUpperCase()) && (e.key !== 'Backspace' || e.code !== 'Backspace')){
+        event.preventDefault();
+      }
     }
 
     ngOnDestroy() {

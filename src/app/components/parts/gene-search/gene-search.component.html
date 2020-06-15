@@ -19,6 +19,21 @@
              (paste)="paste($event)">
     </mat-chip-list>
 </mat-form-field>
+
+<mat-grid-list cols="2" rowHeight="1:1">
+    <mat-grid-tile>
+      <mat-form-field [style.width.px]=70>
+        <mat-label>Ref</mat-label>
+        <input matInput [(ngModel)]="searchBarService.refInput" (keydown)="onType($event)">
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field [style.width.px]=70>
+        <mat-label>Alt</mat-label>
+        <input matInput [(ngModel)]="searchBarService.altInput" (keydown)="onType($event)">
+      </mat-form-field>
+  </mat-grid-tile>
+</mat-grid-list>
 <mat-form-field>
   <mat-label>Select Panel</mat-label>
   <mat-select [(ngModel)]="searchBarService.panelGroup" (selectionChange)="onChange($event)">

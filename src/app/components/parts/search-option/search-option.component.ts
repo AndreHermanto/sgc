@@ -26,6 +26,8 @@ export class SearchOptionComponent implements OnInit {
     query: string;
     panel: string;
     panelGroup: string;
+    ref: string;
+    alt: string;
 
     constructor(private elf: ElementRef, private searchBarService: SearchBarService, private route: ActivatedRoute, private router: Router, public clinicalFilteringService: ClinicalFilteringService) {
         
@@ -51,6 +53,17 @@ export class SearchOptionComponent implements OnInit {
             }else{
                 this.panelGroup = "";
             }
+            if(p['ref']){
+                this.ref = p['ref'];
+            }else{
+                this.ref = "";
+            }
+            if(p['alt']){
+                this.alt = p['alt'];
+            }else{
+                this.alt = "";
+            }
+            
         }));
     }
 
@@ -58,6 +71,8 @@ export class SearchOptionComponent implements OnInit {
         this.option.setValue(selected);
         this.searchBarService.setCohort(selected);
         this.searchBarService.options[0].setValue(selected);
+        this.searchBarService.refInput = this.ref;
+        this.searchBarService.altInput = this.alt;
         if(this.router.url.includes('/explore')){
             this.router.navigate([`/explore/${this.option.getValue()}`]);
         }
