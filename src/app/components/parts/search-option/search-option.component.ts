@@ -30,6 +30,8 @@ export class SearchOptionComponent implements OnInit {
     alt: string;
     het: boolean;
     hom: boolean;
+    conj: boolean;
+    conjSamples: boolean;
 
     constructor(private elf: ElementRef, private searchBarService: SearchBarService, private route: ActivatedRoute, private router: Router, public clinicalFilteringService: ClinicalFilteringService) {
         
@@ -75,6 +77,16 @@ export class SearchOptionComponent implements OnInit {
             }else{
                 this.hom = true
             }
+            if(p['conj'] === 'false'){
+                this.conj = false;
+            }else{
+                this.conj = true
+            }
+            if(p['conjSamples'] === 'false'){
+                this.conjSamples = false;
+            }else{
+                this.conjSamples = true
+            }
             
         }));
     }
@@ -87,6 +99,8 @@ export class SearchOptionComponent implements OnInit {
         this.searchBarService.altInput = this.alt;
         this.searchBarService.hetInput = this.het;
         this.searchBarService.homInput = this.hom;
+        this.searchBarService.conj = this.conj;
+        this.searchBarService.conjSamples = this.conjSamples;
         if(this.router.url.includes('/explore')){
             this.router.navigate([`/explore/${this.option.getValue()}`]);
         }

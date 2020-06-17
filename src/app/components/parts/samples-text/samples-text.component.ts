@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs';
 
@@ -14,12 +14,15 @@ export class SamplesTextComponent implements OnInit {
   txtSamplesChanged: Subject<string[]> = new Subject<string[]>();
   loadingSamplesFilter = false;
 
-  constructor() { 
+  constructor(private cd: ChangeDetectorRef) { 
     this.txtSamplesChanged.debounceTime(1500)
     .distinctUntilChanged()
     .subscribe(samples => {
-      this.filterSamples.emit(samples);
-      this.loadingSamplesFilter = false;
+      if(samples.length > 0 ){
+        this.filterSamples.emit(samples);
+        this.loadingSamplesFilter = false;
+        this.cd.detectChanges();
+      }
     })
    }
 

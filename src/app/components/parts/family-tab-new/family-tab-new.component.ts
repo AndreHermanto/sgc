@@ -4,6 +4,7 @@ import { VariantSearchService } from '../../../services/variant-search-service';
 import { Subscription } from 'rxjs/Subscription';
 import { Variant } from '../../../model/variant';
 import { ClinapiService } from '../../../services/clinapi.service';
+import { SearchBarService } from '../../../services/search-bar-service';
 
 @Component({
   selector: 'app-family-tab-new',
@@ -18,7 +19,9 @@ export class FamilyTabNewComponent implements AfterViewInit {
   loadingVariants = false;
   selectedExternalIDs: string[] = [];
   selectedInternalIDs: string[] = [];
+  selectedFamilyID: string = '';
   externalIDs: string[];
+  familyIDs: string[];
   showSampleCSV: boolean = false;
   sampleNotFound: boolean = false;
   public variants: Variant[] = [];
@@ -26,15 +29,26 @@ export class FamilyTabNewComponent implements AfterViewInit {
   private subscriptions: Subscription[] = [];
   familyMembers: any[];
   selectedExternalSamples = [];
+  familialFilter = "";
+  affectedParent = "";
 
   constructor(private cd: ChangeDetectorRef,
               public searchService: VariantSearchService,
-              public cs: ClinapiService) { }
+              public cs: ClinapiService,
+              private searchBarService: SearchBarService) { }
 
   ngAfterViewInit(){
     this.externalIDs = this.pheno.filter(s => {
       return this.samples.includes(s.internalIDs) && s.familyData === 'Trio'
     }).map(s => s.externalIDs);
+
+    this.familyIDs = this.pheno.filter(s => {
+      return this.samples.includes(s.internalIDs) && s.familyData === 'Trio'
+    }).map(s => s.familyId);
+
+    this.familyIDs = this.familyIDs.filter((id, index) => {
+      return this.familyIDs.indexOf(id) == index;
+    })
 
     this.variants = this.searchService.variants;
 
@@ -48,7 +62,7 @@ export class FamilyTabNewComponent implements AfterViewInit {
     }));
   }
 
-  onSelectSamples(externalSamples){
+  /*onSelectSamples(externalSamples){
     this.variants = [];
     this.loadingVariants = true;
     this.sampleNotFound = false;
@@ -65,9 +79,17 @@ export class FamilyTabNewComponent implements AfterViewInit {
     this.familyMembers = this.pheno.filter(s => {
       return sample[0].familyId === s.familyId
     });
+    //Make the order child -> father -> mother
+    let sortedFamilyMembers = [];
+    sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "child"))
+    sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "father"))
+    sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "mother"))
+
+    this.familyMembers = sortedFamilyMembers;
+
     this.selectedInternalIDs = this.familyMembers.map(s => s.internalIDs);
     const allQueries = this.selectedInternalIDs.map(id => {
-      return this.searchService.getVariantsForFamily(this.searchQueries, id)
+      return this.searchService.getVariantsForFamily(this.searchQueries, id, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput)
     })
 
     Promise.all(allQueries).then((v) => {
@@ -75,6 +97,51 @@ export class FamilyTabNewComponent implements AfterViewInit {
       this.variants = this.combineVariants(v);
       this.unfilteredVariants = this.variants;
     })
+    this.cd.detectChanges();
+  }*/
+
+  onPassSample(externalSamples){
+
+    let sample = this.pheno.filter(s => s.externalIDs === externalSamples[0])[0];
+    this.onSelectFamily([sample.familyId])
+  }
+
+  onSelectFamily(familyID){
+    this.variants = [];
+    this.loadingVariants = true;
+    this.sampleNotFound = false;
+    this.selectedFamilyID = familyID;
+    this.cs.setSelectedExternalSamplesFam(familyID);
+    this.familyMembers = this.pheno.filter(s => {
+      return s.familyId === familyID[0];
+    });
+
+    if(this.familyMembers.length > 0){
+      //Make the order child -> father -> mother
+      let sortedFamilyMembers = [];
+      sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "child"))
+      sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "father"))
+      sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "mother"))
+
+      this.familyMembers = sortedFamilyMembers;
+
+
+      this.selectedInternalIDs = this.familyMembers.map(s => s.internalIDs);
+      const allQueries = this.selectedInternalIDs.map(id => {
+        return this.searchService.getVariantsForFamily(this.searchQueries, id, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput)
+      })
+
+      Promise.all(allQueries).then((v) => {
+        this.loadingVariants = false;
+        this.variants = this.combineVariants(v);
+        this.unfilteredVariants = this.variants;
+      })
+    }else{
+      this.sampleNotFound = true;
+      this.loadingVariants = false;
+      this.familyMembers = [];
+      this.variants = [];
+    }
     this.cd.detectChanges();
   }
 
@@ -117,19 +184,27 @@ export class FamilyTabNewComponent implements AfterViewInit {
   selectFilter(filter){
     switch (filter) {
       case 'All':
+        this.familialFilter = "All";
+        this.affectedParent = "";
+        this.cd.detectChanges();
         this.variants = this.unfilteredVariants;
         break;
       case 'Heterozygous dominant':
-        this.variants = this.unfilteredVariants.filter(v => {
-          return (v.vhetc === 1) && ((v.vhetc1 ===1 && v.vhetc2 === -1) || (v.vhetc1 === -1 && v.vhetc2 ===1));
-        });
+        this.familialFilter = "Heterozygous dominant";
+        this.cd.detectChanges();
         break;
       case 'Homozygous recessive':
-      this.variants = this.unfilteredVariants.filter(v => {
-        return v.vhetc === 0 && v.vhetc1 === 1 && v.vhetc2 === 1;
-      });
+        this.familialFilter = "Homozygous recessive";
+        this.affectedParent = "";
+        this.cd.detectChanges();
+        this.variants = this.unfilteredVariants.filter(v => {
+          return v.vhetc === 0 && v.vhetc1 === 1 && v.vhetc2 === 1;
+        });
         break;
       case 'Compound heterozygous':
+        this.familialFilter = "Compound heterozygous";
+        this.affectedParent = "";
+        this.cd.detectChanges();
         let variantsPair = [];
         this.variants = this.unfilteredVariants.filter(v => {
           if(v.vhetc === 1 && ((v.vhetc1 === 1 && v.vhetc2 === -1)|| (v.vhetc2 === 1 && v.vhetc1 === -1))){
@@ -173,11 +248,25 @@ export class FamilyTabNewComponent implements AfterViewInit {
         });
         break;
       case 'De novo dominant':
-      this.variants = this.unfilteredVariants.filter(v => {
-        return (v.vhetc === 1) && ((v.vhetc1 === -1 && v.vhetc2 === -1) || (v.vhetc1 === 0 && v.vhetc2 === 0));
-      });
+        this.familialFilter = "De novo dominant"
+        this.affectedParent = "";
+        this.variants = this.unfilteredVariants.filter(v => {
+          return (v.vhetc === 1) && ((v.vhetc1 === -1 && v.vhetc2 === -1) || (v.vhetc1 === 0 && v.vhetc2 === 0));
+        });
         break;
     }
+  }
+
+  selectParent(parent){
+    this.affectedParent = parent;
+    this.variants = this.unfilteredVariants.filter(v => {
+      if(parent === 'mother'){
+        return (v.vhetc === 1) && (v.vhetc1 === -1 || v.vhomc1 === 1) && v.vhetc2 === 1;
+      }else if(parent === 'father'){
+        return (v.vhetc === 1) && v.vhetc1 === 1 && (v.vhetc2 === -1 || v.vhomc2 === 1);
+      }
+    });
+    this.cd.detectChanges();
   }
 
 }
