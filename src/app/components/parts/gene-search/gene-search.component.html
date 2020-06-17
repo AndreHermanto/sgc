@@ -20,22 +20,28 @@
     </mat-chip-list>
 </mat-form-field>
 
-<mat-grid-list cols="2" rowHeight="1:1">
+<mat-grid-list cols="2" rowHeight="3:1">
     <mat-grid-tile>
       <mat-form-field [style.width.px]=70>
         <mat-label>Ref</mat-label>
-        <input matInput [(ngModel)]="searchBarService.refInput" (keydown)="onType($event)">
+        <input matInput [(ngModel)]="searchBarService.refInput">
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-form-field [style.width.px]=70>
         <mat-label>Alt</mat-label>
-        <input matInput [(ngModel)]="searchBarService.altInput" (keydown)="onType($event)">
+        <input matInput [(ngModel)]="searchBarService.altInput">
       </mat-form-field>
   </mat-grid-tile>
+  <mat-grid-tile [colspan]="2" [rowspan]="1">
+    <mat-error *ngIf="searchBarService.refInput !== '' && searchBarService.altInput !== '' && searchBarService.refInput.toUpperCase() === searchBarService.altInput.toUpperCase()">Ref and Alt must be different</mat-error>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="2" [rowspan]="1">
+      <mat-error *ngIf="checkErrorRefAlt(searchBarService.refInput) || checkErrorRefAlt(searchBarService.altInput)">Ref and Alt can only contain A, C, T, or G</mat-error>
+    </mat-grid-tile>
 </mat-grid-list>
 
-<mat-grid-list cols="2" rowHeight="1:1">
+<mat-grid-list cols="2" rowHeight="60px">
   <mat-grid-tile>
     <mat-checkbox [(ngModel)]="searchBarService.hetInput" [disabled]="!searchBarService.homInput">Het</mat-checkbox>
   </mat-grid-tile>
@@ -43,6 +49,15 @@
     <mat-checkbox [(ngModel)]="searchBarService.homInput" [disabled]="!searchBarService.hetInput">Hom</mat-checkbox>
 </mat-grid-tile>
 </mat-grid-list>
+
+<mat-grid-list cols="1" rowHeight="80px">
+    <mat-grid-tile>
+        <mat-checkbox [(ngModel)]="searchBarService.conj">Select variants common in all samples</mat-checkbox>
+    </mat-grid-tile> 
+    <mat-grid-tile>
+        <mat-checkbox [(ngModel)]="searchBarService.conjSamples">Select samples with variants in all selected regions</mat-checkbox>
+      </mat-grid-tile>
+  </mat-grid-list>
 
 <mat-form-field>
   <mat-label>Select Panel</mat-label>

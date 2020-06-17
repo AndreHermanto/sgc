@@ -9,10 +9,11 @@ import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy
 export class SamplesListComponent implements OnInit, OnDestroy {
   @Input() sampleIDs : string[] = [];
   @Input() showSampleCSV : boolean;
-  @Input() selectedSamples : string[];
+  @Input() selectedSamples : string[] = [];
   @Output() onSelectSamples = new EventEmitter<string[]>();
   @Output() onUpdateSamples = new EventEmitter<string[]>();
   @Input() multiple: boolean = true;
+  @Input() label: string = "Sample Id"
   size = this.sampleIDs.length;
   lastClickedIndex = null;
   

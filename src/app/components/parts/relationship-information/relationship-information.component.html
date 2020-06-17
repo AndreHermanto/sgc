@@ -7,9 +7,29 @@
     </div>
     <div class="content">
       <div class='family-info'>
-          <mat-list>
-            <mat-list-item *ngFor="let relationship of relationships" [ngStyle]="{'font-size': '13px'}">{{relationship.externalIDs}} : {{relationship.Relationship}}</mat-list-item>
+          <mat-list *ngIf="familialFilter !== 'Heterozygous dominant'">
+            <mat-list-item *ngFor="let relationship of relationships" [ngStyle]="{'font-size': '13px'}">
+                {{relationship.externalIDs}} : {{relationship.Relationship}}
+            </mat-list-item>
           </mat-list>
+          <div *ngIf="familialFilter === 'Heterozygous dominant'">
+            <mat-list>
+                <mat-list-item [ngStyle]="{'font-size': '13px'}">
+                    {{relationships[0].externalIDs}} : {{relationships[0].Relationship}}
+                </mat-list-item>
+            </mat-list>  
+            <mat-radio-group
+                class="filter-options"
+                (change)="selectFilter($event)">
+                <mat-radio-button class="filter-family-option" [value]="relationships[1].Relationship">
+                    {{relationships[1].externalIDs}} : {{relationships[1].Relationship}}
+                </mat-radio-button>
+                <mat-radio-button class="filter-family-option" [value]="relationships[2].Relationship">
+                    {{relationships[2].externalIDs}} : {{relationships[2].Relationship}}
+                </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
         </div>
     </div>
 </div>

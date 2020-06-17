@@ -64,6 +64,18 @@ h4 {
     text-align: end;
 }
 
+.filter-options{
+    padding-top: 10px;
+    display: block;
+}
+
+.filter-family-option{
+    height: 48px;
+    display: block;
+    font-size: 13px;
+    padding: 0 16px;
+}
+
 @media (min-width: 0px) and (max-width: 320px) {
     .chart {
         min-width: 200px;

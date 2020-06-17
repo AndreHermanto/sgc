@@ -20,3 +20,11 @@
 .reset{
     cursor: pointer;
 }
+
+::ng-deep .mat-checkbox-layout {
+    white-space: normal !important;
+}
+
+::ng-deep .mat-checkbox-inner-container {
+    margin-top: 3px !important;
+}
