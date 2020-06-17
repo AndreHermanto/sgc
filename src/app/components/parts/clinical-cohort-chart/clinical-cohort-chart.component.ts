@@ -3,7 +3,6 @@ import * as dc from 'dc';
 import { Chart } from '../../../model/clinical-cohort-chart';
 import { ClinapiService } from '../../../services/clinapi.service';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
-import { SampleSearch } from '../../../services/sample-search.service';
 import { SearchBarService } from '../../../services/search-bar-service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -28,8 +27,7 @@ export class ClinicalCohortChartComponent implements AfterViewInit, OnDestroy {
     constructor(private cd: ChangeDetectorRef, 
                 private cs: ClinapiService, 
                 private ClinicalFilterService: ClinicalFilteringService, 
-                private searchBarService: SearchBarService, 
-                private sampleSearch: SampleSearch) {
+                private searchBarService: SearchBarService) {
     }
 
     ngAfterViewInit(): void {

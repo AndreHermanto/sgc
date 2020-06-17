@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-relationship-information',
@@ -10,10 +10,17 @@ export class RelationshipInformationComponent implements OnInit {
   @Input('relationships') set allowDay(value: any[]) {
     this.relationships = value;
   }
+  @Input() affectedParent: string;
+  @Input() familialFilter: string;
+  @Output() appliedFilter = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  selectFilter(e){
+    this.appliedFilter.emit(e.value);
   }
 
 }

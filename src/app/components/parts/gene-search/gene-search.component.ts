@@ -84,6 +84,13 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
         if(p['hom'] === 'false'){
           this.searchBarService.homInput = false;
         }
+        if(p['conj'] === 'true'){
+          this.searchBarService.conj = true;
+        }
+        if(p['conjSamples'] === 'true'){
+          this.searchBarService.conjSamples = true;
+        }
+
       }));
 
       this.subscription.push(this.searchBarService.selectedCohort.subscribe(cohort => {
@@ -135,7 +142,7 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
         this.searchBarService.autocompleteError = '';
         this.searchBarService.query = this.queries.map(query => query.term).join();
         const cohort = this.searchBarService.options[0].getValue();
-        const obj = {query: this.searchBarService.query, cohort: cohort, panelGroup: this.searchBarService.panelGroup, panel:this.searchBarService.panel, ref:this.searchBarService.refInput, alt: this.searchBarService.altInput, het: this.searchBarService.hetInput, hom: this.searchBarService.homInput, timestamp: Date.now()};
+        const obj = {query: this.searchBarService.query, cohort: cohort, panelGroup: this.searchBarService.panelGroup, panel:this.searchBarService.panel, ref:this.searchBarService.refInput, alt: this.searchBarService.altInput, het: this.searchBarService.hetInput, hom: this.searchBarService.homInput, conj: this.searchBarService.conj, conjSamples: this.searchBarService.conjSamples, timestamp: Date.now()};
         this.clinicalFilteringService.clearFilters();
         this.router.navigate(['/clinical/results', obj]);
       }else{
@@ -154,8 +161,9 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
       this.searchBarService.altInput = '';
       this.searchBarService.hetInput = true;
       this.searchBarService.homInput = true;
+      this.searchBarService.conj = false;
       this.searchBarService.setGeneList("");
-      const obj = {query: this.searchBarService.query, cohort: cohort, panel:"",ref:"", alt:'', het: 'true', hom: 'true', timestamp: Date.now()};
+      const obj = {query: this.searchBarService.query, cohort: cohort, panel:"",ref:"", alt:'', het: 'true', hom: 'true', conj:'false', conjSamples: 'false', timestamp: Date.now()};
       this.clinicalFilteringService.clearFilters();
       this.router.navigate(['/clinical/results', obj]);
  

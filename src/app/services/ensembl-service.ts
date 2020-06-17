@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from "rxjs";
 
-const TIMEOUT = 10000;
+const TIMEOUT = 60000;
 const CHROMOSOME_URL = '/info/assembly/human/1';
 const HEALTH_CHECK_URL = `${ environment.ensemblProtocol }://${ environment.ensemblDomain }${ CHROMOSOME_URL }`;
 
@@ -32,8 +32,8 @@ export class EnsemblService {
         const url = `${ ensemblBaseUrl }/overlap/region/human/${ region }`;
         return this.http.get(url, {headers: headers, params: params})
             .timeout(TIMEOUT)
-            .catch(() => {
-                return throwError('An error occurred while trying to connect to ensembl');
+            .catch((e) => {
+                return throwError(e);
             });
     }
 }

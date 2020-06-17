@@ -3,12 +3,14 @@ import { Variant } from '../../../model/variant';
 import { MAXIMUM_NUMBER_OF_VARIANTS } from '../../../services/cttv-service';
 
 import { VariantSearchService } from '../../../services/variant-search-service';
-import { SampleSearch } from '../../../services/sample-search.service';
+import { VsalService } from '../../../services/vsal-service';
+
 import { Subscription } from 'rxjs/Subscription';
 import { SearchBarService } from '../../../services/search-bar-service';
 import { RegionService } from '../../../services/autocomplete/region-service';
 import { VariantAutocompleteResult } from '../../../model/autocomplete-result';
 import { SearchQueries } from '../../../model/search-query';
+import { SampleRequest } from '../../../model/sample-request';
 import { Region, GeneDetails } from '../../../model/region';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
@@ -17,7 +19,8 @@ import { ClinapiService } from '../../../services/clinapi.service';
 import { VecticAnalyticsService } from '../../../services/analytics-service';
 import {COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PHENO_GET_MAPPING, COHORT_FAMILY_WITH_PHENO} from '../../../model/cohort-value-mapping';
 import { of, Observable, forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
+import * as _ from 'lodash/array';
 
 @Component({
     selector: 'app-clinical-filtering',
@@ -50,11 +53,11 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                 private router: Router,
                 private route: ActivatedRoute,
                 private clinicalFilteringService: ClinicalFilteringService,
-                private sampleSearch: SampleSearch,
                 private auth: Auth,
                 public cs: ClinapiService,
                 public rs: RegionService,
-                public vas: VecticAnalyticsService
+                public vas: VecticAnalyticsService,
+                public vsal: VsalService
             ) {
     }
 
@@ -66,18 +69,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
             this.cd.detectChanges();
         }));
 
-        this.ids = this.sampleSearch.ids;
-
-        this.subscriptions.push(this.sampleSearch.results.subscribe(s => {
-            this.ids = s.samples;
-            this.cd.detectChanges();
-        }));
-
         this.subscriptions.push(this.searchService.errors.subscribe((e) => {
-            this.errorEvent.emit(e);
-        }));
-
-        this.subscriptions.push(this.sampleSearch.errors.subscribe((e) => {
             this.errorEvent.emit(e);
         }));
 
@@ -98,7 +90,12 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                     if(region.genes.length === 0){
                         return this.rs.getGenesInRegion(region).pipe(map(genes => new Region(region.chromosome, region.start, region.end, genes.map(gene => {
                            return new GeneDetails(region.chromosome, gene.start, gene.end, gene.symbol);
-                        }))));
+                        }))
+                    ),catchError(error => {
+                        this.loadingVariants = false;
+                        this.errorEvent.emit("Failed to connect to Ensembl service. Please try again later."); 
+                        return of(error);      
+                    }));
                     }else{
                         return of(region)
                     }
@@ -150,54 +147,48 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                                 return sample;
                            })
                         }
-                        
-                        return this.sampleSearch.getSamples(this.searchQueries, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput).then((result) => {
-                            const list_pheno_ids = this.pheno.map(sample => sample.internalIDs)
-                            this.mappingSamples = result.filter(r => {
-                                return list_pheno_ids.includes(r);
+                        if(this.searchBarService.conjSamples){
+                            let queries = this.searchQueries.regions.map(q => {
+                                let sq = new SearchQueries([q], this.searchQueries.options)
+                                return this.vsal.getSamples(sq, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput).map((sr: SampleRequest) => {
+                                    return sr;
+                                })
                             })
-    
-                            const list_pheno_ids_have_family = this.pheno.filter(sample => sample.familyId).map(sample => sample.internalIDs);
-                            this.mappingSamplesOnlyToAvailableFamily = result.filter(r => {
-                                return list_pheno_ids_have_family.includes(r);
-                            })
-                            
-                            return this.searchService.getVariants(this.searchQueries, this.mappingSamples.join(), false, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput)
-                            .then(() => {
-                                if(this.selectedCohort !== 'Demo'){
-                                    if(this.searchBarService.query){
-                                        const terms = this.searchBarService.query.split(',');
-                                        terms.forEach(t => {
-                                            if(!this.searchBarService.isRegion(t)){
-                                                this.vas.addSearchQueries(t,'', '', this.selectedCohort, 'clinical').subscribe((res) => {
-                                                    return res;
-                                                })
-                                            }
-                                        })
+
+                            return forkJoin(queries).subscribe(s => {
+                                let samplesIntersection = _.intersection.apply(_, s.map(sample => sample.samples));
+                                let error = {flag: false, e: null};
+
+                                s.forEach(sample => {
+                                    if(sample.error && !error){
+                                        error.flag = true;
+                                        error.e = sample.error;
                                     }
-                                    if(this.searchBarService.panel && this.searchBarService.panelGroup){
-                                        this.vas.addSearchQueries('', this.searchBarService.panelGroup, this.searchBarService.panel, this.selectedCohort, 'clinical').subscribe((res) => {
-                                            return res;
-                                        })
-                                    }
-                                    this.auth.getUser().subscribe(user => {
-                                        this.vas.addUserQuery(user.email, this.selectedCohort).subscribe((res) => {
-                                            return res;
-                                        })
-                                    })
+                                })
+                                if(error.flag){
+                                    this.loadingVariants = false;
+                                    this.errorEvent.emit(error.e);
+                                }else{
+                                    this.getVariantsFromSamples(samplesIntersection);
                                 }
-                            
+
+                            }, e => {
                                 this.loadingVariants = false;
-                                this.cd.detectChanges();
+                                this.errorEvent.emit(e);
                             })
-                            .catch((e) => {
+                        }else{
+                            return this.vsal.getSamples(this.searchQueries, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput).subscribe((result) => {
+                                if(result.error){
+                                    this.loadingVariants = false;
+                                    this.errorEvent.emit(result.error);
+                                }else{
+                                    this.getVariantsFromSamples(result.samples);
+                                }
+                            },(e) => {
                                 this.loadingVariants = false;
                                 this.errorEvent.emit(e);
                             });
-                        }).catch((e) => {
-                            this.loadingVariants = false;
-                            this.errorEvent.emit(e);
-                        });
+                        }
                     },
                     e => {
                         this.loadingVariants = false;
@@ -212,18 +203,51 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
             }));
             
         })
+    }
 
-        /*this.autocomplete.search(this.sampleSearch, this.searchService, this.searchBarService.options)
-            .then(() => {
-                this.loadingVariants = false;
-                this.cd.detectChanges();
-            })
-            .catch((e) => {
-                this.loadingVariants = false;
-                this.errorEvent.emit(e);
-            });*/
+    getVariantsFromSamples(result){
+        this.ids = result;
+        const list_pheno_ids = this.pheno.map(sample => sample.internalIDs)
+        this.mappingSamples = result.filter(r => {
+            return list_pheno_ids.includes(r);
+        })
+        const list_pheno_ids_have_family = this.pheno.filter(sample => sample.familyId).map(sample => sample.internalIDs);
+        this.mappingSamplesOnlyToAvailableFamily = result.filter(r => {
+            return list_pheno_ids_have_family.includes(r);
+        })
         
-
+        return this.searchService.getVariants(this.searchQueries, this.mappingSamples.join(), false, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput, this.searchBarService.conj)
+        .then(() => {
+            if(this.selectedCohort !== 'Demo'){
+                if(this.searchBarService.query){
+                    const terms = this.searchBarService.query.split(',');
+                    terms.forEach(t => {
+                        if(!this.searchBarService.isRegion(t)){
+                            this.vas.addSearchQueries(t,'', '', this.selectedCohort, 'clinical').subscribe((res) => {
+                                return res;
+                            })
+                        }
+                    })
+                }
+                if(this.searchBarService.panel && this.searchBarService.panelGroup){
+                    this.vas.addSearchQueries('', this.searchBarService.panelGroup, this.searchBarService.panel, this.selectedCohort, 'clinical').subscribe((res) => {
+                        return res;
+                    })
+                }
+                this.auth.getUser().subscribe(user => {
+                    this.vas.addUserQuery(user.email, this.selectedCohort).subscribe((res) => {
+                        return res;
+                    })
+                })
+            }
+        
+            this.loadingVariants = false;
+            this.cd.detectChanges();
+        })
+        .catch((e) => {
+            this.loadingVariants = false;
+            this.errorEvent.emit(e);
+        });
     }
 
     ngAfterViewInit() {

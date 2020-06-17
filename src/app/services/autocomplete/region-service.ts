@@ -5,7 +5,7 @@ import { RegionAutocomplete } from '../../model/region-autocomplete';
 import { Injectable } from '@angular/core';
 import { EnsemblService } from '../ensembl-service';
 import { Gene } from '../../model/gene';
-import { of, Observable } from "rxjs";
+import { of, Observable, throwError } from "rxjs";
 
 @Injectable()
 export class RegionService implements AutocompleteService<Region> {
@@ -39,6 +39,8 @@ export class RegionService implements AutocompleteService<Region> {
                     g.symbol = g.external_name;
                     return g;
                 });
+            }).catch(e => {
+                return throwError(e);
             });
     }
 
