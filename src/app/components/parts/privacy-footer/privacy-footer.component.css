@@ -16,7 +16,7 @@
 }
 
 .label {
-    font-size: x-small;
+    font-size: small;
 }
 
 .container {
@@ -29,6 +29,13 @@
     max-width: 68em;
 }
 
+.garvan-logo{
+    width: 70px;
+    vertical-align: middle;
+}
+.gap{
+    margin-right: 5px;
+}
 
 @media (min-width: 0px) and (max-width: 1200px) {
 
