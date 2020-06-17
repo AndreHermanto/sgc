@@ -32,6 +32,8 @@ export class SearchBarService {
     refInput = '';
     hetInput = true;
     homInput = true;
+    conj = false;
+    conjSamples = false;
     searchedEvent = new Subject();
 
     private startGreaterThanEndSource = new BehaviorSubject<boolean>(false);

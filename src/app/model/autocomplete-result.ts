@@ -17,7 +17,6 @@ export abstract class GenericAutocompleteResult<T> {
 }
 
 export abstract class VariantAutocompleteResult<T> extends GenericAutocompleteResult<T> {
-    //abstract search(ss: SampleSearch, vsal: VariantSearchService, options: SearchOption[]): Promise<Variant[]>;
     abstract region(): Promise<Region>;
     abstract getRegion(): Promise<Region>;
 }

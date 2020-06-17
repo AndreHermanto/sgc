@@ -42,7 +42,7 @@
     </mat-grid-tile>
 </mat-grid-list>
 
-<mat-grid-list cols="2" rowHeight="1:1">
+<mat-grid-list cols="2" rowHeight="60px">
   <mat-grid-tile>
     <mat-checkbox [(ngModel)]="searchBarService.hetInput" [disabled]="!searchBarService.homInput">Het</mat-checkbox>
   </mat-grid-tile>
@@ -50,6 +50,15 @@
     <mat-checkbox [(ngModel)]="searchBarService.homInput" [disabled]="!searchBarService.hetInput">Hom</mat-checkbox>
 </mat-grid-tile>
 </mat-grid-list>
+
+<mat-grid-list cols="1" rowHeight="80px">
+    <mat-grid-tile>
+        <mat-checkbox [(ngModel)]="searchBarService.conj">Select variants common in all samples</mat-checkbox>
+    </mat-grid-tile> 
+    <mat-grid-tile>
+        <mat-checkbox [(ngModel)]="searchBarService.conjSamples">Select samples with variants in all selected regions</mat-checkbox>
+      </mat-grid-tile>
+  </mat-grid-list>
 
 <!--<mat-form-field>
   <mat-label>Select Panel</mat-label>

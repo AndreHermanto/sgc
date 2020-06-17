@@ -3,7 +3,6 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Subject } from 'rxjs/Subject';
 import { Auth } from './auth-service';
 import { environment } from '../../environments/environment';
-import { SampleSearch } from './sample-search.service';
 
 @Injectable()
 export class ClinicalFilteringService implements OnDestroy {
@@ -17,7 +16,7 @@ export class ClinicalFilteringService implements OnDestroy {
     private savedSearchesNameSource = new Subject<string>();
     savedSearchesName = this.savedSearchesNameSource.asObservable();
 
-    constructor(private auth: Auth, private sampleSearch: SampleSearch) {
+    constructor(private auth: Auth) {
     }
 
     setFilters(name, filter){

@@ -94,7 +94,6 @@ import { GenomeBrowserSummaryComponent } from './components/parts/genome-browser
 import { GenomeBrowserSummaryResizableComponent } from './components/parts/genome-browser-summary-resizable/genome-browser-summary-resizable.component';
 import { OverlayMenuSummaryComponent } from './components/parts/overlay-menu-summary/overlay-menu-summary.component';
 import { FilterAutoSummaryComponent } from './components/parts/filter-auto-summary/filter-auto-summary.component';
-import { SampleSearch } from './services/sample-search.service';
 import { ClinicalComponent } from './components/pages/clinical/clinical.component';
 import { ClinicalFilteringComponent } from './components/parts/clinical-filtering/clinical-filtering.component';
 import { GeneSearchComponent } from './components/parts/gene-search/gene-search.component';
@@ -264,7 +263,6 @@ export class RavenErrorHandler implements ErrorHandler {
         SearchBarService,
         { provide: ErrorHandler, useClass: RavenErrorHandler },
         { provide: 'NULL_VALUE', useValue: null },
-        SampleSearch,
         GenomicsEnglandService,
         VecticAnalyticsService
     ],

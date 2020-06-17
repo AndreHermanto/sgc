@@ -1,7 +1,7 @@
 <div class="toolbar">
     <div class="actions">
         <button mat-button  [disabled]="selectedExternalSamples.length !== 1 || !externalIDs.includes(selectedExternalSamples[0])" 
-        (click)="onSelectSamples(this.selectedExternalSamples)" 
+        (click)="onPassSample(this.selectedExternalSamples)" 
         class="filter-button"
         [matTooltip]="selectedExternalSamples.length === 1 && externalIDs.includes(selectedExternalSamples[0])?'Pass sample selection from Clinical filtering: ' + selectedExternalSamples[0]:null">
             <mat-icon>file_copy</mat-icon>
@@ -12,14 +12,15 @@
     </div>
 </div>
 <div class="chart">
-    <app-samples-list [sampleIDs]="externalIDs" [selectedSamples]="selectedExternalIDs" (onSelectSamples)="onSelectSamples($event)" [showSampleCSV]="showSampleCSV" (onUpdateSamples)="onSelectSamples($event)" [multiple]="false"></app-samples-list>
-    <app-relationship-information *ngIf="selectedExternalIDs.length === 1 && !loadingVariants && !sampleNotFound" [relationships]="familyMembers"></app-relationship-information>
-    <app-familial-filters *ngIf="selectedExternalIDs.length === 1 && !loadingVariants && !sampleNotFound" (appliedFilter)="selectFilter($event)"></app-familial-filters>
+    <app-samples-list [sampleIDs]="familyIDs" [selectedSamples]="selectedFamilyID" (onSelectSamples)="onSelectFamily($event)" [showSampleCSV]="showSampleCSV" (onUpdateSamples)="onSelectFamily($event)" [multiple]="false" [label]="'Family Id'"></app-samples-list>
+    <app-relationship-information *ngIf="selectedFamilyID.length === 1 && !loadingVariants && !sampleNotFound" [relationships]="familyMembers" [affectedParent]="affectedParent" [familialFilter]="familialFilter" (appliedFilter)="selectParent($event)"></app-relationship-information>
+    <app-familial-filters *ngIf="selectedFamilyID.length === 1 && !loadingVariants && !sampleNotFound" (appliedFilter)="selectFilter($event)"></app-familial-filters>
 </div>
 
 <div *ngIf="loadingVariants">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
-<app-variants-family-table *ngIf="selectedExternalIDs.length === 1 && !loadingVariants && variants.length > 0" [variants]="variants" [samples]="selectedInternalIDs"></app-variants-family-table>
+<app-variants-family-table *ngIf="selectedFamilyID.length === 1 && !loadingVariants && variants.length > 0 && (familialFilter !== 'Heterozygous dominant' || (familialFilter === 'Heterozygous dominant' && affectedParent !== ''))" [variants]="variants" [samples]="selectedInternalIDs"></app-variants-family-table>
 <div *ngIf="sampleNotFound && !loadingVariants" class="message message-error">Sample not found</div>
-<div *ngIf="variants.length <= 0 && selectedExternalIDs.length>0 && !loadingVariants && !sampleNotFound" class="message message-error">No Variants found for the query</div>
+<div *ngIf="familialFilter === 'Heterozygous dominant' && affectedParent === ''" class="message message-warning">Please select affected parent</div>
+<div *ngIf="variants.length <= 0 && selectedFamilyID.length>0 && !loadingVariants && !sampleNotFound && (familialFilter !== 'Heterozygous dominant' || affectedParent !== '')" class="message message-error">No Variants found for the query</div>
