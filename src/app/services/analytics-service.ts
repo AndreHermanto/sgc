@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { of, Observable, forkJoin } from "rxjs";
 import {map, catchError} from 'rxjs/operators';
 
-const PLATFORM = "AGHA";
+const PLATFORM = "CIRCA";
 
 @Injectable()
 export class VecticAnalyticsService {
