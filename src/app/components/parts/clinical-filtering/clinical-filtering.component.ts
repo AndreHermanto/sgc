@@ -151,7 +151,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                            })
                         }
                         
-                        return this.sampleSearch.getSamples(this.searchQueries, this.searchBarService.refInput, this.searchBarService.altInput).then((result) => {
+                        return this.sampleSearch.getSamples(this.searchQueries, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput).then((result) => {
                             const list_pheno_ids = this.pheno.map(sample => sample.internalIDs)
                             this.mappingSamples = result.filter(r => {
                                 return list_pheno_ids.includes(r);
@@ -162,7 +162,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                                 return list_pheno_ids_have_family.includes(r);
                             })
                             
-                            return this.searchService.getVariants(this.searchQueries, this.mappingSamples.join(), false, this.searchBarService.refInput, this.searchBarService.altInput)
+                            return this.searchService.getVariants(this.searchQueries, this.mappingSamples.join(), false, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput)
                             .then(() => {
                                 if(this.selectedCohort !== 'Demo'){
                                     if(this.searchBarService.query){

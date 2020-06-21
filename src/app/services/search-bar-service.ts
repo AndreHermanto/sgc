@@ -30,6 +30,8 @@ export class SearchBarService {
     autocompleteError = '';
     altInput = '';
     refInput = '';
+    hetInput = true;
+    homInput = true;
     searchedEvent = new Subject();
 
     private startGreaterThanEndSource = new BehaviorSubject<boolean>(false);

@@ -28,6 +28,8 @@ export class SearchOptionComponent implements OnInit {
     panelGroup: string;
     ref: string;
     alt: string;
+    het: boolean;
+    hom: boolean;
 
     constructor(private elf: ElementRef, private searchBarService: SearchBarService, private route: ActivatedRoute, private router: Router, public clinicalFilteringService: ClinicalFilteringService) {
         
@@ -63,6 +65,16 @@ export class SearchOptionComponent implements OnInit {
             }else{
                 this.alt = "";
             }
+            if(p['het'] === 'false'){
+                this.het = false;
+            }else{
+                this.het = true;
+            }
+            if(p['hom'] === 'false'){
+                this.hom = false;
+            }else{
+                this.hom = true
+            }
             
         }));
     }
@@ -73,6 +85,8 @@ export class SearchOptionComponent implements OnInit {
         this.searchBarService.options[0].setValue(selected);
         this.searchBarService.refInput = this.ref;
         this.searchBarService.altInput = this.alt;
+        this.searchBarService.hetInput = this.het;
+        this.searchBarService.homInput = this.hom;
         if(this.router.url.includes('/explore')){
             this.router.navigate([`/explore/${this.option.getValue()}`]);
         }
