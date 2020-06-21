@@ -24,6 +24,8 @@ export class VariantSearchService {
     noSamples: boolean = false;
     refInput: string = "";
     altInput: string = "";
+    het: boolean = true;
+    hom: boolean = true;
     private searchQuery = new Subject<SearchQueries>();
     private variantSearch = new VariantSearch();
 
@@ -32,7 +34,7 @@ export class VariantSearchService {
         this.results = this.searchQuery
             .debounceTime(DEBOUNCE_TIME)
             .switchMap((query: SearchQueries) => {
-                return this.vsal.getVariants(query, this.samples, this.noSamples, this.refInput, this.altInput).map((vr: VariantRequest) => {
+                return this.vsal.getVariants(query, this.samples, this.noSamples, this.refInput, this.altInput, this.het, this.hom).map((vr: VariantRequest) => {
                     if (this.filter) {
                         vr.variants = this.filter(vr.variants);
                     }
@@ -65,12 +67,14 @@ export class VariantSearchService {
         });
     }
 
-    getVariants(query: SearchQueries, samples, noSamples = false, ref='', alt=''): Promise<Variant[]> { 
+    getVariants(query: SearchQueries, samples, noSamples = false, ref='', alt='', het= true, hom= true): Promise<Variant[]> { 
         this.lastQuery = query;
         this.samples = samples;
         this.noSamples = noSamples;
         this.refInput = ref;
         this.altInput = alt;
+        this.het = het;
+        this.hom = hom;
         const promise = new Promise<any[]>((resolve, reject) => {
             this.results.take(1).subscribe(
                 (vr: VariantRequest) => {
@@ -91,11 +95,11 @@ export class VariantSearchService {
         return promise;
     }
 
-    getVariantsForFamily(query: SearchQueries, samples, ref= '', alt =''): Promise<Variant[]> { 
+    getVariantsForFamily(query: SearchQueries, samples, ref= '', alt ='', het=true, hom=true): Promise<Variant[]> { 
         this.lastQuery = query;
         this.samples = samples;
         const promise = new Promise<any[]>((resolve, reject) => {
-            this.vsal.getVariants(query, samples, false, ref, alt).subscribe((vr: VariantRequest) => {
+            this.vsal.getVariants(query, samples, false, ref, alt, het, hom).subscribe((vr: VariantRequest) => {
                 vr.variants.forEach(v =>{
                     this.lastQuery.regions.find(r =>{
                         return typeof r.genes.find(region => {
