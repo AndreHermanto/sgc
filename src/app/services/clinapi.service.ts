@@ -20,7 +20,9 @@ export class ClinapiService implements OnDestroy {
     subs: Subscription[] = [];
     internalSampleIDs = new Subject<string[]>();
     ref = '';
-    alt = ';'
+    alt = '';
+    het = true;
+    hom = true;
     
     private selectedExternalSamplesClinSource = new BehaviorSubject<string[]>([]);
     selectedExternalSamplesClin = this.selectedExternalSamplesClinSource.asObservable();
@@ -37,6 +39,8 @@ export class ClinapiService implements OnDestroy {
         this.route.params.subscribe(p => {
             this.ref = p['ref'];
             this.alt = p['alt'];
+            this.het = p['het'] === 'false' ? false : true;
+            this.hom = p['hom'] === 'false' ? false : true;
         })
         this.subs.push(
             this.changes.debounceTime(100).subscribe(family => {
@@ -49,7 +53,7 @@ export class ClinapiService implements OnDestroy {
                     this.samples = this.samples.concat(family)
                 }
                 this.internalSampleIDs.next(this.samples);
-                this.vss.getVariants(this.vss.lastQuery, this.samples.join(), false, this.ref, this.alt);
+                this.vss.getVariants(this.vss.lastQuery, this.samples.join(), false, this.ref, this.alt, this.het, this.hom);
             })
         );
     }

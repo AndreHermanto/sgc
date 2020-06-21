@@ -19,12 +19,14 @@ export class SampleSearch {
     private searchQuery = new Subject<SearchQueries>();
     refInput: string = "";
     altInput: string = "";
+    hetInput: boolean = true;
+    homInput: boolean = true;
 
     constructor(private vsal: VsalService) {
         this.results = this.searchQuery
         .debounceTime(DEBOUNCE_TIME)
         .switchMap((query: SearchQueries) => {
-            return this.vsal.getSamples(query, this.refInput, this.altInput).map((sr: SampleRequest) => {
+            return this.vsal.getSamples(query, this.refInput, this.altInput, this.hetInput, this.homInput).map((sr: SampleRequest) => {
                 return sr;
             });
         })
@@ -40,10 +42,12 @@ export class SampleSearch {
         });
      }
 
-    getSamples(query: SearchQueries, ref='', alt='') {
+    getSamples(query: SearchQueries, ref='', alt='', het=true,hom=true) {
         this.refInput = ref;
         this.altInput = alt;
         this.lastQuery = query;
+        this.hetInput = het;
+        this.homInput = hom;
         const promise = new Promise<any[]>((resolve, reject) => {
             this.results.take(1).subscribe(
                 (sr: SampleRequest) => {

@@ -34,6 +34,16 @@
       </mat-form-field>
   </mat-grid-tile>
 </mat-grid-list>
+
+<mat-grid-list cols="2" rowHeight="1:1">
+  <mat-grid-tile>
+    <mat-checkbox [(ngModel)]="searchBarService.hetInput" [disabled]="!searchBarService.homInput">Het</mat-checkbox>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-checkbox [(ngModel)]="searchBarService.homInput" [disabled]="!searchBarService.hetInput">Hom</mat-checkbox>
+</mat-grid-tile>
+</mat-grid-list>
+
 <mat-form-field>
   <mat-label>Select Panel</mat-label>
   <mat-select [(ngModel)]="searchBarService.panelGroup" (selectionChange)="onChange($event)">
