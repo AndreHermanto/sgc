@@ -31,6 +31,10 @@
     min-width: 220px;
 }
 
+.middle-gap {
+    width: 40%;
+}
+
 .garvan-logo{
     width: 70px;
     vertical-align: middle;
