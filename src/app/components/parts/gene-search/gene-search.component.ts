@@ -119,6 +119,14 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
         }
       })
 
+      if(this.searchBarService.refInput !== '' && this.searchBarService.altInput !== '' && this.searchBarService.refInput.toUpperCase() === this.searchBarService.altInput.toUpperCase()){
+        error = true;
+      }
+
+      if(this.checkErrorRefAlt(this.searchBarService.refInput) || this.checkErrorRefAlt(this.searchBarService.altInput)){
+        error = true;
+      }
+
       if(!error&&(this.queries.length || this.searchBarService.panel)){
         this.searchBarService.autocompleteError = '';
         this.searchBarService.query = this.queries.map(query => query.term).join();
@@ -214,11 +222,12 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
       this.searchBarService.setGeneList('');
     }
 
-    onType(e){
-      let keys = ['A', 'C', 'T', 'G'] 
-      if(!keys.includes(e.key.toUpperCase()) && (e.key !== 'Backspace' || e.code !== 'Backspace')){
-        event.preventDefault();
+    checkErrorRefAlt(input){
+      var error = true;
+      if(input !== ''){
+        error = /^[actg]+$/i.test(input)
       }
+      return !error;
     }
 
     ngOnDestroy() {
