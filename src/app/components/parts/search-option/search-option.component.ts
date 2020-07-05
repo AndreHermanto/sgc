@@ -79,13 +79,17 @@ export class SearchOptionComponent implements OnInit {
             }
             if(p['conj'] === 'false'){
                 this.conj = false;
+            }else if(p['conj'] === 'true'){
+                this.conj = true;
             }else{
-                this.conj = true
+                this.conj = false
             }
             if(p['conjSamples'] === 'false'){
                 this.conjSamples = false;
-            }else{
+            }else if(p['conjSamples'] === 'true'){
                 this.conjSamples = true
+            }else{
+                this.conjSamples = false
             }
             
         }));

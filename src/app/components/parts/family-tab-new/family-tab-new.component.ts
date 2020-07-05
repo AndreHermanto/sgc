@@ -112,6 +112,8 @@ export class FamilyTabNewComponent implements AfterViewInit {
     this.sampleNotFound = false;
     this.selectedFamilyID = familyID;
     this.cs.setSelectedExternalSamplesFam(familyID);
+    this.familialFilter = "All";
+    this.affectedParent = "";
     this.familyMembers = this.pheno.filter(s => {
       return s.familyId === familyID[0];
     });
