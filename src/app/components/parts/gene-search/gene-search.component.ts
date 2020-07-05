@@ -158,6 +158,7 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
       this.searchBarService.hetInput = true;
       this.searchBarService.homInput = true;
       this.searchBarService.conj = false;
+      this.searchBarService.conjSamples = false;
       this.searchBarService.setGeneList("");
       const obj = {query: this.searchBarService.query, cohort: cohort, panel:"",ref:"", alt:'', het: 'true', hom: 'true', conj:'false', conjSamples: 'false', timestamp: Date.now()};
       this.clinicalFilteringService.clearFilters();
