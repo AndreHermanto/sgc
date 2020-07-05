@@ -21,7 +21,6 @@
             <div class="loading-message" *ngIf="loadingVariants">
                 <mat-spinner color="primary"></mat-spinner>
             </div>
-            <div class="message message-error" *ngIf="!loadingVariants && variants.length <= 0 && !denied">No Variants found for the query</div>
             <div *ngIf="denied && !loadingVariants" class="message message-error">You do not have permission to view this data.</div>
             <app-family-tab *ngIf="searchService.commenced" [pheno]="pheno" [samples]="mappingSamples" [searchQueries]="searchQueries"></app-family-tab>
         </mat-tab>
