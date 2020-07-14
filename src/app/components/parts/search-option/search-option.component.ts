@@ -4,6 +4,7 @@ import { SearchBarService } from '../../../services/search-bar-service';
 import { Subscription } from 'rxjs/Subscription';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
+import { COHORT_SAMPLES_INFO } from '../../../model/cohort-value-mapping';
 
 @Component({
     selector: 'app-search-option',
@@ -32,6 +33,7 @@ export class SearchOptionComponent implements OnInit {
     hom: boolean;
     conj: boolean;
     conjSamples: boolean;
+    cohortSamplesInfo = COHORT_SAMPLES_INFO;
 
     constructor(private elf: ElementRef, private searchBarService: SearchBarService, private route: ActivatedRoute, private router: Router, public clinicalFilteringService: ClinicalFilteringService) {
         

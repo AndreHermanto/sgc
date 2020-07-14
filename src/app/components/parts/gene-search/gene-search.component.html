@@ -50,14 +50,42 @@
 </mat-grid-tile>
 </mat-grid-list>
 
-<mat-grid-list cols="1" rowHeight="80px">
+<!--<mat-grid-list cols="1" rowHeight="80px">
+  <mat-grid-tile>
+      <mat-checkbox [(ngModel)]="searchBarService.conj">Select variants common in all samples</mat-checkbox>
+  </mat-grid-tile> 
+  <mat-grid-tile>
+      <mat-checkbox [(ngModel)]="searchBarService.conjSamples">Select samples with variants in all selected regions</mat-checkbox>
+    </mat-grid-tile>
+</mat-grid-list>-->
+
+<mat-grid-list cols="1" rowHeight="7:1">
+  <mat-grid-tile>
+      <label>Select variants in samples: </label>
+  </mat-grid-tile>
+  <mat-grid-tile [rowspan]="2">
+    <mat-radio-group [(ngModel)]="searchBarService.conj">
+      <mat-radio-button [value]="false" matTooltip="Select variants in any samples" matTooltipPosition="after" style="margin-bottom: 7px;">union</mat-radio-button>
+      <br />
+      <mat-radio-button [value]="true" matTooltip="Select variants common in all samples" matTooltipPosition="after">intersection</mat-radio-button>
+    </mat-radio-group>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<mat-grid-list cols="1" rowHeight="7:1">
     <mat-grid-tile>
-        <mat-checkbox [(ngModel)]="searchBarService.conj">Select variants common in all samples</mat-checkbox>
+        <label>Select samples with variants: </label>
     </mat-grid-tile> 
-    <mat-grid-tile>
-        <mat-checkbox [(ngModel)]="searchBarService.conjSamples">Select samples with variants in all selected regions</mat-checkbox>
-      </mat-grid-tile>
-  </mat-grid-list>
+    <mat-grid-tile [rowspan]="2">
+      <mat-radio-group [(ngModel)]="searchBarService.conjSamples">
+        <mat-radio-button [value]="false" style="margin-bottom: 7px;">in any selected regions</mat-radio-button>
+        <br />
+        <mat-radio-button [value]="true">in all selected regions</mat-radio-button>
+      </mat-radio-group>
+    </mat-grid-tile>
+</mat-grid-list>
+
+
 
 <mat-form-field>
   <mat-label>Select Panel</mat-label>

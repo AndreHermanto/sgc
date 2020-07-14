@@ -58,3 +58,11 @@ mat-icon {
 .material-icons{
     font-size: 20px;
 }
+
+.dc-data-count .total-count {
+    font-weight: normal !important;
+}
+
+.dc-data-count .filter-count {
+    font-weight: normal !important;
+}
