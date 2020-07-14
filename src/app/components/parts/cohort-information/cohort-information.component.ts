@@ -59,7 +59,6 @@ export class CohortInformationComponent implements AfterViewInit, OnDestroy, OnI
 
     ngOnInit() {
         this.selectedOption = this.searchBarService.options[0].getValue();
-        console.log(this.selectedOption);
     }
 
     ngAfterViewInit() {
