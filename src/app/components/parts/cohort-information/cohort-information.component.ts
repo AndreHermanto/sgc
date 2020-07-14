@@ -9,6 +9,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { Chart } from "../../../model/clinical-cohort-chart";
 import { EventEmitter } from 'events';
 import { ClinicalFields } from '../../../model/clinical-fields';
+import { COHORT_SAMPLES_INFO } from '../../../model/cohort-value-mapping'
+import { SearchBarService } from '../../../services/search-bar-service'
 
 @Component({
     selector: 'app-cohort-information',
@@ -43,17 +45,21 @@ export class CohortInformationComponent implements AfterViewInit, OnDestroy, OnI
     allIsChecked = false;
     sampleNotFound = false;
     selectedExternalSamples = [];
+    cohortSamplesInfo = COHORT_SAMPLES_INFO;
+    selectedOption;
 
     constructor(private cs: ClinapiService,
                 private cd: ChangeDetectorRef,
                 private ClinicalFilterService: ClinicalFilteringService,
                 private auth: Auth,
                 private router: Router,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private searchBarService: SearchBarService) {
     }
 
     ngOnInit() {
-
+        this.selectedOption = this.searchBarService.options[0].getValue();
+        console.log(this.selectedOption);
     }
 
     ngAfterViewInit() {
