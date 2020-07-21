@@ -100,8 +100,8 @@ export const COHORT_SAMPLES_INFO = {
         phen: '51'
     },
     Mitochondria: {
-        gen: '30',
-        phen: '30'
+        gen: '82',
+        phen: '82'
     },
     Neuromuscular: null,
     Acutecare: {
@@ -109,16 +109,16 @@ export const COHORT_SAMPLES_INFO = {
         phen: '79'
     },
     ['Epileptic Encephalopathies']: {
-        gen: '30',
-        phen: '30'
+        gen: '82',
+        phen: '82'
     },
     ['Brain Malformations']: {
-        gen: '41',
-        phen: '41'
+        gen: '83',
+        phen: '83'
     },
     Leukodystrophies: {
-        gen: '7',
-        phen: '7'
+        gen: '21',
+        phen: '21'
     },
     Childranz: null,
     ICCon: null,
@@ -135,7 +135,7 @@ export const COHORT_FAMILY_WITH_PHENO = {
     Neuromuscular: false,
     ['Epileptic Encephalopathies']: false,
     ['Brain Malformations']: false,
-    Leukodystrophies: false,
+    Leukodystrophies: true,
     ICCon: false,
     Childranz: false,
     HIDDEN: false,
