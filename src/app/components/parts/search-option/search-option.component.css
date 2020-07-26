@@ -12,11 +12,15 @@
     background-color: white;
     border: 1px solid lightgrey;
     position: absolute;
-    min-width: 300px;
-    width: 125%;
+    min-width: 200%;
     box-shadow: 0 2px 4px rgba(0,0,0,.16);
     -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.16);
     z-index: 99999;
+    padding: 3px 0px;
+}
+
+.name {
+    padding: 0px 10px;
 }
 
 .options div:hover {
