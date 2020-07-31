@@ -74,6 +74,8 @@ export class GenePanelsComponent implements OnInit, OnDestroy {
                 return  new Panel(e, count);
               });
               this.setGenePanelValue(this.selectedGenePanel);
+            }, e => {
+              this.error = "There was an error processing your request"
             })
           }))
     }
