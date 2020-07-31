@@ -8,7 +8,7 @@ import { Chromosome } from '../../model/chromosome';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { of, throwError, Observable } from "rxjs";
 
-const TIMEOUT = 5000;
+const TIMEOUT = 10000;
 
 @Injectable()
 export class ElasticGeneSearch implements AutocompleteService<Gene> {
@@ -20,7 +20,6 @@ export class ElasticGeneSearch implements AutocompleteService<Gene> {
         const headers = new HttpHeaders()
             .append('Accept', 'application/json');
         return this.http.get(`${ environment.elasticUrl }/chromosomes/chromosome/${chromosome.toUpperCase()}`, {headers: headers})
-            .timeout(TIMEOUT)
             .catch(() => {
                 return throwError('An error occurred while trying to connect to elasticsearch');
             })
@@ -83,7 +82,6 @@ export class ElasticGeneSearch implements AutocompleteService<Gene> {
             ]
         };
         return this.http.post(environment.elasticUrl + '/_search', body, {headers: headers})
-            .timeout(TIMEOUT)
             .catch(() => {
                 return throwError('An error occurred while trying to connect to elasticsearch');
             })
