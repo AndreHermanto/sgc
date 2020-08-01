@@ -1,9 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Auth } from '../../../services/auth-service';
 import { Router, NavigationEnd } from '@angular/router';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 import { SearchBarService } from '../../../services/search-bar-service';
+import { Subscription } from 'rxjs/Subscription';
+import { COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING } from '../../../model/cohort-value-mapping';
 
 @Component({
     selector: 'app-side-nav',
@@ -15,11 +17,14 @@ export class SideNavComponent implements OnInit {
     termsLinkActive = false;
     cohort = this.searchBarService.options[0].getValue();
     @Input() isMobile = false;
+    cohortAccessSummary = ['Demo'];
+    cohortAccessClinical = ['Demo'];
 
     constructor(public auth: Auth,
                 private router: Router,
                 public dialog: MatDialog,
-                private searchBarService: SearchBarService) {
+                private searchBarService: SearchBarService,
+                public cd: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -28,6 +33,38 @@ export class SideNavComponent implements OnInit {
             .subscribe((event: any) => {
                 this.termsLinkActive = event.url.match(new RegExp(/^\/terms/, 'i'));
             });
+        
+        this.searchBarService.selectedCohort.subscribe(cohort => {
+            this.cohort = cohort;
+        })
+
+        if(!this.auth.authenticated()){
+            localStorage.removeItem('userPermissions')
+        }
+
+        this.checkPermissions();
+
+    }
+
+    checkPermissions(){
+        if(JSON.parse(localStorage.getItem('userPermissions')) === null){
+            this.cohortAccessClinical = ['Demo'];
+            this.cohortAccessSummary = ['Demo'];
+        }else{
+            let permissions = localStorage.getItem('userPermissions');
+            let cohorts = Object.keys(COHORT_PERMISSION_SUMMARY_MAPPING);
+            cohorts.forEach(c => {
+                if(c !== 'Demo'){
+                    if(permissions.includes(COHORT_PERMISSION_SUMMARY_MAPPING[c])){
+                        this.cohortAccessSummary = [...this.cohortAccessSummary, c];
+                    }
+                    if(permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
+                        this.cohortAccessClinical = [...this.cohortAccessClinical, c];
+                    }
+                }
+            });
+        }
+        this.cd.detectChanges();
     }
 
     toggleTerms(event: Event) {

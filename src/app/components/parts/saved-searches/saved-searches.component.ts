@@ -52,14 +52,13 @@ export class SavedSearchesComponent implements OnInit, OnDestroy {
         this.router.navigate(['/error']);
     }))
 
-    this.auth.getUserPermissions().subscribe(permissions => {
-        const selectedCohort = this.searchBarService.options[0].getValue();
-        if(permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[selectedCohort])){
-            this.denied = false;
-        }else {
-            this.denied = true;
-        }
-    }) 
+    let permissions = localStorage.getItem('userPermissions') ? JSON.parse(localStorage.getItem('userPermissions')) : [];
+    const selectedCohort = this.searchBarService.options[0].getValue();
+    if(permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[selectedCohort])){
+        this.denied = false;
+    }else {
+        this.denied = true;
+    }
 
   }
 

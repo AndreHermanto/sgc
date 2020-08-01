@@ -41,7 +41,7 @@ export class Auth {
 
     public login() {
         localStorage.setItem(urlStateKey, location.pathname);
-				this.auth0.authorize();
+		this.auth0.authorize();
     };
 
     public signUp(email, password, cb) {
@@ -174,8 +174,11 @@ export class Auth {
             }
         } else if (authResult && authResult.idToken && authResult.idToken !== 'undefined') {
             this.setSession(authResult);
-            const path = localStorage.getItem(urlStateKey);
-            this.router.navigateByUrl(path);
+            this.getUserPermissions().subscribe(permissions => {
+                localStorage.setItem('userPermissions', JSON.stringify(permissions));
+                const path = localStorage.getItem(urlStateKey);
+                this.router.navigateByUrl(path);
+            })
             
             this.getUser().subscribe(user=>{ 
                 this.vas.addUserLogin(user.email).subscribe(res => res);;
@@ -197,5 +200,6 @@ export class Auth {
         localStorage.removeItem(uidKey);
         localStorage.removeItem(urlStateKey);
         localStorage.removeItem('userId')
+        localStorage.removeItem('userPermissions')
     }
 }

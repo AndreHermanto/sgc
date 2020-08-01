@@ -99,26 +99,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.searchBarService.setCohort(p['cohort']);
                     this.cohortMapping = COHORT_VALUE_MAPPING_MAPD[p['cohort']];
                 }
-                this.subscriptions.push(this.auth.getUserPermissions().subscribe(permissions => {
-                    this.permissions = permissions;
-                    if(this.mapd.session){
-                        this.cf.mfs.clearFilters();
+                this.permissions = localStorage.getItem('userPermissions') ? JSON.parse(localStorage.getItem('userPermissions')) : [];
+                if(this.mapd.session){
+                    this.cf.mfs.clearFilters();
+                }
+                if(
+                    this.auth.checkPermissions(p['cohort'], this.permissions)
+                ){
+                    this.mapd.connect(this.cohortMapping).then((session) => {
+                        let sess = this.cohortMapping.toUpperCase()
+                        return this.cf.create(session, sess);                       
+                    }).then(() => {
+                        this.cf.updates.next();
+                    }).catch((e) => this.errors.next(e));
+                }else{
+                    if(this.permissions){
+                        this.errors.next(constants.PERMISSION_ERROR_MESSAGE);
                     }
-                    if(
-                        this.auth.checkPermissions(p['cohort'], permissions)
-                    ){
-                        this.mapd.connect(this.cohortMapping).then((session) => {
-                            let sess = this.cohortMapping.toUpperCase()
-                            return this.cf.create(session, sess);                       
-                        }).then(() => {
-                            this.cf.updates.next();
-                        }).catch((e) => this.errors.next(e));
-                    }else{
-                        if(this.permissions){
-                            this.errors.next(constants.PERMISSION_ERROR_MESSAGE);
-                        }
-                    }   
-                }));
+                }   
             }));
         }
 

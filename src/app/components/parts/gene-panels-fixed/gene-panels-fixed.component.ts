@@ -39,7 +39,7 @@ export class GenePanelsFixedComponent implements OnInit, OnDestroy {
     }));
 
     this.searchBarService.selectedCohort.pipe(first()).subscribe(cohort => {
-      this.auth.getUserPermissions().subscribe(permissions => {
+        let permissions = localStorage.getItem('userPermissions') ? JSON.parse(localStorage.getItem('userPermissions')) : [];
         let permitted = false;
         if(permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[cohort]) || COHORT_PERMISSION_VSAL_PHENO_MAPPING[cohort] === ''){
             permitted = true;
@@ -58,7 +58,7 @@ export class GenePanelsFixedComponent implements OnInit, OnDestroy {
 
 
           })
-      });
+
     })
 
   }
