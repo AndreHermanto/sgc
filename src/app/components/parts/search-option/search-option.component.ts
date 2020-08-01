@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, HostListener, ChangeDetectorRef } from '@angular/core';
 import { SearchOption } from '../../../model/search-option';
 import { SearchBarService } from '../../../services/search-bar-service';
 import { Subscription } from 'rxjs/Subscription';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
-import { COHORT_SAMPLES_INFO } from '../../../model/cohort-value-mapping';
+import { COHORT_SAMPLES_INFO, COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING } from '../../../model/cohort-value-mapping';
+import { Auth } from '../../../services/auth-service';
 
 @Component({
     selector: 'app-search-option',
@@ -34,8 +35,15 @@ export class SearchOptionComponent implements OnInit {
     conj: boolean;
     conjSamples: boolean;
     cohortSamplesInfo = COHORT_SAMPLES_INFO;
+    cohortAccess = ['Demo'];
 
-    constructor(private elf: ElementRef, private searchBarService: SearchBarService, private route: ActivatedRoute, private router: Router, public clinicalFilteringService: ClinicalFilteringService) {
+    constructor(private elf: ElementRef, 
+        private searchBarService: SearchBarService, 
+        private route: ActivatedRoute, 
+        private router: Router, 
+        public clinicalFilteringService: ClinicalFilteringService,
+        private auth: Auth,
+        public cd: ChangeDetectorRef) {
         
     }
 
@@ -93,22 +101,70 @@ export class SearchOptionComponent implements OnInit {
             }else{
                 this.conjSamples = false
             }
-            
         }));
+
+        if(!this.auth.authenticated()){
+            localStorage.removeItem('userPermissions')
+        }
+
+
+        this.checkPermissions();
+
+        this.route.url.subscribe(url => {
+            if(url.length && url[0].path === 'clinical'){
+                this.checkPermissionsOnClinical();
+            }
+        })
+
+    }
+
+    checkPermissions(){
+        this.cohortAccess = ['Demo'];
+        if(JSON.parse(localStorage.getItem('userPermissions')) !== null){
+            let permissions = JSON.parse(localStorage.getItem('userPermissions'));
+            let cohorts = Object.keys(COHORT_PERMISSION_SUMMARY_MAPPING);
+            cohorts.forEach(c => {
+                if(c !== 'Demo'){
+                    if(permissions.includes(COHORT_PERMISSION_SUMMARY_MAPPING[c]) || permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
+                        this.cohortAccess = [...this.cohortAccess, c];
+    
+                    }
+                }
+            });
+        }
+        this.cd.detectChanges();
+    }
+
+    checkPermissionsOnClinical(){
+        this.cohortAccess = ['Demo'];
+        if(JSON.parse(localStorage.getItem('userPermissions')) !== null){
+            let permissions = JSON.parse(localStorage.getItem('userPermissions'));
+            let cohorts = Object.keys(COHORT_PERMISSION_SUMMARY_MAPPING);
+            cohorts.forEach(c => {
+                if(c !== 'Demo'){
+                    if(permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
+                        this.cohortAccess = [...this.cohortAccess, c];
+                    }
+                }
+            });
+        }
+        this.cd.detectChanges();
     }
 
     selectOption(selected: string) {
-        this.option.setValue(selected);
-        this.searchBarService.setCohort(selected);
-        this.searchBarService.options[0].setValue(selected);
-        this.searchBarService.refInput = this.ref;
-        this.searchBarService.altInput = this.alt;
-        this.searchBarService.hetInput = this.het;
-        this.searchBarService.homInput = this.hom;
-        this.searchBarService.conj = this.conj;
-        this.searchBarService.conjSamples = this.conjSamples;
-        if(this.router.url.includes('/explore')){
-            this.router.navigate([`/explore/${this.option.getValue()}`]);
+        if(this.cohortAccess.includes(selected)){
+            this.option.setValue(selected);
+            this.searchBarService.setCohort(selected);
+            this.searchBarService.options[0].setValue(selected);
+            this.searchBarService.refInput = this.ref;
+            this.searchBarService.altInput = this.alt;
+            this.searchBarService.hetInput = this.het;
+            this.searchBarService.homInput = this.hom;
+            this.searchBarService.conj = this.conj;
+            this.searchBarService.conjSamples = this.conjSamples;
+            if(this.router.url.includes('/explore')){
+                this.router.navigate([`/explore/${this.option.getValue()}`]);
+            }
         }
     }
 }

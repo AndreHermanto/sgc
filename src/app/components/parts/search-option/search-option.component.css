@@ -23,6 +23,16 @@
     padding: 0px 10px;
 }
 
+.name-disabled{
+    padding: 0px 10px;
+    color: #C2C2C2 !important;
+}
+
+.name-disabled:hover{
+    pointer-events: all;
+    cursor: not-allowed !important;
+}
+
 .options div:hover {
     background-color: whitesmoke;
 }

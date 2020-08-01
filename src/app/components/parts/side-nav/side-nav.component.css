@@ -32,3 +32,8 @@ nav {
     left: 0;
     background-color: #336F9C;
 }
+
+a.disabled {
+    pointer-events: none;
+    color: #C2C2C2 !important;
+}

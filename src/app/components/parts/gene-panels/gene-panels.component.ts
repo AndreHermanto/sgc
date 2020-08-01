@@ -64,28 +64,25 @@ export class GenePanelsComponent implements OnInit, OnDestroy {
         }))
       }
     }else if(this.selectedPanelGroup === 'agha' && this.selectedCohort !== 'Demo'){
-          this.subscriptions.push(this.auth.getUserPermissions().subscribe(permissions => {
-            this.permissionsClin = permissions;
-            this.permissionsClin = this.permissionsClin.filter(e => {
-              return e.split('/')[1] === 'pheno' || e.split('/')[1] === 'gt'
-            })
-            if(this.permissionsClin.length > 0){
-              this.cs.getAGHAPanel(this.permissionsClin[0].split('/')[0]).subscribe(panel =>{
-                this.panel = panel;
-                this.loading = false;
-                this.options = Object.keys(panel).map(e => {
-                  let count = panel[e].length;
-                  return  new Panel(e, count);
-                });
-                this.setGenePanelValue(this.selectedGenePanel);
-              }, e => {
-                this.error = "There was an error processing your request";
-              })
-            }else{
-              this.error = "You do not have permission to access the panel for this cohort"
-            }
-
-          }))
+        this.permissionsClin = localStorage.getItem('userPermissions') ? JSON.parse(localStorage.getItem('userPermissions')) : [];
+        this.permissionsClin = this.permissionsClin.filter(e => {
+          return e.split('/')[1] === 'pheno' || e.split('/')[1] === 'gt'
+        })
+        if(this.permissionsClin.length > 0){
+          this.cs.getAGHAPanel(this.permissionsClin[0].split('/')[0]).subscribe(panel =>{
+            this.panel = panel;
+            this.loading = false;
+            this.options = Object.keys(panel).map(e => {
+              let count = panel[e].length;
+              return  new Panel(e, count);
+            });
+            this.setGenePanelValue(this.selectedGenePanel);
+          }, e => {
+            this.error = "There was an error processing your request";
+          })
+        }else{
+          this.error = "You do not have permission to access the panel for this cohort"
+        }
     }
 
   }

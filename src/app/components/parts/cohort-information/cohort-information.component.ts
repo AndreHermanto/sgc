@@ -62,11 +62,11 @@ export class CohortInformationComponent implements AfterViewInit, OnDestroy, OnI
     }
 
     ngAfterViewInit() {
-        this.subscriptions.push(this.auth.getUserPermissions().subscribe(permissions => {
-            if(this.permission && !permissions.includes(this.permission)){
-                this.denied = true;
-            }
-        }));
+        let permissions = localStorage.getItem('userPermissions') ? JSON.parse(localStorage.getItem('userPermissions')) : [];
+        if(this.permission && !permissions.includes(this.permission)){
+            this.denied = true;
+        }
+
 
         this.subscriptions.push(this.cs.internalSampleIDs.subscribe(samples => {
             this.sampleNotFound = false;

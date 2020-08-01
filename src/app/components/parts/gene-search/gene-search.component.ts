@@ -101,15 +101,14 @@ export class GeneSearchComponent implements AfterViewInit, OnInit, OnDestroy {
         }
       }))
 
-          this.auth.getUserPermissions().subscribe(permissions => {
-            let allCohorts = Object.keys(COHORT_PERMISSION_VSAL_PHENO_MAPPING);
-            this.permitted = false;
-            allCohorts.forEach(c => {
-              if(c!== 'Demo' && permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
-                this.permitted = true
-              }
-            })           
-          })
+      let permissions = localStorage.getItem('userPermissions') ? JSON.parse(localStorage.getItem('userPermissions')) : [];
+      let allCohorts = Object.keys(COHORT_PERMISSION_VSAL_PHENO_MAPPING);
+      this.permitted = false;
+      allCohorts.forEach(c => {
+        if(c!== 'Demo' && permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
+          this.permitted = true
+        }
+      })           
     }
 
     ngAfterViewInit(): void {

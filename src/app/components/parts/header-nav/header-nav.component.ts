@@ -6,6 +6,7 @@ import { ScrollService } from '../../../services/scroll-service';
 import { SearchBarService } from '../../../services/search-bar-service';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 import { Subscription } from 'rxjs/Subscription';
+import { COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING } from '../../../model/cohort-value-mapping';
 
 @Component({
     selector: 'app-header-nav',
@@ -20,6 +21,8 @@ export class HeaderNavComponent implements OnInit {
     userEmail = localStorage.getItem('uid')?localStorage.getItem('uid'):null;
     userPicture;
     cohort = this.searchBarService.options[0].getValue();
+    cohortAccessSummary = ['Demo'];
+    cohortAccessClinical = ['Demo'];
 
     @HostListener('document:click', ['$event']) outsideClick($event: Event) {
         if (!$event) {
@@ -55,14 +58,40 @@ export class HeaderNavComponent implements OnInit {
         this.auth.getUser().subscribe(user => {
             if(user){
                 this.userPicture = user.picture;
-                this.cd.detectChanges();
             }
+            this.cd.detectChanges();
         })
 
         this.subscriptions.push(this.searchBarService.selectedCohort.subscribe(cohort => {
             this.cohort = cohort;
         }))
 
+        if(!this.auth.authenticated()){
+            localStorage.removeItem('userPermissions')
+        }
+
+        this.checkPermissions();
+    }
+
+    checkPermissions(){
+        if(JSON.parse(localStorage.getItem('userPermissions')) === null){
+            this.cohortAccessClinical = ['Demo'];
+            this.cohortAccessSummary = ['Demo'];
+        }else{
+            let permissions = localStorage.getItem('userPermissions');
+            let cohorts = Object.keys(COHORT_PERMISSION_SUMMARY_MAPPING);
+            cohorts.forEach(c => {
+                if(c !== 'Demo'){
+                    if(permissions.includes(COHORT_PERMISSION_SUMMARY_MAPPING[c])){
+                        this.cohortAccessSummary = [...this.cohortAccessSummary, c];
+                    }
+                    if(permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
+                        this.cohortAccessClinical = [...this.cohortAccessClinical, c];
+                    }
+                }
+            });
+        }
+        this.cd.detectChanges();
     }
 
     toggleTerms(event: Event) {
