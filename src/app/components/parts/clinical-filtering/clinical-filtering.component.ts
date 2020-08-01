@@ -78,7 +78,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
         const allQueries = this.autocomplete.map(ac => ac.getRegion())
 
         Promise.all(allQueries).then((regions: Region[]) => {
-            this.subscriptions.push(this.auth.getUserPermissions().subscribe(permissions => {
+                let permissions = localStorage.getItem('userPermissions') ? JSON.parse(localStorage.getItem('userPermissions')) : [];
                 let permitted = false;
                 if(permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[this.selectedCohort]) || COHORT_PERMISSION_VSAL_PHENO_MAPPING[this.selectedCohort] === ''){
                     permitted = true;
@@ -200,7 +200,6 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                         this.cd.detectChanges();
                     })
                 })
-            }));
             
         })
     }

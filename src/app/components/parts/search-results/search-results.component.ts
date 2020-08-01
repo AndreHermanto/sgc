@@ -46,50 +46,49 @@ export class SearchResultsComponent implements OnInit, OnDestroy, AfterViewInit 
         this.variantsSummary = this.searchSummaryService.variants;
 
         this.loadingVariantsSummary = true;
-        this.subscriptions.push(this.auth.getUserPermissions().subscribe(permissions => {
-                if(
-                    this.auth.checkPermissions(this.selectedCohort, permissions)
-                ){
-                    this.subscriptions.push(this.searchSummaryService.results.subscribe(v => {
-                        this.variantsSummary = v.variants;
+        let permissions = localStorage.getItem("userPermissions") ? JSON.parse(localStorage.getItem("userPermissions")) : [];
+        if(
+            this.auth.checkPermissions(this.selectedCohort, permissions)
+        ){
+            this.subscriptions.push(this.searchSummaryService.results.subscribe(v => {
+                this.variantsSummary = v.variants;
 
-                        if(this.selectedCohort !== 'Demo'){
-                            if(!this.searchBarService.isRegion(this.searchBarService.query)){
-                                this.vas.addSearchQueries(this.searchBarService.query,'', '', this.selectedCohort, 'summary').subscribe((res) => {
-                                    return res;
-                                })
-                            }else{
-                                this.vas.addSearchQueries('','', '', this.selectedCohort, 'summary').subscribe((res) => {
-                                    return res;
-                                })
-                            }
-    
-                            this.auth.getUser().subscribe(user => {
-                                this.vas.addUserQuery(user.email, this.selectedCohort).subscribe((res) => {
-                                    return res;
-                                })
-                            })
-                        }
-                        this.cd.detectChanges();
-                    }));
-            
-                    this.autocompleteSummary.searchSummary(this.searchSummaryService, this.searchBarService.options)
-                        .then(() => {
-                            this.loadingVariantsSummary = false;
-                            this.cd.detectChanges();
+                if(this.selectedCohort !== 'Demo'){
+                    if(!this.searchBarService.isRegion(this.searchBarService.query)){
+                        this.vas.addSearchQueries(this.searchBarService.query,'', '', this.selectedCohort, 'summary').subscribe((res) => {
+                            return res;
                         })
-                        .catch((e) => {
-                            this.loadingVariantsSummary = false;
-                            this.errorEvent.emit(e);
-                        });
-                }else{
-                    if(permissions){
-                        this.errorEvent.emit(constants.PERMISSION_ERROR_MESSAGE)
-                        this.loadingVariantsSummary = false;
+                    }else{
+                        this.vas.addSearchQueries('','', '', this.selectedCohort, 'summary').subscribe((res) => {
+                            return res;
+                        })
                     }
+
+                    this.auth.getUser().subscribe(user => {
+                        this.vas.addUserQuery(user.email, this.selectedCohort).subscribe((res) => {
+                            return res;
+                        })
+                    })
                 }
-                      
-        }));
+                this.cd.detectChanges();
+            }));
+    
+            this.autocompleteSummary.searchSummary(this.searchSummaryService, this.searchBarService.options)
+                .then(() => {
+                    this.loadingVariantsSummary = false;
+                    this.cd.detectChanges();
+                })
+                .catch((e) => {
+                    this.loadingVariantsSummary = false;
+                    this.errorEvent.emit(e);
+                });
+        }else{
+            if(permissions){
+                this.errorEvent.emit(constants.PERMISSION_ERROR_MESSAGE)
+                this.loadingVariantsSummary = false;
+            }
+        }
+
 
 
         
