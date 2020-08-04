@@ -137,4 +137,14 @@ export class HeaderNavComponent implements OnInit {
         );
     }
 
+    goToAbout(){
+        event.stopPropagation();
+        this.router.navigate(['/about']);
+    }
+
+    goToAboutVA(){
+        event.stopPropagation();
+        this.router.navigate(['/aboutva']);
+    }
+
 }
