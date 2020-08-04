@@ -123,6 +123,7 @@ import { NswgpComponent } from './components/pages/programmes/nswgp/nswgp.compon
 import { GraphsWidgetComponent } from './components/parts/graphs-widget/graphs-widget.component';
 import { PcaPlotComponent } from './components/parts/pca-plot/pca-plot.component';
 import { MgrbInformationComponent } from './components/parts/mgrb-information/mgrb-information.component';
+import { AboutVaComponent } from './components/pages/about-va/about-va.component';
 
 const CRITICAL_ERROR_WAIT_DURATION = 1000;
 
@@ -235,7 +236,8 @@ export class RavenErrorHandler implements ErrorHandler {
         NswgpComponent,
         GraphsWidgetComponent,
         PcaPlotComponent,
-        MgrbInformationComponent
+        MgrbInformationComponent,
+        AboutVaComponent
     ],
     entryComponents: [
         SignUpComponent,

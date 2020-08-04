@@ -1,0 +1,64 @@
+article {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.title {
+    font-size: xx-large;
+}
+
+.sub-title{
+    font-size: x-large;
+}
+
+.screenshot{
+    width: 900px;
+    height: 480px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.page-desc{
+    font-size: large;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+.footnote{
+    font-size: small;
+    margin-left: auto;
+    margin-right: auto;
+    width: 10em;
+}
+
+.content {
+    display: inline-block;
+    align-self: flex-start;
+}
+
+.content-footer > ::ng-deep figure {
+    justify-content: flex-start !important;
+    align-items: left !important;
+}
+
+.bold{
+    font-weight: 800;
+}
+
+h4 {
+    margin-top: 0;
+}
+
+iframe {
+    width: 500px;
+    height: 400px;
+}
+
+::ng-deep mat-tab-header {
+    align-self: center;
+  }
+
+* {-webkit-font-smoothing: antialiased;}
