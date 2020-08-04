@@ -3,11 +3,11 @@ import { ClinicalFields } from '../../../model/clinical-fields';
 import * as _ from 'lodash/array';
 
 @Component({
-    selector: 'app-acutecare-information',
-    templateUrl: './acutecare-information.component.html',
-    styleUrls: ['./acutecare-information.component.css']
+  selector: 'app-acutecare-proband-information',
+  templateUrl: './acutecare-proband-information.component.html',
+  styleUrls: ['./acutecare-proband-information.component.css']
 })
-export class AcutecareInformationComponent{
+export class AcutecareProbandInformationComponent {
     //Internal IDs
     @Input() samples: string[] = [];
     //pheno file
@@ -78,7 +78,7 @@ export class AcutecareInformationComponent{
             return filters;  
         }),
     ];
-    phenoService: string = 'getAcutecare'
+    phenoService: string = 'getAcutecareProband'
 
     constructor() {
     }

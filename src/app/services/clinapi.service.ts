@@ -124,6 +124,24 @@ export class ClinapiService implements OnDestroy {
         }
     }
 
+    getAcuteCareProband(demo = false, authorize = false): Observable<any> {
+        const httpOptions = {
+            headers: new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('idToken')}`})
+        };
+        if(authorize){
+            return this.http.get<any>(`${environment.vsalUrl2}?pheno=true&dataset=acutecarepro`, httpOptions).map(res => {
+                return JSON.parse(res.pheno)
+            });
+        }//if not authorize but want to see demo
+        else if(demo){
+            console.log("DEMO")
+            return of<any>([]);
+        }//if not authorize and not opt to see demo
+        else {
+            return throwError({ status: 401 });
+        }
+    }
+
     getBrainMalformations(demo = false, authorize = false): Observable<any> {
         const httpOptions = {
             headers: new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('idToken')}`})

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Variant } from '../../../model/variant';
 import { ClinapiService } from '../../../services/clinapi.service';
 
+//familyMembers array: 1st element MOTHER AND 2nd element FATHER
 @Component({
   selector: 'app-family-tab',
   templateUrl: './family-tab.component.html',
@@ -31,8 +32,8 @@ export class FamilyTabComponent implements AfterViewInit {
 
   ngAfterViewInit(){
     this.externalIDs = this.pheno.filter(s => {
-      return this.samples.includes(s.internalIDs)
-    }).map(s => s.externalIDs);
+      return this.samples.includes(s.internalIDs) && s.familyMembers.length === 2;
+    }).map(s => s.externalIDs); 
 
     this.variants = this.searchService.variants;
 

@@ -1,4 +1,4 @@
-<mat-tab-group *ngIf="selectedCohort === 'Acutecare'">
+<mat-tab-group *ngIf="selectedCohort === 'Acute Care'">
     <mat-tab label="Affected Samples">
         <div class="loading-message" *ngIf="loadingVariants">
             <mat-spinner color="primary"></mat-spinner>
@@ -8,7 +8,7 @@
           <div *ngIf="denied && !loadingVariants" class="message message-error">You do not have permission to view this data.</div>
           
           <div class="search-result-content" *ngIf="searchService.commenced">
-            <app-acutecare-information *ngIf="selectedCohort === 'Acutecare'" [pheno]="pheno" [samples]="ids"></app-acutecare-information>
+            <app-acutecare-information *ngIf="selectedCohort === 'Acute Care'" [pheno]="pheno" [samples]="ids"></app-acutecare-information>
           
             <div *ngIf="variants.length > 10000&&geneFilter.length === 0" class="message message-error">
                 This region contains too many variants to visualize with our genome browser, please choose a smaller region like:
@@ -26,7 +26,7 @@
         </mat-tab>
 </mat-tab-group>
 
-<mat-tab-group *ngIf="selectedCohort === 'Demo' || selectedCohort === 'Leukodystrophies'">
+<mat-tab-group *ngIf="selectedCohort === 'Demo'">
         <mat-tab label="Affected Samples">
             <div class="loading-message" *ngIf="loadingVariants">
                 <mat-spinner color="primary"></mat-spinner>
@@ -37,7 +37,6 @@
               
               <div class="search-result-content" *ngIf="searchService.commenced">
                 <app-demo-information *ngIf="selectedCohort === 'Demo'" [pheno]="pheno" [samples]="ids"></app-demo-information>
-                <app-leukodystrophies-information *ngIf="selectedCohort === 'Leukodystrophies'" [pheno]="pheno" [samples]="ids"></app-leukodystrophies-information>
               
                 <div *ngIf="variants.length > 10000&&geneFilter.length === 0" class="message message-error">
                     This region contains too many variants to visualize with our genome browser, please choose a smaller region like:
@@ -56,7 +55,7 @@
             </mat-tab>
     </mat-tab-group>
 
-<div *ngIf="selectedCohort !== 'Acutecare' && selectedCohort !== 'Demo' && selectedCohort !== 'Leukodystrophies'">
+<div *ngIf="selectedCohort !== 'Acute Care' && selectedCohort !== 'Demo'">
     <div class="loading-message" *ngIf="loadingVariants">
         <mat-spinner color="primary"></mat-spinner>
       </div>
@@ -75,6 +74,8 @@
         <app-genetic-immunology-information *ngIf="selectedCohort === 'Genetic Immunology'" [pheno]="pheno" [samples]="ids"></app-genetic-immunology-information>
         <app-cardiac-information *ngIf="selectedCohort === 'Cardiac'" [pheno]="pheno" [samples]="ids"></app-cardiac-information>
         <app-kidgen-information *ngIf="selectedCohort === 'KidGen'" [pheno]="pheno" [samples]="ids"></app-kidgen-information>
+        <app-acutecare-proband-information *ngIf="selectedCohort === 'Acute Care Probands'" [pheno]="pheno" [samples]="ids"></app-acutecare-proband-information>
+        <app-leukodystrophies-information *ngIf="selectedCohort === 'Leukodystrophies'" [pheno]="pheno" [samples]="ids"></app-leukodystrophies-information>
         <div *ngIf="variants.length > 10000&&geneFilter.length === 0" class="message message-error">
             This region contains too many variants to visualize with our genome browser, please choose a smaller region like:
             <a (click)="goToSmallerRegion()">{{searchService.getSmallerRegionString()}}</a>
