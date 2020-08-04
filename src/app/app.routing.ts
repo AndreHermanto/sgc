@@ -1,5 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from './components/pages/about/about.component';
+import { AboutVaComponent } from './components/pages/about-va/about-va.component';
 import { HomeComponent } from './components/pages/home/home.component';
 import { LoadingComponent } from './components/pages/loading/loading.component';
 import { SearchComponent } from './components/pages/search/search.component';
@@ -14,6 +15,7 @@ import { ProfileComponent } from './components/pages/profile/profile.component';
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'about',  component: AboutComponent },
+    { path: 'aboutva',  component: AboutVaComponent },
     { path: 'clinical', component: ClinicalComponent },
     { path: 'profile',  component: ProfileComponent },
     { path: 'clinical/results', component: ClinicalComponent },

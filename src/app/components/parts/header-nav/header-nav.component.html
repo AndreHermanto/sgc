@@ -4,7 +4,17 @@
         <a [routerLink]="['/explore', cohort]" routerLinkActive="is-active" [class.disabled]="cohortAccessSummary.includes(cohort) ? null : true">Explore</a>
         <a routerLink="/clinical" routerLinkActive="is-active" [class.disabled]="cohortAccessClinical.includes(cohort) ? null : true">Clinical Filtering</a>
         <a routerLink="/beacon" routerLinkActive="is-active">Beacon</a>
-        <a routerLink="/about" routerLinkActive="is-active">About</a>
+        <a [ngClass]="{'is-active': termsLinkActive}" (click)="toggleTerms($event)">
+            <div class="terms-link">
+                <span class="label">About</span>
+                <i *ngIf="!termsDropdown" class="material-icons">keyboard_arrow_down</i>
+                <i *ngIf="termsDropdown" class="material-icons">keyboard_arrow_up</i>
+            </div>
+            <div *ngIf="termsDropdown" [ngClass]="['terms', 'dropdown']">
+                <div class="dropdown-item" (click)="goToAbout($event)">AGHA</div>
+                <div class="dropdown-item" (click)="goToAboutVA($event)">Variant Atlas</div>
+            </div>
+        </a>
         <a *ngIf="!auth.authenticated()" class="sign-up">
             <a (click)="auth.login()">Log in</a>
             <div class="spacer">|</div>
@@ -21,7 +31,7 @@
                 </div>
             </span>
             
-            <div *ngIf="userDropdown" [ngClass]="['user', 'dropdown']">
+            <div *ngIf="userDropdown" [ngClass]="['user', 'dropdown-user']">
                 <!--<div class="dropdown-item" [routerLink]="['/profile']">Profile</div>-->
                 <div class="dropdown-item" (click)="auth.logout()">Log out</div>
             </div>
