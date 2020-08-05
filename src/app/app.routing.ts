@@ -11,11 +11,13 @@ import { ErrorComponent } from './components/pages/error/error.component';
 import { ExploreComponent } from './components/pages/explore/explore.component';
 import { ClinicalComponent } from './components/pages/clinical/clinical.component';
 import { ProfileComponent } from './components/pages/profile/profile.component';
+import { FindingsComponent } from './components/pages/findings/findings.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'about',  component: AboutComponent },
     { path: 'aboutva',  component: AboutVaComponent },
+    { path: 'findings',  component: FindingsComponent },
     { path: 'clinical', component: ClinicalComponent },
     { path: 'profile',  component: ProfileComponent },
     { path: 'clinical/results', component: ClinicalComponent },

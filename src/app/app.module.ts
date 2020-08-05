@@ -132,6 +132,7 @@ import { CardiacInformationComponent } from './components/parts/cardiac-informat
 import { KidgenInformationComponent } from './components/parts/kidgen-information/kidgen-information.component';
 import { AcutecareProbandInformationComponent } from './components/parts/acutecare-proband-information/acutecare-proband-information.component';
 import { AboutVaComponent } from './components/pages/about-va/about-va.component';
+import { FindingsComponent } from './components/pages/findings/findings.component';
 
 const CRITICAL_ERROR_WAIT_DURATION = 1000;
 
@@ -254,6 +255,7 @@ export class RavenErrorHandler implements ErrorHandler {
         KidgenInformationComponent,
         AcutecareProbandInformationComponent,
         AboutVaComponent,
+        FindingsComponent,
     ],
     entryComponents: [
         SignUpComponent,
