@@ -6,6 +6,9 @@
             <span class="name" *ngIf="cohortAccess.includes(option)">{{ option }} {{ cohortSamplesInfo[option] !== null ? "(" + cohortSamplesInfo[option]['gen'] + " samples)" : ""}}</span>
             <span class="name-disabled" *ngIf="!cohortAccess.includes(option)">{{ option }} {{ cohortSamplesInfo[option] !== null ? "(" + cohortSamplesInfo[option]['gen'] + " samples)" : ""}}</span>
         </div>
+        <div (mousedown)="goToAboutVA()">
+            <span class="name">Access more cohorts...</span>
+        </div>
     </div>
 </div>
 
