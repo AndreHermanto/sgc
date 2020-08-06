@@ -31,8 +31,8 @@ export class BrainMalformationsInformationComponent {
       new ClinicalFields('Seizure type', 'seizureType', 'Seizure type', 'row', true, true, this.multiValueFilter),
       new ClinicalFields('Conditions', 'conditions', 'Conditions', 'row', true, true, this.multiValueFilter),
       new ClinicalFields('Abnormalities', 'abnormalities', 'Abnormalities', 'row', true, true, this.multiValueFilter),
-      new ClinicalFields('Variant 1 class', 'variant1Class', 'Variant 1 class', 'row', false),
-      new ClinicalFields('Variant 2 class', 'variant2Class', 'Variant 2 class', 'row', false),
+      new ClinicalFields('Variant 1 class', 'variant1Class', 'Reported Variant 1 class', 'row', false),
+      new ClinicalFields('Variant 2 class', 'variant2Class', 'Reported Variant 2 class', 'row', false),
   ];
   phenoService: string = 'getBrainMalformations'
 

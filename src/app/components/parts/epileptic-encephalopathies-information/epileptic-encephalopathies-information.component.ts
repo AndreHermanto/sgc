@@ -37,11 +37,11 @@ export class EpilepticEncephalopathiesInformationComponent {
         new ClinicalFields('Growth abnormality', 'growthAbnormality', 'Growth Abnormality', 'pie', false),
         new ClinicalFields('Psychiatric behavioural problems', 'psychiatricBehaviouralProblems', 'Psychiatric Behavioural Problems', 'row', false),
         new ClinicalFields('Number of variants reported', 'numberOfVariantsReported', 'Number of Variants Reported', 'row', false),
-        new ClinicalFields('Variant 1 class', 'variant1Class', 'Variant 1 Class', 'row', false),
-        new ClinicalFields('Variant 2 class', 'variant2Class', 'Variant 2 Class', 'row', false),
-        new ClinicalFields('Variant 3 class', 'variant3Class', 'Variant 3 Class', 'row', false),
-        new ClinicalFields('Variant 4 class', 'variant4Class', 'Variant 4 Class', 'row', false),
-        new ClinicalFields('Variant 5 class', 'variant5Class', 'Variant 5 Class', 'row', false),
+        new ClinicalFields('Variant 1 class', 'variant1Class', 'Reported Variant 1 Class', 'row', false),
+        new ClinicalFields('Variant 2 class', 'variant2Class', 'Reported Variant 2 Class', 'row', false),
+        new ClinicalFields('Variant 3 class', 'variant3Class', 'Reported Variant 3 Class', 'row', false),
+        new ClinicalFields('Variant 4 class', 'variant4Class', 'Reported Variant 4 Class', 'row', false),
+        new ClinicalFields('Variant 5 class', 'variant5Class', 'Reported Variant 5 Class', 'row', false),
     ];
     phenoService: string = 'getEpilepticEncephalopathies'
 

@@ -22,7 +22,7 @@ export class AcutecareProbandInformationComponent {
         new ClinicalFields('Is father affected?', 'fatherAffected', 'Father Affected', 'pie', false),
         new ClinicalFields('Consanguinity', 'consanguinity', 'Consanguinity', 'pie', true),
         new ClinicalFields('Number of variants reported', 'numberOfVariantsReported', 'Number of variants reported', 'row', false),
-        new ClinicalFields('Variant type', 'variantType', 'Variant Type', 'row', false, true, (dimension, filters) => {
+        new ClinicalFields('Variant type', 'variantType', 'Reported Variant Type', 'row', false, true, (dimension, filters) => {
             dimension.filter(null);   
             if (filters.length === 0)
                 dimension.filter(null);
@@ -33,7 +33,7 @@ export class AcutecareProbandInformationComponent {
                 });
             return filters;  
         }),
-        new ClinicalFields('Variant Zygosity', 'variantZygosity', 'Variant Zygosity', 'row', false, true, (dimension, filters) => {
+        new ClinicalFields('Variant Zygosity', 'variantZygosity', 'Reported Variant Zygosity', 'row', false, true, (dimension, filters) => {
             dimension.filter(null);   
             if (filters.length === 0)
                 dimension.filter(null);
@@ -44,7 +44,7 @@ export class AcutecareProbandInformationComponent {
                 });
             return filters;  
         }),
-        new ClinicalFields('Variant class', 'variantClass', 'Variant Class', 'row', false, true, (dimension, filters) => {
+        new ClinicalFields('Variant class', 'variantClass', 'Reported Variant Class', 'row', false, true, (dimension, filters) => {
             dimension.filter(null);   
             if (filters.length === 0)
                 dimension.filter(null);

@@ -38,8 +38,8 @@ export class LeukodystrophiesInformationComponent {
         new ClinicalFields('Is there atrophy?', 'isThereAtrophy', 'Is there atrophy?', 'pie', false),
         new ClinicalFields('Cysts', 'cysts', 'Cysts', 'row', false),
         new ClinicalFields('Evidence of calcification', 'evidenceOfCalcification', 'Evidence of calcification', 'pie', false),
-        new ClinicalFields('Variant 1 class', 'variant1Class', 'Variant 1 class', 'row', false),
-        new ClinicalFields('Variant 2 class', 'variant2Class', 'Variant 2 class', 'row', false),
+        new ClinicalFields('Variant 1 class', 'variant1Class', 'Reported Variant 1 class', 'row', false),
+        new ClinicalFields('Variant 2 class', 'variant2Class', 'Reported Variant 2 class', 'row', false),
     ];
     phenoService: string = 'getLeukodystrophies'
 
