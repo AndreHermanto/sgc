@@ -19,6 +19,9 @@
                 <a target="_blank" [href]="variantVarsomeUrl(value)" class='varsome-link'>
                     <i class="fa fa-external-link" matTooltip="See variant in VarSome" matTooltipPosition="above"></i>
                 </a>
+                <a (click)="searchCLinical(value)" class='clin-link' [class.disabled]="cohortAccessClinical.includes(selectedCohort) ? null : true">
+                    <i class="material-icons" matTooltip="Search variant in clinical filtering" matTooltipPosition="above">local_hospital</i>
+                </a>
                 <a target="_blank" [href]="variantUrl(value)">{{value}}</a>
             </ng-template>
         </ngx-datatable-column>

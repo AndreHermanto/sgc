@@ -15,6 +15,20 @@
     margin-right: 1rem;
 }
 
+.clin-link{
+    margin-right: 0.5rem;
+}
+
+::ng-deep .material-icons{
+    font-size: 18px;
+    vertical-align: -3px;
+}
+
+.disabled {
+    color: #C2C2C2 !important;
+    cursor: no-drop;
+}
+
 h4 {
     text-align: center;
     color: rgba(0, 60, 105, 0.5);
