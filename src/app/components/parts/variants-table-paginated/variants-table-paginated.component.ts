@@ -6,6 +6,7 @@ import { Variant } from '../../../model/variant';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
 import * as Papa from 'papaparse';
+import {COHORT_PERMISSION_VSAL_PHENO_MAPPING} from '../../../model/cohort-value-mapping'
 
 @Component({
     selector: 'app-variants-table-paginated',
@@ -22,6 +23,7 @@ export class VariantsTablePaginatedComponent implements OnInit, OnDestroy {
     offset = 0;
     @Input() cohort: string;
     selectedCohort: string;
+    cohortAccessClinical = ['Demo'];
 
     constructor(private mapd: MapdService,
                 private cf: CrossfilterService,
@@ -45,6 +47,16 @@ export class VariantsTablePaginatedComponent implements OnInit, OnDestroy {
         this.subscriptions.push(this.searchBarService.selectedCohort.subscribe((cohort) => {
             this.selectedCohort = cohort;
         }));
+
+        let permissions = localStorage.getItem('userPermissions');
+        let cohorts = Object.keys(COHORT_PERMISSION_VSAL_PHENO_MAPPING);
+            cohorts.forEach(c => {
+                if(c !== 'Demo'){
+                    if(permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
+                        this.cohortAccessClinical = [...this.cohortAccessClinical, c];
+                    }
+                }
+            });
     }
 
     getServerResult() {
@@ -91,10 +103,21 @@ export class VariantsTablePaginatedComponent implements OnInit, OnDestroy {
         return `https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=${v}`;
     }
 
+    searchCLinical(variant){
+        if(this.cohortAccessClinical.includes(this.selectedCohort)){
+            let query = variant.split(':');
+            const obj = {query: `${query[0]}:${query[1]}`, cohort: this.selectedCohort, panel:"",ref:query[2], alt:query[3], het: 'true', hom: 'true', conj:'false', conjSamples: 'false', timestamp: Date.now()};
+            this.router.navigate(['/clinical/results', obj]);
+        }
+    }
+
     downloadFile() {
         const data = this.variants.map((v: any) => {
+            let variant = v.VARIANT.split(':');
             return {
-                'Variant': v.VARIANT,
+                'Position': `${variant[0]}:${variant[1]}`,
+                'Ref': variant[2],
+                'Alt': variant[3],
                 'RSID': v.RSID,
                 'Type': v.TYPE,
                 'AF': v.AF,
