@@ -78,14 +78,14 @@ export class HeaderNavComponent implements OnInit {
             this.cohortAccessClinical = ['Demo'];
             this.cohortAccessSummary = ['Demo'];
         }else{
-            let permissions = localStorage.getItem('userPermissions');
+            let permissions = JSON.parse(localStorage.getItem('userPermissions'));
             let cohorts = Object.keys(COHORT_PERMISSION_SUMMARY_MAPPING);
             cohorts.forEach(c => {
                 if(c !== 'Demo'){
-                    if(permissions.includes(COHORT_PERMISSION_SUMMARY_MAPPING[c])){
+                    if(COHORT_PERMISSION_SUMMARY_MAPPING[c] === '' || permissions.includes(COHORT_PERMISSION_SUMMARY_MAPPING[c])){
                         this.cohortAccessSummary = [...this.cohortAccessSummary, c];
                     }
-                    if(permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
+                    if(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c] === '' || permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
                         this.cohortAccessClinical = [...this.cohortAccessClinical, c];
                     }
                 }

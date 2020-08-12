@@ -125,7 +125,7 @@ export class SearchOptionComponent implements OnInit {
             let cohorts = Object.keys(COHORT_PERMISSION_SUMMARY_MAPPING);
             cohorts.forEach(c => {
                 if(c !== 'Demo'){
-                    if(permissions.includes(COHORT_PERMISSION_SUMMARY_MAPPING[c]) || permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
+                    if(COHORT_PERMISSION_SUMMARY_MAPPING[c] === '' || permissions.includes(COHORT_PERMISSION_SUMMARY_MAPPING[c]) || COHORT_PERMISSION_VSAL_PHENO_MAPPING[c] !== '' || permissions.includes(COHORT_PERMISSION_VSAL_PHENO_MAPPING[c])){
                         this.cohortAccess = [...this.cohortAccess, c];
     
                     }
