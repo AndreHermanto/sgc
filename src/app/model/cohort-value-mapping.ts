@@ -142,6 +142,7 @@ export const COHORT_FAMILY_WITH_PHENO = {
     Demo: true,
     Mitochondria: false,
     ['Acute Care']: false,
+    ['Acute Care Probands']: false,
     Neuromuscular: false,
     ['Epileptic Encephalopathies']: false,
     ['Brain Malformations']: false,
