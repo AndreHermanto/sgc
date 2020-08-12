@@ -3,7 +3,7 @@
     <div class="toolbar">
         <div>
             <div class='dc-data-count'>
-                <div>
+                <div *ngIf="cohortSamplesInfo[selectedOption] !== null">
                     <span class='total-count'></span>
                     samples records selected out of <span style="color: #3182bd">{{cohortSamplesInfo[selectedOption]['gen']}}</span> samples by genotype filters.
                 </div>
