@@ -35,6 +35,7 @@ import { CohortListComponent } from './components/parts/cohort-list/cohort-list.
 import { InitiativeService } from './services/project-data/initiative-service';
 import { CohortService } from './services/project-data/cohort-service';
 import { GenomicsEnglandService } from './services/genomics-england.service';
+import { PanelAppService } from './services/panelapp-australia.service';
 import { VecticAnalyticsService } from './services/analytics-service';
 import { SearchComponent } from './components/pages/search/search.component';
 import { SearchResultsComponent } from './components/parts/search-results/search-results.component';
@@ -284,6 +285,7 @@ export class RavenErrorHandler implements ErrorHandler {
         { provide: ErrorHandler, useClass: RavenErrorHandler },
         { provide: 'NULL_VALUE', useValue: null },
         GenomicsEnglandService,
+        PanelAppService,
         VecticAnalyticsService
     ],
     bootstrap: [AppComponent]

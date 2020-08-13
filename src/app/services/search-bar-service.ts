@@ -10,6 +10,7 @@ import { GenericAutocompleteResult, VariantAutocompleteResult } from '../model/a
 import { ElasticGeneSearch } from './autocomplete/elastic-gene-search-service';
 import { PositionService } from './autocomplete/position-service';
 import { GenomicsEnglandService } from './genomics-england.service';
+import { PanelAppService } from './panelapp-australia.service';
 import { of, Observable, combineLatest } from "rxjs";
 import { RegionAutocomplete } from '../model/region-autocomplete';
 import { GeneAutocomplete } from '../model/gene-autocomplete';
@@ -49,6 +50,7 @@ export class SearchBarService {
                 private regionService: RegionService,
                 private positionService: PositionService,
                 private genomicsEnglandService: GenomicsEnglandService,
+                private panelApp: PanelAppService,
                 private router: Router) {
         this.autocompleteServices = [
             regionService,
@@ -211,6 +213,31 @@ export class SearchBarService {
             }
         }else if(panel.length && panelGroup ==='genomicEngland'){
             return this.genomicsEnglandService.getPanel(panel).toPromise().then((data) => {
+                regions = data.genesData.genes.filter(e => e.gene_data.ensembl_genes.GRch37).map(e =>  e.gene_data.ensembl_genes.GRch37['82'].location);
+                const genes = data.genesData.genes.map(e => e.gene_data.gene_symbol);
+
+                const regionAutocomplete = regions.map((regionString, i) =>{
+                    const results = new RegExp(/^([\dxy]+|mt+)[:\-\.,\\/](\d+)[:\-\.,\\/](\d+)$/, "i").exec(regionString);
+                    const chromosome = results[1];
+                    const start = Number(results[2]);
+                    const end = Number(results[3]);
+                    const gene = genes[i];
+                    const r = new Region(chromosome, start, end, [gene]);
+
+                    const regions = new RegionAutocomplete(r, r.name(), '', null);
+                    return regions;
+                })
+
+                const queries = arrayOfQueries.map(q => this.searchAutocompleteServices(q).take(1).toPromise())
+
+                return <any>Promise.all(queries).then(v => {
+                    let bestMatches = v.map(q => q[0]);
+                    bestMatches = bestMatches.concat(regionAutocomplete);
+                    return bestMatches;
+                });
+            })
+        }else if(panel.length && panelGroup ==='panelApp'){
+            return this.panelApp.getPanel(panel).toPromise().then((data) => {
                 regions = data.genesData.genes.filter(e => e.gene_data.ensembl_genes.GRch37).map(e =>  e.gene_data.ensembl_genes.GRch37['82'].location);
                 const genes = data.genesData.genes.map(e => e.gene_data.gene_symbol);
 

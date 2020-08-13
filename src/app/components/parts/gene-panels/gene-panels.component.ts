@@ -4,6 +4,7 @@ import { Auth } from '../../../services/auth-service';
 import { ClinapiService } from '../../../services/clinapi.service';
 import { VariantSearchService } from '../../../services/variant-search-service';
 import { GenomicsEnglandService } from '../../../services/genomics-england.service';
+import { PanelAppService } from '../../../services/panelapp-australia.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Panel } from '../../../model/panel';
@@ -31,6 +32,7 @@ export class GenePanelsComponent implements OnInit, OnDestroy {
   constructor(public searchBarService: SearchBarService,
               private route: ActivatedRoute,
               private genomicsEnglandService: GenomicsEnglandService,
+              private panelAppService: PanelAppService,
               private cd: ChangeDetectorRef,
               private auth: Auth,
               private cs: ClinapiService) { }
@@ -58,6 +60,25 @@ export class GenePanelsComponent implements OnInit, OnDestroy {
           }else{
             this.error = e.error;
             this.genomicsEnglandService.panels = [];
+            this.options = [];
+          }
+          this.setGenePanelValue(this.selectedGenePanel);
+        }))
+      }
+    }else if(this.selectedPanelGroup === 'panelApp'){
+      if(this.panelAppService.panels){
+        this.options = this.panelAppService.panels;
+      }else{
+        this.subscriptions.push(this.panelAppService.getPanels('https://panelapp.agha.umccr.org/api/v1/panels/', null)
+        .subscribe(e => {
+          this.loading = false;
+          if(!e.error){
+            this.panelAppService.panels = e.listPanels;
+            this.options = e.listPanels;
+            this.error = '';
+          }else{
+            this.error = e.error;
+            this.panelAppService.panels = [];
             this.options = [];
           }
           this.setGenePanelValue(this.selectedGenePanel);
@@ -98,6 +119,21 @@ export class GenePanelsComponent implements OnInit, OnDestroy {
       this.searchBarService.panel = value;
       if(this.selectedPanelGroup === 'genomicEngland'){
         this.subscriptions.push(this.genomicsEnglandService.getPanel(value).subscribe((data) => {
+          if(!data.error){
+            this.geneList = data.genesData.genes.map(e => e.gene_data.gene_symbol).join();
+            if(this.geneList !== undefined){
+              this.searchBarService.setGeneList(this.geneList);
+            }else{
+              this.searchBarService.setGeneList('');
+            }
+            this.error = '';
+          }else{
+            this.error = data.error
+            this.searchBarService.setGeneList('');
+          }
+        }))
+      }else if(this.selectedPanelGroup === 'panelApp'){
+        this.subscriptions.push(this.panelAppService.getPanel(value).subscribe((data) => {
           if(!data.error){
             this.geneList = data.genesData.genes.map(e => e.gene_data.gene_symbol).join();
             if(this.geneList !== undefined){
