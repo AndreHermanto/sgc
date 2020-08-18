@@ -1,7 +1,7 @@
 export const COHORT_VALUE_MAPPING_VSAL = {
     Demo: 'demo',
     Mitochondria: 'mito',
-    ['Acute Care']: 'acutecare',
+    ['Acute Care Trios']: 'acutecare',
     ['Acute Care Probands']: 'acutecarepro',
     Neuromuscular: 'demo',
     ['Epileptic Encephalopathies']: 'ee',
@@ -18,7 +18,7 @@ export const COHORT_VALUE_MAPPING_VSAL = {
 export const COHORT_VALUE_MAPPING_SSVS = {
     Demo: 'demo',
     Mitochondria: 'mito',
-    ['Acute Care']: 'acutecare',
+    ['Acute Care Trios']: 'acutecare',
     ['Acute Care Probands']: 'acutecarepro',
     Neuromuscular: 'demo',
     ['Epileptic Encephalopathies']: 'ee',
@@ -35,7 +35,7 @@ export const COHORT_VALUE_MAPPING_SSVS = {
 export const COHORT_VALUE_MAPPING_MAPD = {
     Demo: 'demo',
     Mitochondria: 'mito',
-    ['Acute Care']: 'acutecare',
+    ['Acute Care Trios']: 'acutecare',
     ['Acute Care Probands']: 'acutecarepro',
     Neuromuscular: 'demo',
     ['Epileptic Encephalopathies']: 'ee',
@@ -52,7 +52,7 @@ export const COHORT_VALUE_MAPPING_MAPD = {
 export const COHORT_PERMISSION_SUMMARY_MAPPING = {
     Demo: '',
     Mitochondria: 'mito/summary',
-    ['Acute Care']: 'acutecare/summary',
+    ['Acute Care Trios']: 'acutecare/summary',
     ['Acute Care Probands']: 'acutecare/summary',
     Neuromuscular: 'neuromuscular/summary',
     ['Epileptic Encephalopathies']: 'ee/summary',
@@ -69,7 +69,7 @@ export const COHORT_PERMISSION_SUMMARY_MAPPING = {
 export const COHORT_PERMISSION_VSAL_PHENO_MAPPING = {
     Demo: '',
     Mitochondria: 'mito/pheno',
-    ['Acute Care']: 'acutecare/pheno',
+    ['Acute Care Trios']: 'acutecare/pheno',
     ['Acute Care Probands']: 'acutecare/pheno',
     Neuromuscular: 'neuromuscular/pheno',
     ['Epileptic Encephalopathies']: 'ee/pheno',
@@ -86,7 +86,7 @@ export const COHORT_PERMISSION_VSAL_PHENO_MAPPING = {
 export const COHORT_PHENO_GET_MAPPING = {
     Demo: 'getDemo',
     Mitochondria: 'getMitochondria',
-    ['Acute Care']: 'getAcutecare',
+    ['Acute Care Trios']: 'getAcutecare',
     ['Acute Care Probands']: 'getAcuteCareProband',
     Neuromuscular: 'getNeuromuscular',
     ['Epileptic Encephalopathies']: 'getEpilepticEncephalopathies',
@@ -110,7 +110,7 @@ export const COHORT_SAMPLES_INFO = {
         phen: '82'
     },
     Neuromuscular: null,
-    ['Acute Care']: {
+    ['Acute Care Trios']: {
         gen: '256',
         phen: '86'
     },
@@ -141,7 +141,7 @@ export const COHORT_SAMPLES_INFO = {
 export const COHORT_FAMILY_WITH_PHENO = {
     Demo: true,
     Mitochondria: false,
-    ['Acute Care']: false,
+    ['Acute Care Trios']: false,
     ['Acute Care Probands']: false,
     Neuromuscular: false,
     ['Epileptic Encephalopathies']: false,

@@ -1,4 +1,4 @@
-<mat-tab-group *ngIf="selectedCohort === 'Acute Care'">
+<mat-tab-group *ngIf="selectedCohort === 'Acute Care Trios'">
     <mat-tab label="Affected Samples">
         <div class="loading-message" *ngIf="loadingVariants">
             <mat-spinner color="primary"></mat-spinner>
@@ -8,7 +8,7 @@
           <div *ngIf="denied && !loadingVariants" class="message message-error">You do not have permission to view this data.</div>
           
           <div class="search-result-content" *ngIf="searchService.commenced">
-            <app-acutecare-information *ngIf="selectedCohort === 'Acute Care'" [pheno]="pheno" [samples]="ids"></app-acutecare-information>
+            <app-acutecare-information *ngIf="selectedCohort === 'Acute Care Trios'" [pheno]="pheno" [samples]="ids"></app-acutecare-information>
           
             <div *ngIf="variants.length > 10000&&geneFilter.length === 0" class="message message-error">
                 This region contains too many variants to visualize with our genome browser, please choose a smaller region like:
@@ -55,7 +55,7 @@
             </mat-tab>
     </mat-tab-group>
 
-<div *ngIf="selectedCohort !== 'Acute Care' && selectedCohort !== 'Demo'">
+<div *ngIf="selectedCohort !== 'Acute Care Trios' && selectedCohort !== 'Demo'">
     <div class="loading-message" *ngIf="loadingVariants">
         <mat-spinner color="primary"></mat-spinner>
       </div>

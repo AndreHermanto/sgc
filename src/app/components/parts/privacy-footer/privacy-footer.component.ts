@@ -17,7 +17,7 @@ export class PrivacyFooterComponent implements OnInit, OnDestroy {
     hover=false;
 
     mappingAuthors ={
-        'Acute Care': '/rare-disease-flagships/#program-2184',
+        'Acute Care Trios': '/rare-disease-flagships/#program-2184',
         'Acute Care Probands': '/rare-disease-flagships/#program-2184',
         'Mitochondria': '/rare-disease-flagships/#program-1317',
         'Neuromuscular': '/rare-disease-flagships/#program-1316',
