@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { EnsemblService } from '../ensembl-service';
 import { Gene } from '../../model/gene';
 import { of, Observable, throwError } from "rxjs";
+import { retryWhen, map, catchError, delay, take, concat} from 'rxjs/operators';
 
 @Injectable()
 export class RegionService implements AutocompleteService<Region> {
@@ -34,14 +35,22 @@ export class RegionService implements AutocompleteService<Region> {
 
     getGenesInRegion(r: Region): Observable<Gene[]> {
         return this.ensemblService.getGenesInRegion(r.name())
-            .map((data) => {
-                return data.map((g: any) => {
-                    g.symbol = g.external_name;
-                    return g;
-                });
-            }).catch(e => {
-                return throwError(e);
-            });
+            .pipe(
+                map((data) => {
+                    return data.map((g: any) => {
+                        g.symbol = g.external_name;
+                        return g;
+                    });
+                }),
+                retryWhen(errors => errors.pipe(
+                    delay(2000), 
+                    take(2),
+                    concat(Observable.throw(''))
+                )),
+                catchError(e => {
+                    return throwError(e);
+                })
+            )
     }
 
     protected parseQuery(query: string) {
