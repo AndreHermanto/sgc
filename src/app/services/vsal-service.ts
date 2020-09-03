@@ -112,7 +112,8 @@ export class VsalService {
 
         const headers = new HttpHeaders()
             .append('Content-Type', 'application/json')
-            .append('Accept', '*/*');
+            .append('Accept', '*/*')
+            .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
         return this.requestsSummary(urlParams, headers).reduce((acc: VariantSummaryRequest, x: VariantSummaryRequest, i: number) => {
             acc.variants = acc.variants.concat(x.variants);
             acc.error += x.error;
