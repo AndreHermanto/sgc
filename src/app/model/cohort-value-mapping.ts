@@ -7,7 +7,7 @@ export const COHORT_VALUE_MAPPING_VSAL = {
     ['Epileptic Encephalopathies']: 'ee',
     ['Brain Malformations']: 'bm',
     Leukodystrophies: 'leukodystrophies',
-    ICCon: 'demo',
+    ICCon: 'iccon',
     Childranz: 'demo',
     HIDDEN: 'demo',
     ['Genetic Immunology']: 'demo',
@@ -24,7 +24,7 @@ export const COHORT_VALUE_MAPPING_SSVS = {
     ['Epileptic Encephalopathies']: 'ee',
     ['Brain Malformations']: 'bm',
     Leukodystrophies: 'leukodystrophies',
-    ICCon: 'demo',
+    ICCon: 'iccon',
     Childranz: 'demo',
     HIDDEN: 'demo',
     ['Genetic Immunology']: 'demo',
@@ -41,7 +41,7 @@ export const COHORT_VALUE_MAPPING_MAPD = {
     ['Epileptic Encephalopathies']: 'ee',
     ['Brain Malformations']: 'bm',
     Leukodystrophies: 'leukodystrophies',
-    ICCon: 'demo',
+    ICCon: 'iccon',
     Childranz: 'demo',
     HIDDEN: 'demo',
     ['Genetic Immunology']: 'demo',
@@ -131,7 +131,10 @@ export const COHORT_SAMPLES_INFO = {
         phen: '19'
     },
     Childranz: null,
-    ICCon: null,
+    ICCon: {
+        gen: '137',
+        phen: '137'
+    },
     HIDDEN: null,
     ['Genetic Immunology']: null,
     Cardiac: null,

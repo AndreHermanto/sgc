@@ -15,8 +15,6 @@ export class IcconInformationComponent {
     permission: string = 'iccon/pheno'
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('Sex', 'sex', 'Sex', 'pie'),
-        new ClinicalFields('YOB', 'yearOfBirth', 'Year of Birth', 'row'),
-        new ClinicalFields('Index case?', 'indexCase', 'Index case?', 'row'),
         new ClinicalFields('Case', 'case', 'Case', 'row', true, true, (dimension, filters) => {
             dimension.filter(null);   
             if (filters.length === 0)
