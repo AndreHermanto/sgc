@@ -4,7 +4,7 @@ import {
     BeaconId
 } from './beacon-network-service';
 import { Beacon } from '../../model/beacon';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Subscription } from 'rxjs/Subscription';
 import { of, merge, Observable } from "rxjs";
 

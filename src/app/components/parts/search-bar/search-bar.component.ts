@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { SearchBarService, ENSEMBL_LENGTH_LIMIT } from '../../../services/search-bar-service';
 import { GenericAutocompleteResult } from '../../../model/autocomplete-result';
 import { of, Observable } from "rxjs";

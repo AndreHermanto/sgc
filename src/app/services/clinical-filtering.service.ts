@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from "rxjs";
+import { Subject } from 'rxjs';
 import { Auth } from './auth-service';
 import { environment } from '../../environments/environment';
 

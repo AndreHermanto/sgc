@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-
 import "@mapd/mapdc/dist/mapdc.js";
 
 export enum ChartType {

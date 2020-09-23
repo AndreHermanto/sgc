@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from '../../../app.material';
 
 import { MapdPieChartComponent } from './mapd-pie-chart.component';
-import { MatTooltipModule } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { CohortService } from '../../../services/project-data/cohort-service';
 import { MockCohortService } from '../../../mocks/cohort.mock';
 import { ChartsService } from '../../../services/charts.service';

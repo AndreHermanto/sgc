@@ -11,6 +11,37 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "raven-js",
+              "auth0-js",
+              "jwt-decode",
+              "rxjs/add/operator/reduce",
+              "rxjs/add/operator/startWith",
+              "rxjs/add/operator/share",
+              "rxjs/add/operator/mergeMap",
+              "rxjs/add/operator/switchMap",
+              "rxjs/add/operator/merge",
+              "rxjs/add/operator/distinctUntilChanged",
+              "rxjs/add/operator/take",
+              "rxjs/add/operator/catch",
+              "rxjs/add/operator/timeout",
+              "rxjs/add/operator/map",
+              "rxjs/add/operator/filter",
+              "rxjs/add/operator/delay",
+              "rxjs/add/operator/debounceTime",
+              "rxjs/BehaviorSubject",
+              "tnt.tooltip",
+              "tnt.genome",
+              "papaparse",
+              "crossfilter2",
+              "dc",
+              "util",
+              "d3",
+              "@mapd/mapdc/dist/mapdc.js",
+              "lodash/array"
+            ],
+            "aot": true,
             "outputPath": "dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -37,6 +68,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "40kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -54,6 +91,12 @@
               ]
             },
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "40kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -71,6 +114,12 @@
               ]
             },
             "demo": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -79,6 +128,12 @@
               ]
             },
             "dev": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -87,6 +142,12 @@
               ]
             },
             "ci": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -199,10 +260,13 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "css"
+      "style": "css"
     },
     "@schematics/angular:directive": {
       "prefix": "app"
     }
+  },
+  "cli": {
+    "analytics": "98fe1391-0d36-46ef-983a-62a21ce01b00"
   }
 }

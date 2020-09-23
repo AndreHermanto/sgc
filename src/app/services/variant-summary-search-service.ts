@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { VsalService } from './vsal-service';
 import { VariantSummary } from '../model/variant-summary';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { SearchQueries } from '../model/search-query';
 import { VariantSearch } from '../shared/variant-search';
 import { VariantSummaryRequest } from '../model/variant-summary-request';
