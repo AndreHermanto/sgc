@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import * as crossfilter from '@mapd/crossfilter/dist/mapd-crossfilter.js';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Subscription } from 'rxjs/Subscription';
 import { MapdFilterService } from './mapd-filter.service';
 

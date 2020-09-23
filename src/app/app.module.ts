@@ -1,14 +1,11 @@
-import 'hammerjs';
+
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/filter';
-import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/take';
-import 'rxjs/add/observable/empty';
-import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/merge';
@@ -17,9 +14,8 @@ import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/reduce';
 import 'rxjs/add/operator/delay';
-import 'rxjs/add/observable/throw';
 
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, Injectable } from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -131,6 +127,7 @@ Raven.setDataCallback(function (data) {
     return data;
 });
 
+@Injectable()
 export class RavenErrorHandler implements ErrorHandler {
     handleError(err: any): void {
         if (!environment.production) {

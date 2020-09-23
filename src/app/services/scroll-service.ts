@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 const MAIN_SCROLL_ID = 'main-scroll';
 const SCROLL_DELAY = 300;

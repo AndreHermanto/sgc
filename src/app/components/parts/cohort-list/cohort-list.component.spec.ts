@@ -2,7 +2,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CohortListComponent } from './cohort-list.component';
 import { CohortService } from '../../../services/project-data/cohort-service';
 import { MockCohortService } from '../../../mocks/cohort.mock';
-import { MatCheckboxModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 describe('Component: CohortList', () => {
 

@@ -1,12 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { FAKE_CLINICAL_DATA } from "../mocks/clindata";
 import { FAKE_DEMO_DATA, TEST_CIRCA_DATA } from "../mocks/demodata";
 import { VariantSearchService } from './variant-search-service';
 import { SearchBarService } from './search-bar-service';
 import { Subscription } from 'rxjs/Subscription';
 import { of, throwError, Observable } from "rxjs";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { BehaviorSubject } from "rxjs";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/delay';

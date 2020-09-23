@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Auth } from '../../../services/auth-service';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { ScrollService } from '../../../services/scroll-service';
