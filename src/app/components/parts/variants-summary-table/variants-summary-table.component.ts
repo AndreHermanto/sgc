@@ -22,7 +22,7 @@ const MINIMAL_VIEW = 500;
 })
 export class VariantsSummaryTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() variants: VariantSummary[];
-  @ViewChild(FilterAutoSummaryComponent) filterComponent: FilterAutoSummaryComponent;
+  @ViewChild(FilterAutoSummaryComponent, {static: false}) filterComponent: FilterAutoSummaryComponent;
   pageSize = 10;
   currentPage = 1;
   dbSnpUrl = VariantSummary.dbSnpUrl;

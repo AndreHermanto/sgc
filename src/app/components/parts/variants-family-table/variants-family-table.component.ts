@@ -24,7 +24,7 @@ const MINIMAL_VIEW = 500;
 export class VariantsFamilyTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() variants: Variant[];
   @Input() samples: string[];
-  @ViewChild(FilterAutoComponent) filterComponent: FilterAutoComponent;
+  @ViewChild(FilterAutoComponent, {static: false}) filterComponent: FilterAutoComponent;
   pageSize = 10;
   currentPage = 1;
   dbSnpUrl = Variant.dbSnpUrl;

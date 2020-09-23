@@ -6,8 +6,10 @@ import { constants } from '../../../app.constants';
 import { SearchBarService } from '../../../services/search-bar-service';
 import { MapdService } from '../../../services/mapd.service';
 import { CrossfilterService } from '../../../services/crossfilter.service';
-import { MatCheckboxChange, MatDialog, MatSnackBar } from '@angular/material';
-import { Subject } from 'rxjs/Subject';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
 import * as Raven from 'raven-js';
 import { environment } from '../../../../environments/environment';
 import { ChartsService, ChartType } from '../../../services/charts.service';
@@ -38,7 +40,7 @@ const SMALL_WIDTH = 720;
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
-    @ViewChild(VariantsTablePaginatedComponent)
+    @ViewChild(VariantsTablePaginatedComponent, {static: false})
     private variantTable: VariantsTablePaginatedComponent;
     private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH}px)`);
     subscriptions: Subscription[] = [];

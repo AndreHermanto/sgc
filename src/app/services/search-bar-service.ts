@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RegionService } from './autocomplete/region-service';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Subject } from 'rxjs';
+import { BehaviorSubject } from "rxjs";
 import { SearchOption } from '../model/search-option';
 import { Region } from '../model/region';
 import { Router, Params } from '@angular/router';
@@ -15,7 +15,6 @@ import { of, Observable, combineLatest } from "rxjs";
 import { RegionAutocomplete } from '../model/region-autocomplete';
 import { GeneAutocomplete } from '../model/gene-autocomplete';
 import { genePanelsFull } from '../shared/genePanelList';
-import { forEach } from '../../../node_modules/@angular/router/src/utils/collection';
 
 export const ENSEMBL_LENGTH_LIMIT = 5000000;
 

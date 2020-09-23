@@ -2,7 +2,7 @@ import {
   Component, ElementRef, ChangeDetectorRef, AfterContentInit,
   HostListener, OnDestroy, Input
 } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Subscription } from 'rxjs/Subscription';
 import { ScrollService } from '../../../services/scroll-service';
 import { ElasticGeneSearch } from '../../../services/autocomplete/elastic-gene-search-service';
