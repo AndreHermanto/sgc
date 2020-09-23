@@ -28,6 +28,7 @@ export class BrainMalformationsInformationComponent {
 
   clinicalFields: ClinicalFields[] = [
       new ClinicalFields('Sex of patient:', 'sex', 'Sex', 'pie'),
+      new ClinicalFields('Diagnosis status', 'diagnosisStatus', 'Diagnosis status', 'pie'),
       new ClinicalFields('Seizure type', 'seizureType', 'Seizure type', 'row', true, true, this.multiValueFilter),
       new ClinicalFields('Conditions', 'conditions', 'Conditions', 'row', true, true, this.multiValueFilter),
       new ClinicalFields('Abnormalities', 'abnormalities', 'Abnormalities', 'row', true, true, this.multiValueFilter),

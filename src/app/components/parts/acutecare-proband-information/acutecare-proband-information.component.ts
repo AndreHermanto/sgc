@@ -15,7 +15,8 @@ export class AcutecareProbandInformationComponent {
     permission: string = 'acutecare/pheno'
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('sex', 'sex', 'Sex', 'pie'),
-        new ClinicalFields('Participant Ethnicity', 'ethnicity', 'Ethnicity', 'row'),
+        new ClinicalFields('Diagnosis status', 'diagnosisStatus', 'Diagnosis status', 'pie'),
+        new ClinicalFields('Participant Ethnicity', 'ethnicity', 'Ethnicity', 'row', false),
         new ClinicalFields('Maternal Ethnicity', 'maternalEthnicity', 'Maternal Ethnicity', 'row'),
         new ClinicalFields('Paternal Ethnicity', 'paternalEthnicity', 'Paternal Ethnicity', 'row'),
         new ClinicalFields('Is mother affected?', 'motherAffected', 'Mother Affected', 'pie', false),

@@ -15,6 +15,7 @@ export class MitochondriaInformationComponent {
     permission: string = 'mito/pheno'
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('Gender', 'gender', 'Gender', 'pie'),
+        new ClinicalFields('Diagnosis status', 'diagnosisStatus', 'Diagnosis status', 'pie'),
         new ClinicalFields('Condition', 'conditions', 'Conditions', 'row', true, true, (dimension, filters) => {
             dimension.filter(null);   
             if (filters.length === 0)

@@ -14,10 +14,11 @@ export class LeukodystrophiesInformationComponent {
     permission: string = 'leukodystrophies/pheno'
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('gender', 'sex', 'Sex', 'pie'),
+        new ClinicalFields('Diagnosis status', 'diagnosisStatus', 'Diagnosis status', 'pie'),
         new ClinicalFields('Age of onset of presenting symptoms', 'ageOfOnsetOfPresentingSymptoms', 'Age of onset of presenting symptoms', 'row'),
         new ClinicalFields('Delayed early motor milestones', 'delayedEarlyMilestones', 'Delayed early motor milestones', 'pie'),
         new ClinicalFields('Intellectual disability', 'intellectualDisability', 'Intellectual disability', 'pie'),
-        new ClinicalFields('Seizures', 'seizures', 'Seizures', 'pie'),
+        new ClinicalFields('Seizures', 'seizures', 'Seizures', 'pie', false),
         new ClinicalFields('Nystagmus', 'nystagmus', 'Nystagmus', 'pie', false),
         new ClinicalFields('Head size (OFC)', 'headSize', 'Head size (OFC)', 'row', false),
         new ClinicalFields('Axial hypotonia', 'axialHypotonia', 'Axial hypotonia', 'pie', false),

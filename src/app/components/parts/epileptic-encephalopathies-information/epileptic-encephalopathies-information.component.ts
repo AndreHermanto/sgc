@@ -14,14 +14,15 @@ export class EpilepticEncephalopathiesInformationComponent {
     permission: string = 'ee/pheno'
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('Sex', 'sex', 'Sex', 'pie'),
+        new ClinicalFields('Diagnosis status', 'diagnosisStatus', 'Diagnosis status', 'pie'),
         new ClinicalFields('Ethnicity', 'ethnicity', 'Ethnicity', 'row', false),
         new ClinicalFields('Maternal Ethnicity', 'maternalEthnicity', 'Maternal Ethnicity', 'row', false),
         new ClinicalFields('Paternal Ethnicity', 'PaternalEthnicity', 'Paternal Ethnicity', 'row', false),
         new ClinicalFields('Is mother affected?', 'isMotherAffected', 'Is mother affected?', 'pie', false),
         new ClinicalFields('Is father affected?', 'isFatherAffected', 'Is father affected?', 'pie', false),
-        new ClinicalFields('Consanguinity', 'consanguinity', 'Consanguinity', 'pie'),
+        new ClinicalFields('Consanguinity', 'consanguinity', 'Consanguinity', 'pie', false),
         new ClinicalFields('Age of onset', 'ageOfOnset', 'Age of Onset', 'row'),
-        new ClinicalFields('Seizure type', 'seizureType', 'Seizure type', 'row'),
+        new ClinicalFields('Seizure type', 'seizureType', 'Seizure type', 'row', false),
         new ClinicalFields('Was development ever normal?', 'wasDevelopmentEverNormal', 'Was development ever normal?', 'pie', false),
         new ClinicalFields('Tone Abnormality', 'toneAbnormality', 'Tone Abnormality', 'pie', false),
         new ClinicalFields('Epileptic syndrome at presentation', 'epilepticSyndromeAtPresentation' , 'Epileptic Syndrome at Presentation', 'row'),
