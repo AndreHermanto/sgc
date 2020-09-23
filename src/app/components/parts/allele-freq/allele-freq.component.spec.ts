@@ -2,7 +2,7 @@
 
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { AlleleFreqComponent } from './allele-freq.component';
-import { MatTooltipModule } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TableService } from '../../../services/table-service';
 
 describe('Component: AlleleFreq', () => {

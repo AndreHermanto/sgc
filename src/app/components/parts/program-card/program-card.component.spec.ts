@@ -1,7 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ProgramCardComponent } from './program-card.component';
 import { Router } from '@angular/router';
-import { MatProgressBarModule } from '@angular/material';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Initiative } from '../../../model/initiative';
 
 describe('Component: ProgramCard', () => {

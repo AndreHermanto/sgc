@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from '../../../app.material';
 
 import { MapdRowChartComponent } from './mapd-row-chart.component';
-import { MatTooltipModule } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChartsService } from '../../../services/charts.service';
 import { CrossfilterService } from '../../../services/crossfilter.service';
 import { CfMock } from '../../../mocks/cf.mock';

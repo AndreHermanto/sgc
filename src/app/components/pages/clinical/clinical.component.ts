@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { SearchBarService } from '../../../services/search-bar-service';
 import { GenericAutocompleteResult } from '../../../model/autocomplete-result';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { SnackbarDemoComponent } from '../../parts/snackbar-demo/snackbar-demo.component';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
 

@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { SearchBarService } from '../../../services/search-bar-service';
 import { GenericAutocompleteResult } from '../../../model/autocomplete-result';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material';
 import { SnackbarDemoComponent } from '../../parts/snackbar-demo/snackbar-demo.component';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
 import { Mitochondria, Neuromuscular } from '../../../shared/cohortAuthor';
@@ -22,7 +21,6 @@ export class SearchComponent implements  OnInit, OnDestroy {
     autocomplete: GenericAutocompleteResult<any>;
     error = '';
     searching = false;
-    sb: MatSnackBarRef<SnackbarDemoComponent> = null;
     private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH}px)`);
     selectedOption: string = this.searchBarService.options[0].getValue();
     authors = [];
@@ -31,7 +29,6 @@ export class SearchComponent implements  OnInit, OnDestroy {
                 public auth: Auth,
                 private route: ActivatedRoute,
                 private cd: ChangeDetectorRef,
-                public snackBar: MatSnackBar,
                 private router: Router,
                 private clinicalFilteringService: ClinicalFilteringService
             ) {
@@ -56,17 +53,6 @@ export class SearchComponent implements  OnInit, OnDestroy {
         if (!params['query'] && !params['cohort']) {
             return;
         }
-        if (params['demo']) {
-            this.sb = this.snackBar.openFromComponent(SnackbarDemoComponent, {
-                extraClasses: ['snack-bar-demo-container'],
-                verticalPosition: 'top'
-            });
-            this.sbSub = this.sb.afterDismissed().subscribe(() => {
-                this.searchBarService.search(params['query']);
-            });
-        } else {
-            this.dismissSnackBar();
-        }
         this.searchBarService.setCohort(params['cohort']);
         this.error = '';
         this.autocomplete = null;
@@ -81,7 +67,6 @@ export class SearchComponent implements  OnInit, OnDestroy {
     ngOnDestroy() {
         this.subscriptions.forEach((s => s.unsubscribe()));
         this.clinicalFilteringService.clearFilters();
-        this.dismissSnackBar();
     }
 
     handleError(e: string) {
@@ -90,14 +75,5 @@ export class SearchComponent implements  OnInit, OnDestroy {
 
     isSmallScreen(): boolean {
         return this.mediaMatcher.matches;
-    }
-
-    private dismissSnackBar() {
-        if (this.sb) {
-            this.sbSub.unsubscribe();
-            this.sbSub = null;
-            this.sb.dismiss();
-            this.sb = null;
-        }
     }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { VsalService } from './vsal-service';
 import { Variant } from '../model/variant';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { SearchQueries } from '../model/search-query';
 import { VariantRequest } from '../model/variant-request';
 import { Region } from '../model/region';

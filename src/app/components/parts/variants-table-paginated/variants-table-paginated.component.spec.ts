@@ -7,7 +7,7 @@ import { CrossfilterService } from '../../../services/crossfilter.service';
 import { Router } from '@angular/router';
 import { CfMock } from '../../../mocks/cf.mock';
 import { MapdMock } from '../../../mocks/mapd.mock';
-import { MatIconModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 import { empty } from "rxjs";
 
 describe('VariantsTablePaginatedComponent', () => {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Auth } from '../../../services/auth-service';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 

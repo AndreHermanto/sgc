@@ -1,6 +1,8 @@
 import { VariantSummary } from '../model/variant-summary';
 import { TableSharedService } from '../shared/table-service';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class TableSummaryService {
     private tableService = new TableSharedService();
     showScales = true;

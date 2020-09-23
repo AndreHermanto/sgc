@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { constants } from '../app.constants';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../components/parts/error-dialog/error-dialog.component';
 import * as jwtDecode from 'jwt-decode';
 import * as auth0 from 'auth0-js';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { BehaviorSubject } from "rxjs";
 import { of } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { COHORT_PERMISSION_SUMMARY_MAPPING } from '../model/cohort-value-mapping'

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Auth } from '../../../services/auth-service';
 import { Router } from '@angular/router';
 
