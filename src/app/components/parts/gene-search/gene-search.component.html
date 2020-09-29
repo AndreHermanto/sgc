@@ -97,4 +97,5 @@
   </mat-select>
 </mat-form-field>
 <app-gene-panels *ngIf="permitted && searchBarService.panelGroup==='agha'" [selectedPanelGroup]='searchBarService.panelGroup' [selectedGenePanel]='searchBarService.panel'></app-gene-panels>
-<app-gene-panels *ngIf="searchBarService.panelGroup==='genomicEngland' || searchBarService.panelGroup==='panelApp'" [selectedPanelGroup]='searchBarService.panelGroup' [selectedGenePanel]='searchBarService.panel'></app-gene-panels>
+<app-gene-panels *ngIf="searchBarService.panelGroup==='genomicEngland'" [selectedPanelGroup]='searchBarService.panelGroup' [selectedGenePanel]='searchBarService.panel'></app-gene-panels>
+<app-gene-panels *ngIf="searchBarService.panelGroup==='panelApp'" [selectedPanelGroup]='searchBarService.panelGroup' [selectedGenePanel]='searchBarService.panel'></app-gene-panels>
