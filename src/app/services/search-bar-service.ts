@@ -367,7 +367,8 @@ export class SearchBarService {
     }
 
     private navigateToSearch(query: string) {
-        const obj = {query: query, timestamp: Date.now()};
+        const cohort = this.options[0].getValue();
+        const obj = {query: query, cohort:cohort, timestamp: Date.now()};
         this.router.navigate(['/search/results', obj]);
     }
 
