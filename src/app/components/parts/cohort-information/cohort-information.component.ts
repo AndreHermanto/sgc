@@ -47,6 +47,7 @@ export class CohortInformationComponent implements AfterViewInit, OnDestroy, OnI
     selectedExternalSamples = [];
     cohortSamplesInfo = COHORT_SAMPLES_INFO;
     selectedOption;
+    toggleChartSearch = "";
 
     constructor(private cs: ClinapiService,
                 private cd: ChangeDetectorRef,

@@ -25,10 +25,6 @@
     margin-left: 5px;
 }
 
-.filter-button{
-    font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
-}
-
 .filter-button:hover {
     background-color: white;
 }
@@ -48,13 +44,6 @@ mat-icon {
     margin-bottom: 5px;
 }
 
-.my-full-width-menu {
-    max-width: none;
-    overflow: visible;
-    max-height: 500px;
-    overflow: scroll;
-}
-
 .material-icons{
     font-size: 20px;
 }
@@ -65,4 +54,15 @@ mat-icon {
 
 .dc-data-count .filter-count {
     font-weight: normal !important;
+}
+
+.toggle-charts-container{
+    width: 650px;
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.charts-control-container{
+    margin: 50px 0 0 10%;
 }
