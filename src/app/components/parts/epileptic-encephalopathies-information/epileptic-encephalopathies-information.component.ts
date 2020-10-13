@@ -15,6 +15,8 @@ export class EpilepticEncephalopathiesInformationComponent {
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('Sex', 'sex', 'Sex', 'pie'),
         new ClinicalFields('Diagnosis status', 'diagnosisStatus', 'Diagnosis status', 'pie'),
+        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
+        new ClinicalFields('Test type', 'type', 'Test type', 'pie', false),
         new ClinicalFields('Ethnicity', 'ethnicity', 'Ethnicity', 'row', false),
         new ClinicalFields('Maternal Ethnicity', 'maternalEthnicity', 'Maternal Ethnicity', 'row', false),
         new ClinicalFields('Paternal Ethnicity', 'PaternalEthnicity', 'Paternal Ethnicity', 'row', false),

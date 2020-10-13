@@ -16,6 +16,8 @@ export class AcutecareProbandInformationComponent {
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('sex', 'sex', 'Sex', 'pie'),
         new ClinicalFields('Diagnosis status', 'diagnosisStatus', 'Diagnosis status', 'pie'),
+        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
+        new ClinicalFields('Test type', 'type', 'Test type', 'pie', false),
         new ClinicalFields('Participant Ethnicity', 'ethnicity', 'Ethnicity', 'row', false),
         new ClinicalFields('Maternal Ethnicity', 'maternalEthnicity', 'Maternal Ethnicity', 'row'),
         new ClinicalFields('Paternal Ethnicity', 'paternalEthnicity', 'Paternal Ethnicity', 'row'),

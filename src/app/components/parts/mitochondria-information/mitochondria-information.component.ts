@@ -30,6 +30,8 @@ export class MitochondriaInformationComponent {
         325,
         200,
     ),
+        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie', false),
+        new ClinicalFields('Test type', 'type', 'Test type', 'pie', false)
     ];
     phenoService: string = 'getMitochondria'
 

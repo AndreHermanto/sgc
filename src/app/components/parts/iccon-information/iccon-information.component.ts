@@ -28,6 +28,8 @@ export class IcconInformationComponent {
         },
         325,
         200),
+        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
+        new ClinicalFields('Test type', 'type', 'Test type', 'pie', false),
     ];
     phenoService: string = 'getIccon'
 
