@@ -11,6 +11,9 @@
                     <span class='filter-count'></span>
                     samples records selected out of <span class='total-count'></span> samples by phenotype filters.
                 </div>
+                <div *ngIf="cohortSamplesInfo[selectedOption] !== null">
+                    #WGS samples: <span style="color: #3182bd">{{cohortSamplesInfo[selectedOption]['wgs']}}</span> and #WES samples: <span style="color: #3182bd">{{cohortSamplesInfo[selectedOption]['wes']}}</span>
+                </div>
             </div>
         </div>
         <div class="actions">
