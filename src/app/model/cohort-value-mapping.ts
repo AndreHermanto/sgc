@@ -103,37 +103,53 @@ export const COHORT_PHENO_GET_MAPPING = {
 export const COHORT_SAMPLES_INFO = {
     Demo: {
         gen: '51',
-        phen: '51'
+        phen: '51',
+        wgs: 51,
+        wes: 0
     },
     Mitochondria: {
         gen: '82',
-        phen: '82'
+        phen: '82',
+        wgs: 30,
+        wes: 52
     },
     Neuromuscular: null,
     ['Acute Care Trios']: {
         gen: '256',
-        phen: '86'
+        phen: '86',
+        wgs: 0,
+        wes: 256
     },
     ['Acute Care Probands']: {
         gen: '86',
-        phen: '86'
+        phen: '86',
+        wgs: 0,
+        wes: 86
     },
     ['Epileptic Encephalopathies']: {
         gen: '82',
-        phen: '82'
+        phen: '82',
+        wgs: 0,
+        wes: 82
     },
     ['Brain Malformations']: {
         gen: '83',
-        phen: '83'
+        phen: '83',
+        wgs: 0,
+        wes: 83
     },
     Leukodystrophies: {
         gen: '19',
-        phen: '19'
+        phen: '19',
+        wgs: 0,
+        wes: 19
     },
     Childranz: null,
     ICCon: {
         gen: '137',
-        phen: '137'
+        phen: '137',
+        wgs: 137,
+        wes: 0
     },
     HIDDEN: null,
     ['Genetic Immunology']: null,
