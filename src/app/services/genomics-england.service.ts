@@ -10,6 +10,19 @@ import {Panel, PanelsList, GenesList} from '../model/panel'
 @Injectable()
 export class GenomicsEnglandService {
     panels: Panel[];
+    evidences = [{
+        key: 'high',
+        value: 'Expert Review Green',
+        selected: true
+      },{
+        key: 'moderate',
+        value: 'Expert Review Amber',
+        selected: true
+      },{
+        key: 'low',
+        value: 'Expert Review Red',
+        selected: true
+      }]
     constructor(private http: HttpClient) {
     }
 

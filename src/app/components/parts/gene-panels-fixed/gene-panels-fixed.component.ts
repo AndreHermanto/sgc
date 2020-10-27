@@ -21,7 +21,7 @@ export class GenePanelsFixedComponent implements OnInit, OnDestroy {
     count: null
   }];
   @Input() selectedGenePanel: string;
-  geneList: string;
+  geneList: any[];
   private subscriptions: Subscription[] = [];
 
   constructor(public searchBarService: SearchBarService,
@@ -71,9 +71,12 @@ export class GenePanelsFixedComponent implements OnInit, OnDestroy {
   setGenePanelValue(value) {
     if(this.panel){
       if(this.panel[value]){
-        this.geneList = this.panel[value].map(panel => panel.sym);
+        this.geneList = this.panel[value].map(panel => {return {
+          gene: panel.sym,
+          evidence: ''
+        }});
       }else{
-        this.geneList = '';
+        this.geneList = [];
       }
   
       this.searchBarService.setGeneList(this.geneList);

@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Panel } from '../../../model/panel';
 import { COHORT_VALUE_MAPPING_VSAL} from '../../../model/cohort-value-mapping'
+import { ThrowStmt } from '../../../../../node_modules/@angular/compiler';
 
 
 @Component({
@@ -21,23 +22,25 @@ export class GenePanelsComponent implements OnInit, OnDestroy {
   options: Panel[] = [];
   @Input() selectedPanelGroup: string;
   @Input() selectedGenePanel: string;
-  geneList: string;
+  geneList: any = null;
   loading: boolean = true;
   panel: any;
   error: string = '';
   selectedCohort: string = '';
   permissionsClin;
   private subscriptions: Subscription[] = [];
+  geneListError = false;
 
   constructor(public searchBarService: SearchBarService,
               private route: ActivatedRoute,
-              private genomicsEnglandService: GenomicsEnglandService,
+              public genomicsEnglandService: GenomicsEnglandService,
               private panelAppService: PanelAppService,
               private cd: ChangeDetectorRef,
               private auth: Auth,
               private cs: ClinapiService) { }
 
   ngOnInit() {
+
     this.subscriptions.push(this.searchBarService.geneList.subscribe(genes => {
       this.geneList = genes;
     }));
@@ -45,6 +48,10 @@ export class GenePanelsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.searchBarService.selectedCohort.subscribe(cohort => {
       this.selectedCohort = cohort;
     }))
+
+    if(this.geneList.length === 0 && this.geneList !== ''){
+      this.geneListError = true;
+    }
 
     if(this.selectedPanelGroup === 'genomicEngland'){
       if(this.genomicsEnglandService.panels){
@@ -114,19 +121,15 @@ export class GenePanelsComponent implements OnInit, OnDestroy {
   }
 
   setGenePanelValue(value) {
+    this.searchBarService.geneListPanelFull = null;
     if(value){
-      this.geneList = 'Loading...'
+      this.geneList = []
       this.searchBarService.panel = value;
       if(this.selectedPanelGroup === 'genomicEngland'){
         this.subscriptions.push(this.genomicsEnglandService.getPanel(value).subscribe((data) => {
           if(!data.error){
-            this.geneList = data.genesData.genes.map(e => e.gene_data.gene_symbol).join();
-            if(this.geneList !== undefined){
-              this.searchBarService.setGeneList(this.geneList);
-            }else{
-              this.searchBarService.setGeneList('');
-            }
-            this.error = '';
+            this.searchBarService.geneListPanelFull = data.genesData.genes;
+            this.filterGenesOnEvidences();
           }else{
             this.error = data.error
             this.searchBarService.setGeneList('');
@@ -135,13 +138,8 @@ export class GenePanelsComponent implements OnInit, OnDestroy {
       }else if(this.selectedPanelGroup === 'panelApp'){
         this.subscriptions.push(this.panelAppService.getPanel(value).subscribe((data) => {
           if(!data.error){
-            this.geneList = data.genesData.genes.map(e => e.gene_data.gene_symbol).join();
-            if(this.geneList !== undefined){
-              this.searchBarService.setGeneList(this.geneList);
-            }else{
-              this.searchBarService.setGeneList('');
-            }
-            this.error = '';
+            this.searchBarService.geneListPanelFull = data.genesData.genes;
+            this.filterGenesOnEvidences();
           }else{
             this.error = data.error
             this.searchBarService.setGeneList('');
@@ -150,15 +148,45 @@ export class GenePanelsComponent implements OnInit, OnDestroy {
       }else if(this.selectedPanelGroup === 'agha'){
         if(this.panel){
           if(this.panel[value]){
-            this.geneList = this.panel[value].map(panel => panel.sym);
+            this.geneList = this.panel[value].map(e=> { return{
+              gene: e.sym,
+              evidence: ''
+            }});
           }else{
-            this.geneList = '';
+            this.geneList = [];
           }
           this.searchBarService.setGeneList(this.geneList);
         }
       }
     }else{
       this.geneList = value;
+    }
+  }
+
+  filterGenesOnEvidences(){
+    this.geneListError = false;
+    let includedEvidences = this.genomicsEnglandService.evidences.filter(e=> e.selected).map(e => e.value);
+
+    if(this.searchBarService.geneListPanelFull !== null){
+      let filteredGenes = this.searchBarService.geneListPanelFull.filter(gene => {
+        let found = false;
+        includedEvidences.forEach(evidence => {
+          if(gene.evidence.includes(evidence)){
+            found = true
+          }
+        })
+        return found;
+      });
+      this.geneList = filteredGenes.map(e => {return {gene: e.gene_data.gene_symbol, evidence: e.evidence.filter(evi => this.genomicsEnglandService.evidences.map(evi => evi.value).includes(evi))[0]}});
+      if(this.geneList !== undefined){
+        this.searchBarService.setGeneList(this.geneList);
+        if(filteredGenes.length===0){
+          this.geneListError = true;
+        }
+      }else{
+        this.searchBarService.setGeneList('');
+      }
+      this.error = '';
     }
   }
 
