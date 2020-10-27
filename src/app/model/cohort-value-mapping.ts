@@ -31,11 +31,15 @@ export const COHORT_PHENO_GET_MAPPING = {
 export const COHORT_SAMPLES_INFO = {
     Demo: {
         gen: '51',
-        phen: '51'
+        phen: '51',
+        wgs: 51,
+        wes: 0
     },
     MGRB: {
         gen: '2845',
-        phen: '2845'
+        phen: '2845',
+        wgs: 2845,
+        wes: 0
     }
 }
 
