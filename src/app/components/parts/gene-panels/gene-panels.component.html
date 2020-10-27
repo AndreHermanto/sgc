@@ -1,7 +1,26 @@
 <app-autocomplete-option [options]='options' (panel)="setGenePanelValue($event)" [selectedGenePanel]='selectedGenePanel' [error]="error"></app-autocomplete-option>
 <span *ngIf="selectedGenePanel" class="label-panel">Selected panel: {{selectedGenePanel}}</span>
+<div *ngIf="selectedPanelGroup === 'genomicEngland' || selectedPanelGroup === 'panelApp'">
+  <span>Evidences</span>
+  <mat-error *ngIf="geneListError">Gene panel should not be empty.</mat-error>
+  <span>
+    <ul>
+      <li *ngFor="let evidence of genomicsEnglandService.evidences">
+        <mat-checkbox [(ngModel)]="evidence.selected" (ngModelChange)="filterGenesOnEvidences()">
+          <span [class]="evidence.key">{{evidence.key}}</span>
+        </mat-checkbox>
+      </li>
+    </ul>
+  </span>
+</div>
 <br/>
 <br/>
-<mat-form-field>
-  <textarea [(ngModel)]="geneList" matInput class='genes-text' rows='6' placeholder="List of genes from panel" disabled></textarea>
-</mat-form-field>
+<div class="gene-list-container">
+  <span *ngFor="let g of geneList; let last = last;">
+    <span *ngIf="g.evidence === ''">{{g.gene}}</span>
+    <span *ngIf="g.evidence === 'Expert Review Green'" style="color:green;">{{g.gene}}</span>
+    <span *ngIf="g.evidence === 'Expert Review Amber'" style="color:#ff9900;">{{g.gene}}</span>
+    <span *ngIf="g.evidence === 'Expert Review Red'" style="color:#ff1a1a;">{{g.gene}}</span>
+    <span *ngIf="!last">, </span>
+  </span>
+</div>
