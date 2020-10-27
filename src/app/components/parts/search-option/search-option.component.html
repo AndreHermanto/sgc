@@ -3,8 +3,27 @@
     <div *ngIf="showOptions" class="options">
         <div *ngFor="let option of option.allOptions(); let i = index;"
              (mousedown)="selectOption(option); showOptions = false">
-            <span class="name" *ngIf="cohortAccess.includes(option)">{{ option === 'Circa' ? option.toUpperCase() : option }} {{ cohortSamplesInfo[option] !== null ? "(" + cohortSamplesInfo[option]['gen'] + " samples)" : ""}}</span>
-            <span class="name-disabled" *ngIf="!cohortAccess.includes(option)">{{ option === 'Circa' ? option.toUpperCase() : option }} {{ cohortSamplesInfo[option] !== null ? "(" + cohortSamplesInfo[option]['gen'] + " samples)" : ""}}</span>
+            <span class="name" *ngIf="cohortAccess.includes(option)">{{ option === 'Circa' ? option.toUpperCase() : option }}
+                <span *ngIf="cohortSamplesInfo[option] !== null">
+                    (
+                    <span *ngIf="cohortSamplesInfo[option]['wgs'] > 0">{{cohortSamplesInfo[option]['wgs']}} WGS</span>
+                    <span *ngIf="cohortSamplesInfo[option]['wgs'] > 0 && cohortSamplesInfo[option]['wes'] > 0"> & </span>
+                    <span *ngIf="cohortSamplesInfo[option]['wes'] > 0">{{cohortSamplesInfo[option]['wes']}} WES</span>
+                    )
+                </span>
+            </span>
+            <span class="name-disabled" *ngIf="!cohortAccess.includes(option)">{{ option === 'Circa' ? option.toUpperCase() : option }}
+                <span *ngIf="cohortSamplesInfo[option] !== null">
+                    (
+                    <span *ngIf="cohortSamplesInfo[option]['wgs'] > 0">{{cohortSamplesInfo[option]['wgs']}} WGS</span>
+                    <span *ngIf="cohortSamplesInfo[option]['wgs'] > 0 && cohortSamplesInfo[option]['wes'] > 0"> & </span>
+                    <span *ngIf="cohortSamplesInfo[option]['wes'] > 0">{{cohortSamplesInfo[option]['wes']}} WES</span>
+                    )
+                </span>
+            </span>
+        </div>
+        <div (mousedown)="goToAboutVA()">
+            <span class="name">Access more cohorts...</span>
         </div>
     </div>
 </div>
