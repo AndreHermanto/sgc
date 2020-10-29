@@ -43,7 +43,7 @@ export class SearchComponent implements  OnInit, OnDestroy {
             this.authors = Neuromuscular
         }
 
-        this.auth.getSavedSearches().subscribe(savedSearches => {
+        this.auth.userSavedSearches.subscribe(savedSearches => {
             this.clinicalFilteringService.initSaveSearches(savedSearches);
         })
         this.searchBarService.query ="";
