@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
               public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.auth.getUser().subscribe(user => {
+    this.auth.userProfile.subscribe(user => {
       if(user){
           this.user = user;
           this.permissions = user.app_metadata.authorization.permissions;

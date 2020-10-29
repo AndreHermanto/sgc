@@ -26,6 +26,12 @@ export class Auth {
         redirectUri: `${constants.ORIGIN_URL}/auth`,
         scope: 'openid email'
     });
+
+    private userProfileSource = new BehaviorSubject<any>(null);
+    userProfile = this.userProfileSource.asObservable();
+
+    private userSavedSearchesSource = new BehaviorSubject<any>(null);
+    userSavedSearches = this.userSavedSearchesSource.asObservable();
     
     constructor(private router: Router,
                 public dialog: MatDialog,
@@ -180,10 +186,18 @@ export class Auth {
                 this.router.navigateByUrl(path);
             })
             
-            this.getUser().subscribe(user=>{ 
-                this.vas.addUserLogin(user.email).subscribe(res => res);;
-             })
+            this.userProfile.subscribe(user=>{
+                if(user){
+                    this.vas.addUserLogin(user.email).subscribe(res => res);
+                }
+            })
         }
+        this.getUser().subscribe(user=>{ 
+            this.userProfileSource.next(user);
+        });
+        this.getSavedSearches().subscribe(savedSearches => {
+            this.userSavedSearchesSource.next(savedSearches);
+        });
     };
 
     public checkPermissions(selectedCohort, permissions): boolean{

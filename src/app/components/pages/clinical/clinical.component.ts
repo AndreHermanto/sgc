@@ -41,7 +41,7 @@ export class ClinicalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
       this.selectedOption = this.searchBarService.options[0].getValue();
 
-      this.subscriptions.push(this.auth.getSavedSearches().subscribe(savedSearches => {
+      this.subscriptions.push(this.auth.userSavedSearches.subscribe(savedSearches => {
           this.clinicalFilteringService.initSaveSearches(savedSearches);
       }))
       }

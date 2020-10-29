@@ -64,7 +64,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy, AfterViewInit 
                         })
                     }
 
-                    this.auth.getUser().subscribe(user => {
+                    this.auth.userProfile.subscribe(user => {
                         this.vas.addUserQuery(user.email, this.selectedCohort).subscribe((res) => {
                             return res;
                         })

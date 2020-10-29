@@ -45,7 +45,6 @@ export class HeaderNavComponent implements OnInit {
                 public cd: ChangeDetectorRef) {    
 
     }
-    
 
     ngOnInit() {
         this.router.events
@@ -56,13 +55,6 @@ export class HeaderNavComponent implements OnInit {
 
         this.scrollService.scrolled.subscribe(this.hideTerms);
 
-        this.auth.getUser().subscribe(user => {
-            if(user){
-                this.userPicture = user.picture;
-            }
-            this.cd.detectChanges();
-        })
-
         this.subscriptions.push(this.searchBarService.selectedCohort.subscribe(cohort => {
             this.cohort = cohort;
         }))
@@ -70,6 +62,13 @@ export class HeaderNavComponent implements OnInit {
         if(!this.auth.authenticated()){
             localStorage.removeItem('userPermissions')
         }
+
+        this.auth.userProfile.subscribe(user => {
+            if(user){
+                this.userPicture = user.picture;
+                this.cd.detectChanges();
+            }
+        })
 
         this.checkPermissions();
     }
