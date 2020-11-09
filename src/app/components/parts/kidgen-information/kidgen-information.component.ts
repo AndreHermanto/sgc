@@ -29,6 +29,8 @@ export class KidgenInformationComponent {
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('sex', 'sex', 'Sex', 'pie'),
         new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
+        new ClinicalFields('Diagnosis status', 'diagnosis', 'Diagnosis status', 'pie'),
+        new ClinicalFields('Clinical diagnosis subgroup', 'diagnosisSubgroup', 'What is the clinical diagnosis subgroup?', 'row'),
         new ClinicalFields('Test type', 'type', 'Test type', 'pie', false),
         new ClinicalFields('i. Urea (mmol per L)', 'ureaMmolPerL', 'Urea (mmol/L)','bar', true, false, null, 340, 200, 0, 30),
         new ClinicalFields('ii. Creatinine (umol per L)', 'creatinineUmolPerL', 'Creatinine (umol/L)', 'bar', true, false, null, 340, 200, 0, 200),
