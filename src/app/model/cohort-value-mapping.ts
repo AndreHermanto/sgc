@@ -47,3 +47,8 @@ export const COHORT_FAMILY_WITH_PHENO = {
     Demo: true,
     Circa: true
 }
+
+export const COHORT_PERMISSION_UNCONSENTED_SAMPLES = {
+    Demo: '',
+    Circa: 'circa/unconsented',
+}

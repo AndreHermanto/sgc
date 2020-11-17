@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ClinicalFields } from '../../../model/clinical-fields';
 import * as _ from 'lodash/array';
 
@@ -7,11 +7,12 @@ import * as _ from 'lodash/array';
     templateUrl: './circa-information.component.html',
     styleUrls: ['./circa-information.component.css']
 })
-export class CircaInformationComponent{
+export class CircaInformationComponent implements OnInit{
     //Internal IDs
     @Input() samples: string[] = [];
     //pheno file
     @Input() pheno: any[] = [];
+    @Input() unconsentedAccess: boolean = false;
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('familyData', 'familyData', 'Family Data', 'pie'),
         new ClinicalFields('sex', 'sex', 'Sex', 'pie'),
@@ -26,5 +27,11 @@ export class CircaInformationComponent{
 
     constructor() {
     }
+
+    ngOnInit(){
+        if(!this.unconsentedAccess){
+            this.clinicalFields = this.clinicalFields.filter(c => c.fieldName !== 'Consent for future research')
+        }
+  }
 
 }

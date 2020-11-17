@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ClinicalFields } from '../../../model/clinical-fields';
 import * as _ from 'lodash/array';
 
@@ -7,11 +7,12 @@ import * as _ from 'lodash/array';
     templateUrl: './demo-information.component.html',
     styleUrls: ['./demo-information.component.css']
 })
-export class DemoInformationComponent{
+export class DemoInformationComponent implements OnInit{
     //Internal IDs
     @Input() samples: string[] = [];
     //pheno file
     @Input() pheno: any[] = [];
+    @Input() unconsentedAccess: boolean = false;
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('familyData', 'familyData', 'Family Data', 'pie'),
         new ClinicalFields('gender', 'sex', 'Sex', 'pie'),
@@ -25,5 +26,11 @@ export class DemoInformationComponent{
 
     constructor() {
     }
+
+    ngOnInit(){
+        if(!this.unconsentedAccess){
+            this.clinicalFields = this.clinicalFields.filter(c => c.fieldName !== 'Consent for future research')
+        }
+  }
 
 }
