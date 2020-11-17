@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ClinicalFields } from '../../../model/clinical-fields';
 import * as _ from 'lodash/array';
 
@@ -7,11 +7,12 @@ import * as _ from 'lodash/array';
     templateUrl: './cardiac-information.component.html',
     styleUrls: ['./cardiac-information.component.css']
 })
-export class CardiacInformationComponent{
+export class CardiacInformationComponent implements OnInit{
     //Internal IDs
     @Input() samples: string[] = [];
     //pheno file
     @Input() pheno: any[] = [];
+    @Input() unconsentedAccess: boolean = false;
     permission: string = 'cardiac/pheno';
 
     multiValueFilter = (dimension, filters) => {
@@ -39,5 +40,11 @@ export class CardiacInformationComponent{
 
     constructor() {
     }
+
+    ngOnInit(){
+        if(!this.unconsentedAccess){
+            this.clinicalFields = this.clinicalFields.filter(c => c.fieldName !== 'Consent for future research')
+        }
+  }
 
 }

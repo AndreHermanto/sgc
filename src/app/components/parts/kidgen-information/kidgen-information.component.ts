@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ClinicalFields } from '../../../model/clinical-fields';
 import * as _ from 'lodash/array';
 
@@ -7,11 +7,12 @@ import * as _ from 'lodash/array';
     templateUrl: './kidgen-information.component.html',
     styleUrls: ['./kidgen-information.component.css']
 })
-export class KidgenInformationComponent {
+export class KidgenInformationComponent implements OnInit {
     //Internal IDs
     @Input() samples: string[] = [];
     //pheno file
     @Input() pheno: any[] = [];
+    @Input() unconsentedAccess: boolean = false;
     permission: string = 'kidgen/pheno'
 
     multiValueFilter = (dimension, filters) => {
@@ -27,8 +28,8 @@ export class KidgenInformationComponent {
   }
 
     clinicalFields: ClinicalFields[] = [
-        new ClinicalFields('sex', 'sex', 'Sex', 'pie'),
         new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
+        new ClinicalFields('sex', 'sex', 'Sex', 'pie'),
         new ClinicalFields('Diagnosis status', 'diagnosis', 'Diagnosis status', 'pie'),
         new ClinicalFields('Clinical diagnosis subgroup', 'diagnosisSubgroup', 'What is the clinical diagnosis subgroup?', 'row'),
         new ClinicalFields('Test type', 'type', 'Test type', 'pie', false),
@@ -58,5 +59,11 @@ export class KidgenInformationComponent {
 
     constructor() {
     }
+
+    ngOnInit(){
+        if(!this.unconsentedAccess){
+            this.clinicalFields = this.clinicalFields.filter(c => c.fieldName !== 'Consent for future research')
+        }
+  }
 
 }

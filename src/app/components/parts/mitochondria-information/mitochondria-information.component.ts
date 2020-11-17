@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ClinicalFields } from '../../../model/clinical-fields';
 import * as _ from 'lodash/array';
 
@@ -7,13 +7,15 @@ import * as _ from 'lodash/array';
     templateUrl: './mitochondria-information.component.html',
     styleUrls: ['./mitochondria-information.component.css']
 })
-export class MitochondriaInformationComponent {
+export class MitochondriaInformationComponent implements OnInit{
     //Internal IDs
     @Input() samples: string[] = [];
     //pheno file
     @Input() pheno: any[] = [];
+    @Input() unconsentedAccess: boolean = false;
     permission: string = 'mito/pheno'
     clinicalFields: ClinicalFields[] = [
+        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
         new ClinicalFields('Gender', 'gender', 'Gender', 'pie'),
         new ClinicalFields('Diagnosis status', 'diagnosisStatus', 'Diagnosis status', 'pie'),
         new ClinicalFields('Condition', 'conditions', 'Conditions', 'row', true, true, (dimension, filters) => {
@@ -30,7 +32,6 @@ export class MitochondriaInformationComponent {
         325,
         200,
     ),
-        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie', false),
         new ClinicalFields('Test type', 'type', 'Test type', 'pie', false)
     ];
     phenoService: string = 'getMitochondria'
@@ -38,5 +39,10 @@ export class MitochondriaInformationComponent {
     constructor() {
     }
 
+    ngOnInit(){
+        if(!this.unconsentedAccess){
+            this.clinicalFields = this.clinicalFields.filter(c => c.fieldName !== 'Consent for future research')
+        }
+  }
 }
 

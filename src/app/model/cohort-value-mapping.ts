@@ -83,6 +83,23 @@ export const COHORT_PERMISSION_VSAL_PHENO_MAPPING = {
     KidGen: 'kidgen/pheno'
 }
 
+export const COHORT_PERMISSION_UNCONSENTED_SAMPLES = {
+    Demo: '',
+    Mitochondria: 'mito/unconsented',
+    ['Acute Care Trios']: 'acutecare/unconsented',
+    ['Acute Care Probands']: 'acutecare/unconsented',
+    Neuromuscular: 'neuromuscular/unconsented',
+    ['Epileptic Encephalopathies']: 'ee/unconsented',
+    ['Brain Malformations']: 'bm/unconsented',
+    Leukodystrophies: 'leukodystrophies/unconsented',
+    ICCon: 'iccon/unconsented',
+    Childranz: 'childranz/unconsented',
+    HIDDEN: 'hidden/unconsented',
+    ['Genetic Immunology']: 'gi/unconsented',
+    Cardiac: 'cardiac/unconsented',
+    KidGen: 'kidgen/unconsented'
+}
+
 export const COHORT_PHENO_GET_MAPPING = {
     Demo: 'getDemo',
     Mitochondria: 'getMitochondria',

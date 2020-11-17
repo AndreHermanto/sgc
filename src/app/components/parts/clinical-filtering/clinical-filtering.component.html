@@ -8,7 +8,7 @@
           <div *ngIf="denied && !loadingVariants" class="message message-error">You do not have permission to view this data.</div>
           
           <div class="search-result-content" *ngIf="searchService.commenced">
-            <app-acutecare-information *ngIf="selectedCohort === 'Acute Care Trios'" [pheno]="pheno" [samples]="ids"></app-acutecare-information>
+            <app-acutecare-information *ngIf="selectedCohort === 'Acute Care Trios'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-acutecare-information>
           
             <div *ngIf="variants.length > 10000&&geneFilter.length === 0" class="message message-error">
                 This region contains too many variants to visualize with our genome browser, please choose a smaller region like:
@@ -36,7 +36,7 @@
               <div *ngIf="denied && !loadingVariants" class="message message-error">You do not have permission to view this data.</div>
               
               <div class="search-result-content" *ngIf="searchService.commenced">
-                <app-demo-information *ngIf="selectedCohort === 'Demo'" [pheno]="pheno" [samples]="ids"></app-demo-information>
+                <app-demo-information *ngIf="selectedCohort === 'Demo'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-demo-information>
               
                 <div *ngIf="variants.length > 10000&&geneFilter.length === 0" class="message message-error">
                     This region contains too many variants to visualize with our genome browser, please choose a smaller region like:
@@ -64,18 +64,18 @@
       <div *ngIf="denied && !loadingVariants" class="message message-error">You do not have permission to view this data.</div>
       
       <div class="search-result-content" *ngIf="searchService.commenced">
-        <app-neuromuscular-information *ngIf="selectedCohort === 'Neuromuscular'" [pheno]="pheno" [samples]="ids"></app-neuromuscular-information>
-        <app-mitochondria-information *ngIf="selectedCohort === 'Mitochondria'" [pheno]="pheno" [samples]="ids"></app-mitochondria-information>
-        <app-brain-malformations-information *ngIf="selectedCohort === 'Brain Malformations'" [pheno]="pheno" [samples]="ids"></app-brain-malformations-information>
-        <app-epileptic-encephalopathies-information *ngIf="selectedCohort === 'Epileptic Encephalopathies'" [pheno]="pheno" [samples]="ids"></app-epileptic-encephalopathies-information>
-        <app-iccon-information *ngIf="selectedCohort === 'ICCon'" [pheno]="pheno" [samples]="ids"></app-iccon-information>
-        <app-childranz-information *ngIf="selectedCohort === 'Childranz'" [pheno]="pheno" [samples]="ids"></app-childranz-information>
-        <app-hidden-information *ngIf="selectedCohort === 'HIDDEN'" [pheno]="pheno" [samples]="ids"></app-hidden-information>
-        <app-genetic-immunology-information *ngIf="selectedCohort === 'Genetic Immunology'" [pheno]="pheno" [samples]="ids"></app-genetic-immunology-information>
-        <app-cardiac-information *ngIf="selectedCohort === 'Cardiac'" [pheno]="pheno" [samples]="ids"></app-cardiac-information>
-        <app-kidgen-information *ngIf="selectedCohort === 'KidGen'" [pheno]="pheno" [samples]="ids"></app-kidgen-information>
-        <app-acutecare-proband-information *ngIf="selectedCohort === 'Acute Care Probands'" [pheno]="pheno" [samples]="ids"></app-acutecare-proband-information>
-        <app-leukodystrophies-information *ngIf="selectedCohort === 'Leukodystrophies'" [pheno]="pheno" [samples]="ids"></app-leukodystrophies-information>
+        <app-neuromuscular-information *ngIf="selectedCohort === 'Neuromuscular'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-neuromuscular-information>
+        <app-mitochondria-information *ngIf="selectedCohort === 'Mitochondria'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-mitochondria-information>
+        <app-brain-malformations-information *ngIf="selectedCohort === 'Brain Malformations'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-brain-malformations-information>
+        <app-epileptic-encephalopathies-information *ngIf="selectedCohort === 'Epileptic Encephalopathies'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-epileptic-encephalopathies-information>
+        <app-iccon-information *ngIf="selectedCohort === 'ICCon'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-iccon-information>
+        <app-childranz-information *ngIf="selectedCohort === 'Childranz'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-childranz-information>
+        <app-hidden-information *ngIf="selectedCohort === 'HIDDEN'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-hidden-information>
+        <app-genetic-immunology-information *ngIf="selectedCohort === 'Genetic Immunology'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-genetic-immunology-information>
+        <app-cardiac-information *ngIf="selectedCohort === 'Cardiac'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-cardiac-information>
+        <app-kidgen-information *ngIf="selectedCohort === 'KidGen'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-kidgen-information>
+        <app-acutecare-proband-information *ngIf="selectedCohort === 'Acute Care Probands'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-acutecare-proband-information>
+        <app-leukodystrophies-information *ngIf="selectedCohort === 'Leukodystrophies'" [pheno]="pheno" [samples]="ids" [unconsentedAccess]="unconsentedAccess"></app-leukodystrophies-information>
         <div *ngIf="variants.length > 10000&&geneFilter.length === 0" class="message message-error">
             This region contains too many variants to visualize with our genome browser, please choose a smaller region like:
             <a (click)="goToSmallerRegion()">{{searchService.getSmallerRegionString()}}</a>

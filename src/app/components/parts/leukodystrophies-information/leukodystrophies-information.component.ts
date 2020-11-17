@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ClinicalFields } from '../../../model/clinical-fields';
 
 @Component({
@@ -6,16 +6,17 @@ import { ClinicalFields } from '../../../model/clinical-fields';
     templateUrl: './leukodystrophies-information.component.html',
     styleUrls: ['./leukodystrophies-information.component.css']
 })
-export class LeukodystrophiesInformationComponent {
+export class LeukodystrophiesInformationComponent implements OnInit{
     //Internal IDs
     @Input() samples: string[] = [];
     //pheno file
     @Input() pheno: any[] = [];
+    @Input() unconsentedAccess: boolean = false;
     permission: string = 'leukodystrophies/pheno'
     clinicalFields: ClinicalFields[] = [
+        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
         new ClinicalFields('gender', 'sex', 'Sex', 'pie'),
         new ClinicalFields('Diagnosis status', 'diagnosisStatus', 'Diagnosis status', 'pie'),
-        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
         new ClinicalFields('Test type', 'type', 'Test type', 'pie', false),
         new ClinicalFields('Age of onset of presenting symptoms', 'ageOfOnsetOfPresentingSymptoms', 'Age of onset of presenting symptoms', 'row'),
         new ClinicalFields('Delayed early motor milestones', 'delayedEarlyMilestones', 'Delayed early motor milestones', 'pie'),
@@ -48,5 +49,11 @@ export class LeukodystrophiesInformationComponent {
 
     constructor() {
     }
+
+    ngOnInit(){
+        if(!this.unconsentedAccess){
+            this.clinicalFields = this.clinicalFields.filter(c => c.fieldName !== 'Consent for future research')
+        }
+  }
 
 }

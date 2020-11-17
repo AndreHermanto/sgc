@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ClinicalFields } from '../../../model/clinical-fields';
 import * as _ from 'lodash/array';
 
@@ -7,13 +7,15 @@ import * as _ from 'lodash/array';
     templateUrl: './iccon-information.component.html',
     styleUrls: ['./iccon-information.component.css']
 })
-export class IcconInformationComponent {
+export class IcconInformationComponent implements OnInit{
     //Internal IDs
     @Input() samples: string[] = [];
     //pheno file
     @Input() pheno: any[] = [];
+    @Input() unconsentedAccess: boolean = false;
     permission: string = 'iccon/pheno'
     clinicalFields: ClinicalFields[] = [
+        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
         new ClinicalFields('Sex', 'sex', 'Sex', 'pie'),
         new ClinicalFields('Case', 'case', 'Case', 'row', true, true, (dimension, filters) => {
             dimension.filter(null);   
@@ -28,12 +30,17 @@ export class IcconInformationComponent {
         },
         325,
         200),
-        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
         new ClinicalFields('Test type', 'type', 'Test type', 'pie', false),
     ];
     phenoService: string = 'getIccon'
 
     constructor() {
     }
+
+    ngOnInit(){
+        if(!this.unconsentedAccess){
+            this.clinicalFields = this.clinicalFields.filter(c => c.fieldName !== 'Consent for future research')
+        }
+  }
 
 }

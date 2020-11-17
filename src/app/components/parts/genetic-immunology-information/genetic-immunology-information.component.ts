@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ClinicalFields } from '../../../model/clinical-fields';
 
 @Component({
@@ -6,11 +6,12 @@ import { ClinicalFields } from '../../../model/clinical-fields';
     templateUrl: './genetic-immunology-information.component.html',
     styleUrls: ['./genetic-immunology-information.component.css']
 })
-export class GeneticImmunologyInformationComponent {
+export class GeneticImmunologyInformationComponent implements OnInit{
     //Internal IDs
     @Input() samples: string[] = [];
     //pheno file
     @Input() pheno: any[] = [];
+    @Input() unconsentedAccess: boolean = false;
     permission: string = 'gi/pheno'
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('sex', 'sex', 'Sex', 'pie'),
@@ -21,5 +22,11 @@ export class GeneticImmunologyInformationComponent {
 
     constructor() {
     }
+
+    ngOnInit(){
+        if(!this.unconsentedAccess){
+            this.clinicalFields = this.clinicalFields.filter(c => c.fieldName !== 'Consent for future research')
+        }
+  }
 
 }

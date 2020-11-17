@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ClinicalFields } from '../../../model/clinical-fields';
 import * as _ from 'lodash/array';
 
@@ -7,11 +7,12 @@ import * as _ from 'lodash/array';
   templateUrl: './brain-malformations-information.component.html',
   styleUrls: ['./brain-malformations-information.component.css']
 })
-export class BrainMalformationsInformationComponent {
+export class BrainMalformationsInformationComponent implements OnInit {
   //Internal IDs
   @Input() samples: string[] = [];
   //pheno file
   @Input() pheno: any[] = [];
+  @Input() unconsentedAccess: boolean = false;
   permission: string = 'bm/pheno'
 
   multiValueFilter = (dimension, filters) => {
@@ -27,9 +28,9 @@ export class BrainMalformationsInformationComponent {
 }
 
   clinicalFields: ClinicalFields[] = [
+      new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
       new ClinicalFields('Sex of patient:', 'sex', 'Sex', 'pie'),
       new ClinicalFields('Diagnosis status', 'diagnosisStatus', 'Diagnosis status', 'pie'),
-      new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie', false),
       new ClinicalFields('Test type', 'type', 'Test type', 'pie', false),
       new ClinicalFields('Seizure type', 'seizureType', 'Seizure type', 'row', true, true, this.multiValueFilter),
       new ClinicalFields('Conditions', 'conditions', 'Conditions', 'row', true, true, this.multiValueFilter),
@@ -40,6 +41,12 @@ export class BrainMalformationsInformationComponent {
   phenoService: string = 'getBrainMalformations'
 
   constructor() {
+  }
+
+  ngOnInit(){
+        if(!this.unconsentedAccess){
+            this.clinicalFields = this.clinicalFields.filter(c => c.fieldName !== 'Consent for future research')
+        }
   }
 
 }
