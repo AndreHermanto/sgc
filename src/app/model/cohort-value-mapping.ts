@@ -47,3 +47,8 @@ export const COHORT_FAMILY_WITH_PHENO = {
     Demo: true,
     MGRB: true
 }
+
+export const COHORT_PERMISSION_UNCONSENTED_SAMPLES = {
+    Demo: '',
+    MGRB: 'mgrb/unconsented',
+}

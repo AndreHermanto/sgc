@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ClinicalFields } from '../../../model/clinical-fields';
 import * as _ from 'lodash/array';
 
@@ -7,11 +7,12 @@ import * as _ from 'lodash/array';
     templateUrl: './mgrb-information.component.html',
     styleUrls: ['./mgrb-information.component.css']
 })
-export class MgrbInformationComponent{
+export class MgrbInformationComponent implements OnInit{
     //Internal IDs
     @Input() samples: string[] = [];
     //pheno file
     @Input() pheno: any[] = [];
+    @Input() unconsentedAccess: boolean = false;
     clinicalFields: ClinicalFields[] = [
         new ClinicalFields('sex', 'sex', 'Sex', 'pie'),
         new ClinicalFields('cohort', 'cohort', 'Cohort', 'pie', false),
@@ -32,5 +33,11 @@ export class MgrbInformationComponent{
 
     constructor() {
     }
+
+    ngOnInit(){
+        if(!this.unconsentedAccess){
+            this.clinicalFields = this.clinicalFields.filter(c => c.fieldName !== 'Consent for future research')
+        }
+  }
 
 }

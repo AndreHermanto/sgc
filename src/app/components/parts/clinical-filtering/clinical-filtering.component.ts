@@ -17,7 +17,7 @@ import { ClinicalFilteringService } from '../../../services/clinical-filtering.s
 import { Auth } from '../../../services/auth-service';
 import { ClinapiService } from '../../../services/clinapi.service';
 import { VecticAnalyticsService } from '../../../services/analytics-service';
-import {COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PHENO_GET_MAPPING, COHORT_FAMILY_WITH_PHENO} from '../../../model/cohort-value-mapping';
+import {COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PHENO_GET_MAPPING, COHORT_FAMILY_WITH_PHENO, COHORT_PERMISSION_UNCONSENTED_SAMPLES} from '../../../model/cohort-value-mapping';
 import { of, Observable, forkJoin } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import * as _ from 'lodash/array';
@@ -45,6 +45,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
     mappingSamples = [];
     mappingSamplesOnlyToAvailableFamily = [];
     searchQueries : SearchQueries;
+    unconsentedAccess = false;
 
 
     constructor(public searchService: VariantSearchService,
@@ -86,6 +87,12 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                     permitted = false;
                 }
 
+                if(permissions.includes(COHORT_PERMISSION_UNCONSENTED_SAMPLES[this.selectedCohort]) || COHORT_PERMISSION_UNCONSENTED_SAMPLES[this.selectedCohort] === ''){
+                    this.unconsentedAccess = true;
+                }else{
+                    this.unconsentedAccess = false;
+                }
+
                 let regionsWithGenes = forkJoin(regions.map(region => {
                     if(region.genes.length === 0){
                         return this.rs.getGenesInRegion(region).pipe(map(genes => new Region(region.chromosome, region.start, region.end, genes.map(gene => {
@@ -106,6 +113,12 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
 
                     this.cs[COHORT_PHENO_GET_MAPPING[this.selectedCohort]](false,permitted).subscribe(pheno => {
                         this.pheno = pheno;
+
+                        if(this.pheno[0]['Consent for future research']){
+                            if(this.unconsentedAccess === false){
+                                this.pheno = this.pheno.filter(samples => samples['Consent for future research'].trim().toLowerCase() === 'yes')
+                            }
+                        }
 
                         let familyIDsCount = {}
                         if(COHORT_FAMILY_WITH_PHENO[this.selectedCohort]){
