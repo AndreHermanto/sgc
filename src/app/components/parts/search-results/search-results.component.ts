@@ -54,18 +54,12 @@ export class SearchResultsComponent implements OnInit, OnDestroy, AfterViewInit 
                 this.variantsSummary = v.variants;
 
                 if(this.selectedCohort !== 'Demo'){
-                    if(!this.searchBarService.isRegion(this.searchBarService.query)){
-                        this.vas.addSearchQueries(this.searchBarService.query,'', '', this.selectedCohort, 'summary').subscribe((res) => {
-                            return res;
-                        })
-                    }else{
-                        this.vas.addSearchQueries('','', '', this.selectedCohort, 'summary').subscribe((res) => {
-                            return res;
-                        })
-                    }
+                    this.vas.addSearchQueries(this.searchBarService.query,'', '', this.selectedCohort, 'summary').subscribe((res) => {
+                        return res;
+                    })
 
                     this.auth.userProfile.subscribe(user => {
-                        this.vas.addUserQuery(user.email, this.selectedCohort).subscribe((res) => {
+                        this.vas.addUserQuery(user.email, this.selectedCohort, 'summary').subscribe((res) => {
                             return res;
                         })
                     })
