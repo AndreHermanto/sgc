@@ -247,7 +247,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                     })
                 }
                 this.auth.userProfile.subscribe(user => {
-                    this.vas.addUserQuery(user.email, this.selectedCohort).subscribe((res) => {
+                    this.vas.addUserQuery(user.email, this.selectedCohort, 'clinical').subscribe((res) => {
                         return res;
                     })
                 })

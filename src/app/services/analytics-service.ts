@@ -23,7 +23,6 @@ export class VecticAnalyticsService {
             gene: gene,
             panel_source: panel_source,
             panel: panel,
-            platform: PLATFORM,
             cohort: cohort,
             data_access: data_access
         }
@@ -39,7 +38,7 @@ export class VecticAnalyticsService {
 
     }
 
-    addUserQuery(email, cohort): Observable<any>{
+    addUserQuery(email, cohort, data_access): Observable<any>{
         const headers = new HttpHeaders()
         .append('Content-Type', 'application/json')
         .append('Accept', '*/*')
@@ -47,7 +46,7 @@ export class VecticAnalyticsService {
         const body = {
             email: email,
             cohort: cohort,
-            platform: PLATFORM
+            data_access: data_access
         }
 
         return this.http.post(`${environment.vectisAnalyticsUrl}/user-query`, body,{headers: headers}).pipe(
@@ -62,7 +61,7 @@ export class VecticAnalyticsService {
 
     }
 
-    addUserLogin(email): Observable<any>{
+    addUserLogin(email, signup, geoLng, geoLat): Observable<any>{
         const headers = new HttpHeaders()
         .append('Content-Type', 'application/json')
         .append('Accept', '*/*')
@@ -70,7 +69,10 @@ export class VecticAnalyticsService {
 
         const body = {
             email: email,
-            platform: PLATFORM
+            platform: PLATFORM,
+            signup: signup,
+            geoLng: geoLng,
+            geoLat: geoLat
         }
 
         return this.http.post(`${environment.vectisAnalyticsUrl}/user-login`, body,{headers: headers}).pipe(
