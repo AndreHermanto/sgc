@@ -231,25 +231,27 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
         return this.searchService.getVariants(this.searchQueries, this.mappingSamples.join(), false, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput, this.searchBarService.conj)
         .then(() => {
             if(this.selectedCohort !== 'Demo'){
-                if(this.searchBarService.query){
-                    const terms = this.searchBarService.query.split(',');
-                    terms.forEach(t => {
-                        if(!this.searchBarService.isRegion(t)){
-                            this.vas.addSearchQueries(t,'', '', this.selectedCohort, 'clinical').subscribe((res) => {
-                                return res;
-                            })
-                        }
-                    })
-                }
-                if(this.searchBarService.panel && this.searchBarService.panelGroup){
-                    this.vas.addSearchQueries('', this.searchBarService.panelGroup, this.searchBarService.panel, this.selectedCohort, 'clinical').subscribe((res) => {
-                        return res;
-                    })
-                }
                 this.auth.userProfile.subscribe(user => {
                     this.vas.addUserQuery(user.email, this.selectedCohort, 'clinical').subscribe((res) => {
                         return res;
                     })
+
+                    if(this.searchBarService.query){
+                        const terms = this.searchBarService.query.split(',');
+                        terms.forEach(t => {
+                            if(!this.searchBarService.isRegion(t)){
+                                this.vas.addSearchQueries(t,'', '', this.selectedCohort, 'clinical', user.email).subscribe((res) => {
+                                    return res;
+                                })
+                            }
+                        })
+                    }
+                    if(this.searchBarService.panel && this.searchBarService.panelGroup){
+                        this.vas.addSearchQueries('', this.searchBarService.panelGroup, this.searchBarService.panel, this.selectedCohort, 'clinical', user.email).subscribe((res) => {
+                            return res;
+                        })
+                    }
+
                 })
             }
         
