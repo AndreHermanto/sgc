@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { of, Observable, forkJoin } from "rxjs";
 import {map, catchError} from 'rxjs/operators';
+import { ignoredEmails } from '../shared/ignoredMail';
 
 const PLATFORM = "CIRCA";
 
@@ -13,7 +14,7 @@ export class VecticAnalyticsService {
     ) {
     }
 
-    addSearchQueries(gene, panel, panel_source, cohort, data_access): Observable<any>{
+    addSearchQueries(gene, panel, panel_source, cohort, data_access, email): Observable<any>{
         const headers = new HttpHeaders()
         .append('Content-Type', 'application/json')
         .append('Accept', '*/*')
@@ -25,6 +26,9 @@ export class VecticAnalyticsService {
             panel: panel,
             cohort: cohort,
             data_access: data_access
+        }
+        if(ignoredEmails.includes(email)){
+            return of({});
         }
         return this.http.post(`${environment.vectisAnalyticsUrl}/search-query`, body,{headers: headers}).pipe(
             map(response => {
@@ -47,6 +51,9 @@ export class VecticAnalyticsService {
             email: email,
             cohort: cohort,
             data_access: data_access
+        }
+        if(ignoredEmails.includes(email)){
+            return of({});
         }
 
         return this.http.post(`${environment.vectisAnalyticsUrl}/user-query`, body,{headers: headers}).pipe(
@@ -73,6 +80,9 @@ export class VecticAnalyticsService {
             signup: signup,
             geoLng: geoLng,
             geoLat: geoLat
+        }
+        if(ignoredEmails.includes(email)){
+            return of({});
         }
 
         return this.http.post(`${environment.vectisAnalyticsUrl}/user-login`, body,{headers: headers}).pipe(
