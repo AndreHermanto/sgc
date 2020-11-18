@@ -188,7 +188,11 @@ export class Auth {
             
             this.userProfile.subscribe(user=>{
                 if(user){
-                    this.vas.addUserLogin(user.email).subscribe(res => res);
+                    let signupFlag = true;
+                    if(user.logins_count > 1){
+                        signupFlag = false;
+                    }
+                    this.vas.addUserLogin(user.email, signupFlag, user.user_metadata.geoip.longitude, user.user_metadata.geoip.latitude).subscribe(res => res);
                 }
             })
         }
