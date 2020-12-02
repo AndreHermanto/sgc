@@ -15,6 +15,7 @@
                 <div class="dropdown-item" (click)="goToAboutVA($event)">Vectis</div>
             </div>
         </a>
+        <a *ngIf="auth.authenticated() && auth.hasAnalyticsAccess()" routerLink="/analytics" routerLinkActive="is-active">Cohort Use</a>
         <a *ngIf="!auth.authenticated()" class="sign-up">
             <a (click)="auth.login()">Log in</a>
             <div class="spacer">|</div>

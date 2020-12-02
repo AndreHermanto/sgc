@@ -220,6 +220,14 @@ export class Auth {
         return permitted;
     }
 
+    public hasAnalyticsAccess(): boolean{
+        let permitted = false;
+        if(localStorage.getItem('userPermissions') && localStorage.getItem('userPermissions').includes('admin-stats')){
+            permitted = true;
+        }
+        return permitted;
+    }
+
     clearLocalStorage() {
         localStorage.removeItem(expiredAtKey);
         localStorage.removeItem(uidKey);
