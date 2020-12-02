@@ -59,9 +59,11 @@ export class SearchResultsComponent implements OnInit, OnDestroy, AfterViewInit 
                             return res;
                         })
 
-                        this.vas.addSearchQueries(this.searchBarService.query,'', '', this.selectedCohort, 'summary', user.email).subscribe((res) => {
-                            return res;
-                        })
+                        if(!this.searchBarService.isRegion(this.searchBarService.query) && !this.searchBarService.isCoord(this.searchBarService.query)){
+                            this.vas.addSearchQueries(this.searchBarService.query,'', '', this.selectedCohort, 'summary', user.email).subscribe((res) => {
+                                return res;
+                            })
+                        }
                     })
                 }
                 this.cd.detectChanges();
