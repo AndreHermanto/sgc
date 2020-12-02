@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, NgModule, Chan
 import { VecticAnalyticsService } from '../../../services/analytics-service';
 import { Subscription } from 'rxjs/Subscription';
 import { FilterType } from 'angular-google-charts';
-import { Subject, forkJoin, of } from 'rxjs';
+import { Subject, forkJoin, of, BehaviorSubject } from 'rxjs';
 import { Draggable, GridsterConfig, GridsterItem, PushDirections, Resizable} from 'angular-gridster2';
 import {GRIDSTER_CONFIG} from '../../../shared/gridsterConfig';
 import { ResizedEvent } from 'angular-resize-event';
 import {Auth} from '../../../services/auth-service';
 import { start } from 'repl';
+import { mergeMap, take } from '../../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'app-analytics',
@@ -56,6 +57,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     legend: 'none',
     colors: this.colorsPalette
   };
+  loginCount = 0;
   loginChartData=[];
   loginChartCols=[];
   loginChartOptions={
@@ -114,7 +116,15 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   };
   startDate: any = null;
   endDate: any = null;
-  dateFilter = new Subject<any>();
+  dateFilter = new BehaviorSubject<any>({
+    start: '2020-06-20',
+    end: this.formatDate(new Date())
+  });
+  loginLimit = new BehaviorSubject<number>(10);
+  selectedTopLogin = 10;
+  cohortsList = ['Circa']
+  cohortsFilter = new BehaviorSubject<string[]>([]);
+  cohortsFilterArr = [];
 
   allCharts = [
     {
@@ -133,7 +143,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       visible: true,
       cols: 4,
       rows: 2,
-      x:8,
+      x:0,
       y:0
     },
     {
@@ -143,16 +153,16 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       cols: 8,
       rows: 5,
       x:0,
-      y:3
+      y:0
     },
     {
       id:'topLogin',
-      label: 'Top 10 users logins',
+      label: 'Top users logins',
       visible: true,
       cols: 4,
       rows: 3,
-      x:8,
-      y:2
+      x:0,
+      y:0
     },
     {
       id:'emailDomain',
@@ -160,8 +170,8 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       visible: true,
       cols: 4,
       rows: 5,
-      x:8,
-      y:5
+      x:0,
+      y:0
     },
     {
       id:'cohortSearch',
@@ -170,7 +180,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       cols: 5,
       rows: 5,
       x:0,
-      y:8
+      y:0
     },
     {
       id:'dataAccess',
@@ -178,8 +188,8 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       visible: true,
       cols: 3,
       rows: 5,
-      x:5,
-      y:8
+      x:0,
+      y:0
     },
     {
       id:'top10Queries',
@@ -187,8 +197,8 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       visible: true,
       cols: 4,
       rows: 3,
-      x:8,
-      y:10
+      x:0,
+      y:0
     },
     {
       id:'topPanel',
@@ -197,7 +207,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       cols: 4,
       rows: 3,
       x:0,
-      y:12
+      y:0
     },
     {
       id:'aghaPanel',
@@ -205,8 +215,8 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       visible: true,
       cols: 4,
       rows: 3,
-      x:4,
-      y:12
+      x:0,
+      y:0
     },
     {
       id:'genomicEnglandPanel',
@@ -214,8 +224,8 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       visible: true,
       cols: 4,
       rows: 3,
-      x:8,
-      y:12
+      x:0,
+      y:0
     },
     {
       id:'panelAppPanel',
@@ -224,7 +234,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       cols: 4,
       rows: 3,
       x:0,
-      y:15
+      y:0
     }
   ];
 
@@ -251,73 +261,135 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     this.options = GRIDSTER_CONFIG;
     //End
 
-    this.subscriptions.push(this.dateFilter.subscribe(date => {
+    this.dateFilter.subscribe(date => {
+      this.subscriptions.forEach((s => s.unsubscribe()));
       if(date){
-        this.vas.getCohortSearch(date.start,date.end).subscribe((e) => {
-          this.cohortSearchData = this.convertToChartFormat(e);
-          this.cohortSearchCols = this.convertToChartColumn(e);
-        });
-        this.vas.getDomainLogin(date.start,date.end).subscribe((e) => {
+        this.subscriptions.push(this.vas.getDomainLogin(date.start,date.end).subscribe((e) => {
           this.emailDomainData = this.convertToChartFormat(e);
           this.emailDomainCols = this.convertToChartColumn(e);
-        });
-        this.vas.getLoginLocation(date.start,date.end).subscribe((e) => {
+        }));
+        this.subscriptions.push(this.vas.getLoginLocation(date.start,date.end).subscribe((e) => {
           this.loginAreaData = this.convertToChartFormat(e);
           this.loginAreaCols = this.convertToChartColumn(e);
-        });
+        }));
+
+        this.subscriptions.push(this.loginLimit.subscribe(limit => {
+          this.vas.getTopLogin(date.start,date.end, limit).subscribe((e) => {
+            this.topLoginData = this.convertToChartFormat(e);
+            this.topLoginCols = this.convertToChartColumn(e);
+          });
+        }))
+
+        this.subscriptions.push(this.vas.getLoginCount(date.start, date.end).subscribe((e) => {
+          this.loginCount = e[0].count;
+        }));
     
-        this.vas.getTopLogin(date.start,date.end).subscribe((e) => {
-          this.topLoginData = this.convertToChartFormat(e);
-          this.topLoginCols = this.convertToChartColumn(e);
-        });
-    
-        this.vas.getDailyLogin(date.start,date.end).subscribe((e) => {
+        this.subscriptions.push(this.vas.getDailyLogin(date.start,date.end).subscribe((e) => {
           let temp = this.convertToChartFormat(e);
           this.loginChartData = temp.map(e => {
             e[0] = new Date(e[0])
             return e;
           })
           this.loginChartCols = this.convertToChartColumn(e);
-        });
-    
-        this.vas.getPanelData(date.start,date.end).subscribe((e) => {
-          this.topPanelData = this.convertToChartFormat(e);
-          this.topPanelData = this.topPanelData.map(e => {
-            if(e[0] === 'agha'){
-              e[0] = 'Australian Genomics Genes List'
-            }else if(e[0] === 'genomicEngland'){
-              e[0] = 'Genomics England Panel'
-            }else if(e[0] === 'panelApp'){
-              e[0] = 'Australian Genomics Panel'
-            }
-            return e;
-          })
-          this.topPanelCols = this.convertToChartColumn(e);
-        });
-        this.vas.getGeneCount(date.start,date.end).subscribe((e) => {
-          this.top10QueriesData = this.convertToChartFormat(e);
-          this.top10QueriesCols = this.convertToChartColumn(e);
-        });
-        this.vas.getQueryType(date.start,date.end).subscribe((e) => {
-          this.dataAccessData = this.convertToChartFormat(e);
-          this.dataAccessCols = this.convertToChartColumn(e);
-        });
-        this.vas.getSinglePanel('agha',date.start,date.end).subscribe((e) => {
-          this.aghaPanelData = this.convertToChartFormat(e);
-          this.aghaPanelCols = this.convertToChartColumn(e);
-        });
-        this.vas.getSinglePanel('genomicEngland',date.start,date.end).subscribe((e) => {
-          this.genomicEnglandPanelData = this.convertToChartFormat(e);
-          this.genomicEnglandPanelCols = this.convertToChartColumn(e);
-        });
-        this.vas.getSinglePanel('panelApp',date.start,date.end).subscribe((e) => {
-          this.panelAppPanelData = this.convertToChartFormat(e);
-          this.panelAppPanelCols = this.convertToChartColumn(e);
-        });
+        }));
+        this.subscriptions.push(this.cohortsFilter.subscribe(cohorts => {
+          this.cohortsFilterArr = cohorts;
+          if(cohorts.length === 0){
+            this.vas.getPanelData(date.start,date.end).subscribe((e) => {
+              this.topPanelData = this.convertToChartFormat(e);
+              this.topPanelData = this.topPanelData.map(e => {
+                if(e[0] === 'agha'){
+                  e[0] = 'Australian Genomics Genes List'
+                }else if(e[0] === 'genomicEngland'){
+                  e[0] = 'Genomics England Panel'
+                }else if(e[0] === 'panelApp'){
+                  e[0] = 'Australian Genomics Panel'
+                }
+                return e;
+              })
+              this.topPanelCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getGeneCount(date.start,date.end).subscribe((e) => {
+              this.top10QueriesData = this.convertToChartFormat(e);
+              this.top10QueriesCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getQueryType(date.start,date.end).subscribe((e) => {
+              this.dataAccessData = this.convertToChartFormat(e);
+              this.dataAccessCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getSinglePanel('agha',date.start,date.end).subscribe((e) => {
+              this.aghaPanelData = this.convertToChartFormat(e);
+              this.aghaPanelCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getSinglePanel('genomicEngland',date.start,date.end).subscribe((e) => {
+              this.genomicEnglandPanelData = this.convertToChartFormat(e);
+              this.genomicEnglandPanelCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getSinglePanel('panelApp',date.start,date.end).subscribe((e) => {
+              this.panelAppPanelData = this.convertToChartFormat(e);
+              this.panelAppPanelCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getCohortSearch(date.start,date.end).subscribe((e) => {
+              this.cohortSearchData = this.convertToChartFormat(e);
+              this.cohortSearchCols = this.convertToChartColumn(e);
+            })
+          }else{
+            this.vas.getPanelData(date.start,date.end,cohorts.join(',')).subscribe((e) => {
+              this.topPanelData = this.convertToChartFormat(e);
+              this.topPanelData = this.topPanelData.map(e => {
+                if(e[0] === 'agha'){
+                  e[0] = 'Australian Genomics Genes List'
+                }else if(e[0] === 'genomicEngland'){
+                  e[0] = 'Genomics England Panel'
+                }else if(e[0] === 'panelApp'){
+                  e[0] = 'Australian Genomics Panel'
+                }
+                return e;
+              })
+              this.topPanelCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getGeneCount(date.start,date.end,cohorts.join(',')).subscribe((e) => {
+              this.top10QueriesData = this.convertToChartFormat(e);
+              this.top10QueriesCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getQueryType(date.start,date.end, cohorts.join(',')).subscribe((e) => {
+              this.dataAccessData = this.convertToChartFormat(e);
+              this.dataAccessCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getSinglePanel('agha',date.start,date.end, cohorts.join(',')).subscribe((e) => {
+              this.aghaPanelData = this.convertToChartFormat(e);
+              this.aghaPanelCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getSinglePanel('genomicEngland',date.start,date.end, cohorts.join(',')).subscribe((e) => {
+              this.genomicEnglandPanelData = this.convertToChartFormat(e);
+              this.genomicEnglandPanelCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getSinglePanel('panelApp',date.start,date.end, cohorts.join(',')).subscribe((e) => {
+              this.panelAppPanelData = this.convertToChartFormat(e);
+              this.panelAppPanelCols = this.convertToChartColumn(e);
+            });
+
+            this.vas.getCohortSearch(date.start,date.end, cohorts.join(',')).subscribe((e) => {
+              this.cohortSearchData = this.convertToChartFormat(e);
+              this.cohortSearchCols = this.convertToChartColumn(e);
+            })
+          }
+        }))
 
         let queries = this.splitDatesIntoYearlyQueries(date.start,date.end).map(q=> this.vas.getMonthlyLogin(q[0],q[1],q[2]))
 
-        forkJoin(queries).subscribe(data => {
+        this.subscriptions.push(forkJoin(queries).subscribe(data => {
           if(data[0].length>0){
             let yearlyChart = data.map(yearlyData=> {
               let data = this.convertToChartFormat(yearlyData);
@@ -352,16 +424,13 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
             this.monthlyLoginData = [];
             this.monthlyLoginCols = [];
           }
-        })
+        }));
+    
       }
-    }));
+    });
   }
 
   ngAfterViewInit(): void {
-    this.dateFilter.next({
-      start: '2020-06-20',
-      end: this.formatDate(new Date())
-    })
   }
 
   splitDatesIntoYearlyQueries(start,end){
@@ -419,7 +488,6 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     if(this.startDate && this.endDate && new Date(this.startDate)<new Date(this.endDate)){    
       let sqlFormatDateStart = this.formatDate(startDate);
       let sqlFormatDateEnd = this.formatDate(endDate);
-      
       this.dateFilter.next({
         start: sqlFormatDateStart,
         end: sqlFormatDateEnd
@@ -448,7 +516,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
         this.visibleDelayed[chart.id] = true; 
         this.cd.detectChanges();
       }
-      , 100)
+      , 200)
     }else{
       this.removeItem(chart.id);
       this.visibleDelayed[chart.id] = false;
@@ -491,9 +559,35 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     return item.id;
   }
 
+  resetGrid(e){
+    this.allCharts.forEach(c => {
+      this.removeItem(c.id);
+      c.visible = false;
+      this.visibleDelayed[c.id] = false;
+      this.cd.detectChanges();
+    })
+    this.allCharts.forEach(c => {
+      this.addItem(c.cols, c.rows, c.id, c.label, c.resizeEnabled);
+      c.visible = true;
+      setTimeout(() => {
+        this.visibleDelayed[c.id] = true; 
+        this.cd.detectChanges();
+      }
+      , 200)
+    })
+  }
+
   onResized(event: ResizedEvent, id, data) {
     if(event.element.nativeElement.id === id){
       this[data] = Object.assign([], this[data]);
     }
+  }
+
+  onTopLoginChange(e){
+    this.loginLimit.next(e);
+  }
+
+  onSelectionCohorts(e){
+    this.cohortsFilter.next(e);
   }
 }
