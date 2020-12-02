@@ -119,7 +119,7 @@ export class VecticAnalyticsService {
             );
     }
 
-    getTopLogin(start,end): Observable<any>{
+    getTopLogin(start,end, limit): Observable<any>{
         const headers = new HttpHeaders()
         .append('Content-Type', 'application/json')
         .append('Accept', '*/*')
@@ -128,6 +128,7 @@ export class VecticAnalyticsService {
         const body = {
             start: start,
             end: end,
+            limit: limit,
             platform: PLATFORM,
         }
 
@@ -165,7 +166,7 @@ export class VecticAnalyticsService {
             );
     }
 
-    getSinglePanel(panel,start,end): Observable<any>{
+    getSinglePanel(panel,start,end, cohorts = null, cohortsFilterOpt = null): Observable<any>{
         const headers = new HttpHeaders()
         .append('Content-Type', 'application/json')
         .append('Accept', '*/*')
@@ -175,7 +176,14 @@ export class VecticAnalyticsService {
             start: start,
             end: end,
             platform: PLATFORM,
-            panel: panel
+            panel: panel,
+        }
+
+        if(cohorts){
+            body['cohorts'] = cohorts;
+        }
+        if(cohortsFilterOpt){
+            body['cohortsOpt']= cohortsFilterOpt;
         }
 
         return this.http.post(`${environment.vectisAnalyticsUrl}/single-panel`, body,{headers: headers}).pipe(
@@ -189,7 +197,7 @@ export class VecticAnalyticsService {
             );
     }
 
-    getPanelData(start,end): Observable<any>{
+    getPanelData(start,end, cohorts = null, cohortsFilterOpt = null): Observable<any>{
         const headers = new HttpHeaders()
         .append('Content-Type', 'application/json')
         .append('Accept', '*/*')
@@ -199,6 +207,13 @@ export class VecticAnalyticsService {
             start: start,
             end: end,
             platform: PLATFORM
+        }
+
+        if(cohorts){
+            body['cohorts'] = cohorts;
+        }
+        if(cohortsFilterOpt){
+            body['cohortsOpt']= cohortsFilterOpt;
         }
 
         return this.http.post(`${environment.vectisAnalyticsUrl}/panel-data`, body,{headers: headers}).pipe(
@@ -212,7 +227,7 @@ export class VecticAnalyticsService {
             );
     }
 
-    getQueryType(start,end): Observable<any>{
+    getQueryType(start,end, cohorts = null, cohortsFilterOpt = null): Observable<any>{
         const headers = new HttpHeaders()
         .append('Content-Type', 'application/json')
         .append('Accept', '*/*')
@@ -222,6 +237,12 @@ export class VecticAnalyticsService {
             start: start,
             end: end,
             platform: PLATFORM
+        }
+        if(cohorts){
+            body['cohorts'] = cohorts;
+        }
+        if(cohortsFilterOpt){
+            body['cohortsOpt']= cohortsFilterOpt;
         }
 
         return this.http.post(`${environment.vectisAnalyticsUrl}/query-type`, body,{headers: headers}).pipe(
@@ -235,7 +256,7 @@ export class VecticAnalyticsService {
             );
     }
 
-    getGeneCount(start,end): Observable<any>{
+    getGeneCount(start,end, cohorts = null, cohortsFilterOpt = null): Observable<any>{
         const headers = new HttpHeaders()
         .append('Content-Type', 'application/json')
         .append('Accept', '*/*')
@@ -244,7 +265,14 @@ export class VecticAnalyticsService {
         const body = {
             start: start,
             end: end,
+            limit: 10,
             platform: PLATFORM
+        }
+        if(cohorts){
+            body['cohorts'] = cohorts;
+        }
+        if(cohortsFilterOpt){
+            body['cohortsOpt']= cohortsFilterOpt;
         }
 
         return this.http.post(`${environment.vectisAnalyticsUrl}/gene-count`, body,{headers: headers}).pipe(
@@ -304,7 +332,7 @@ export class VecticAnalyticsService {
             );
     }
 
-    getCohortSearch(start,end): Observable<any>{
+    getCohortSearch(start,end, cohorts = null, cohortsFilterOpt = null): Observable<any>{
         const headers = new HttpHeaders()
         .append('Content-Type', 'application/json')
         .append('Accept', '*/*')
@@ -314,6 +342,13 @@ export class VecticAnalyticsService {
             start: start,
             end: end,
             platform: PLATFORM
+        }
+
+        if(cohorts){
+            body['cohorts'] = cohorts;
+        }
+        if(cohortsFilterOpt){
+            body['cohortsOpt']= cohortsFilterOpt;
         }
 
         return this.http.post(`${environment.vectisAnalyticsUrl}/cohort-queries`, body,{headers: headers}).pipe(
@@ -341,6 +376,29 @@ export class VecticAnalyticsService {
         }
 
         return this.http.post(`${environment.vectisAnalyticsUrl}/monthly-login`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getLoginCount(start,end): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            platform: PLATFORM
+        } 
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/count-login`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),

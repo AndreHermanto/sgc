@@ -1,6 +1,7 @@
 import { GridType, DisplayGrid, GridsterConfig } from 'angular-gridster2';
 
 export const GRIDSTER_CONFIG: GridsterConfig = {
+    compactType: 'compactUp',
     gridType: GridType.ScrollVertical,
     margin: 10,
     outerMargin: true,

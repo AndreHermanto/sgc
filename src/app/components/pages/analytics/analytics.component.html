@@ -21,6 +21,9 @@
               <div class="button-container">
                   <button mat-stroked-button color="primary" class="button" (click)="resetDate()">Reset date</button>
               </div>
+              <div class="button-container">
+                <button mat-stroked-button color="primary" class="button" (click)="resetGrid()">Reset grid</button>
+              </div>
               <div>
                 <span>
                     <ul style="list-style-type: 'none'; padding: 0">
@@ -33,6 +36,7 @@
                     </ul>
                   </span>
               </div>
+              <app-multiselect-chips [selectionsList]="cohortsList" label="Cohorts" (onSelectionChange)="onSelectionCohorts($event)"></app-multiselect-chips>
           </mat-sidenav>
           <div class="content">
               <gridster [options]="options" style="background-color:#edf1f7">
@@ -41,44 +45,63 @@
                     <mat-icon (mousedown)="closeChart(item.id)" style="float: right;font-size: 18px;cursor: pointer;"
                       (touchstart)="closeChart(item.id)">clear</mat-icon>
                       <div *ngIf="item.id === 'loginChart' && loginChartData.length > 0" class="fill-height">
-                          <google-chart *ngIf="visibleDelayed[item.id]" [type]="'Calendar'" [columns]='loginChartCols' [data]='loginChartData' [options]="loginChartOptions"></google-chart>
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*All cohorts</div>  
+                        <google-chart *ngIf="visibleDelayed[item.id]" [type]="'Calendar'" [columns]='loginChartCols' [data]='loginChartData' [options]="loginChartOptions"></google-chart>
                       </div>
                       <div *ngIf="item.id === 'topLogin' && topLoginData.length > 0" class="fill-height" id="topLogin" (resized)="onResized($event, 'topLogin', 'topLoginData')">
-                          <google-chart *ngIf="visibleDelayed[item.id]" [type]="'BarChart'" [columns]='topLoginCols' [data]='topLoginData' [options]="topLoginOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
+                            <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*All cohorts</div>
+                            <mat-form-field style="margin:5px;">
+                                <mat-label>Select an option</mat-label>
+                                <mat-select [(ngModel)]="selectedTopLogin" (ngModelChange)="onTopLoginChange($event)">
+                                    <mat-option [value]="10">10</mat-option>
+                                    <mat-option [value]="20">20</mat-option>
+                                    <mat-option [value]="30">30</mat-option>
+                                    <mat-option [value]="null">All</mat-option>
+                                </mat-select>  
+                            </mat-form-field>
+                            <div style="margin: 0 5px;font-size: 11px;">{{selectedTopLogin ? selectedTopLogin : loginCount}} out of {{loginCount}} users logins</div>
+                            <google-chart *ngIf="visibleDelayed[item.id]" [type]="'BarChart'" [columns]='topLoginCols' [data]='topLoginData' [options]="topLoginOptions" style="height: 80%;width: 90%;margin: 0px 0 0 30px;" [dynamicResize]="true"></google-chart>
                       </div>
                       <div *ngIf="item.id === 'emailDomain' && emailDomainData.length > 0" class="fill-height" id="emailDomain" (resized)="onResized($event, 'emailDomain', 'emailDomainData')">
-                          <google-chart *ngIf="visibleDelayed[item.id]" [type]="'BarChart'" [columns]='emailDomainCols' [data]='emailDomainData' [options]="emailDomainOptions" style="height: 99%;width: 99%;" [dynamicResize]="true"></google-chart>
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*All cohorts</div>  
+                        <google-chart *ngIf="visibleDelayed[item.id]" [type]="'BarChart'" [columns]='emailDomainCols' [data]='emailDomainData' [options]="emailDomainOptions" style="height: 99%;width: 99%;" [dynamicResize]="true"></google-chart>
                       </div>
                       <div *ngIf="item.id === 'loginArea' && loginAreaData.length > 0" class="fill-height" id="loginArea" (resized)="onResized($event, 'loginArea', 'loginAreaData')">
-                          <google-chart *ngIf="visibleDelayed[item.id]" [type]="'GeoChart'" [columns]='loginAreaCols' [data]='loginAreaData' [options]="loginAreaOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*All cohorts</div>  
+                        <google-chart *ngIf="visibleDelayed[item.id]" [type]="'GeoChart'" [columns]='loginAreaCols' [data]='loginAreaData' [options]="loginAreaOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
                       </div>
                     <div *ngIf="item.id === 'cohortSearch' && cohortSearchData.length > 0" id="cohortSearch" style="margin-top: 10px" class="fill-height" (resized)="onResized($event, 'cohortSearch', 'cohortSearchData')">
-                      <dashboard *ngIf="visibleDelayed[item.id]" [columns]="cohortSearchCols" [data]="cohortSearchData" style="height: 90%;width: 90%;" [dynamicResize]="true">
-                        <control-wrapper [for]="[dashboardChart,dashboardCharts]" [type]="controlFilterType" [options]="controlOptions"></control-wrapper>
-                        <google-chart #dashboardChart type="ColumnChart" style="height: 50%;width: 100%;" [options]="cohortSearchOptions"></google-chart>
-                        <google-chart #dashboardCharts type="PieChart" style="height: 50%;width: 100%;" [options]="cohortSearchOptions"></google-chart>
-                      </dashboard>
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*Selected cohorts only</div>
+                        <google-chart *ngIf="visibleDelayed[item.id] && cohortSearchData.length > 0" [type]="'ColumnChart'" [columns]='cohortSearchCols' [data]='cohortSearchData' [options]="cohortSearchOptions" style="height: 50%;width: 100%;" [dynamicResize]="true"></google-chart>
+                        <google-chart *ngIf="visibleDelayed[item.id] && cohortSearchData.length > 0" [type]="'PieChart'" [columns]='cohortSearchCols' [data]='cohortSearchData' [options]="cohortSearchOptions" style="height: 50%;width: 100%;" [dynamicResize]="true"></google-chart>
                     </div>
-                    <div *ngIf="item.id === 'topPanel' && topPanelData.length > 0" class="fill-height" id="topPanel" (resized)="onResized($event, 'topPanel', 'topPanelData')">
-                        <google-chart *ngIf="visibleDelayed[item.id]" [type]="'ColumnChart'" [columns]='topPanelCols' [data]='topPanelData' [options]="topPanelOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
+                    <div *ngIf="item.id === 'topPanel'" class="fill-height" id="topPanel" (resized)="onResized($event, 'topPanel', 'topPanelData')">
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*Selected cohorts only</div>
+                        <google-chart *ngIf="visibleDelayed[item.id] && topPanelData.length > 0" [type]="'ColumnChart'" [columns]='topPanelCols' [data]='topPanelData' [options]="topPanelOptions" style="height: 80%;width: 90%;" [dynamicResize]="true"></google-chart>
                     </div>
-                    <div *ngIf="item.id === 'top10Queries' && top10QueriesData.length > 0" class="fill-height" id="top10Queries" (resized)="onResized($event, 'top10Queries', 'top10QueriesData')">
-                        <google-chart *ngIf="visibleDelayed[item.id]" [type]="'ColumnChart'" [columns]='top10QueriesCols' [data]='top10QueriesData' [options]="top10QueriesOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
+                    <div *ngIf="item.id === 'top10Queries'" class="fill-height" id="top10Queries" (resized)="onResized($event, 'top10Queries', 'top10QueriesData')">
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*Selected cohorts only</div>
+                        <google-chart *ngIf="visibleDelayed[item.id] && top10QueriesData.length > 0" [type]="'ColumnChart'" [columns]='top10QueriesCols' [data]='top10QueriesData' [options]="top10QueriesOptions" style="height: 80%;width: 90%;" [dynamicResize]="true"></google-chart>
                     </div>
-                    <div *ngIf="item.id === 'dataAccess' && dataAccessData.length > 0" class="fill-height" id="dataAccess" (resized)="onResized($event, 'dataAccess', 'dataAccessData')">
-                        <google-chart *ngIf="visibleDelayed[item.id]" [type]="'PieChart'" [columns]='dataAccessCols' [data]='dataAccessData' [options]="dataAccessOptions" style="height: 99%;width: 99%;" [dynamicResize]="true"></google-chart>
+                    <div *ngIf="item.id === 'dataAccess'" class="fill-height" id="dataAccess" (resized)="onResized($event, 'dataAccess', 'dataAccessData')">
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*Selected cohorts only</div>
+                        <google-chart *ngIf="visibleDelayed[item.id] && dataAccessData.length > 0" [type]="'PieChart'" [columns]='dataAccessCols' [data]='dataAccessData' [options]="dataAccessOptions" style="height: 80%;width: 90%;" [dynamicResize]="true"></google-chart>
                     </div>
-                    <div *ngIf="item.id === 'aghaPanel' && aghaPanelData.length > 0" class="fill-height" id="aghaPanel" (resized)="onResized($event, 'aghaPanel', 'aghaPanelData')">
-                        <google-chart *ngIf="visibleDelayed[item.id]" [type]="'BarChart'" [columns]='aghaPanelCols' [data]='aghaPanelData' [options]="aghaPanelOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
+                    <div *ngIf="item.id === 'aghaPanel'" class="fill-height" id="aghaPanel" (resized)="onResized($event, 'aghaPanel', 'aghaPanelData')">
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*Selected cohorts only</div>
+                        <google-chart *ngIf="visibleDelayed[item.id] && aghaPanelData.length > 0" [type]="'BarChart'" [columns]='aghaPanelCols' [data]='aghaPanelData' [options]="aghaPanelOptions" style="height: 80%;width: 90%;" [dynamicResize]="true"></google-chart>
                     </div>
-                    <div *ngIf="item.id === 'genomicEnglandPanel' && genomicEnglandPanelData.length > 0" class="fill-height" id="genomicEnglandPanel" (resized)="onResized($event, 'genomicEnglandPanel', 'genomicEnglandPanelData')">
-                        <google-chart *ngIf="visibleDelayed[item.id]" [type]="'BarChart'" [columns]='genomicEnglandPanelCols' [data]='genomicEnglandPanelData' [options]="genomicEnglandPanelOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
+                    <div *ngIf="item.id === 'genomicEnglandPanel'" class="fill-height" id="genomicEnglandPanel" (resized)="onResized($event, 'genomicEnglandPanel', 'genomicEnglandPanelData')">
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*Selected cohorts only</div>
+                        <google-chart *ngIf="visibleDelayed[item.id] && genomicEnglandPanelData.length > 0" [type]="'BarChart'" [columns]='genomicEnglandPanelCols' [data]='genomicEnglandPanelData' [options]="genomicEnglandPanelOptions" style="height: 80%;width: 90%;" [dynamicResize]="true"></google-chart>
                     </div>
-                    <div *ngIf="item.id === 'panelAppPanel' && panelAppPanelData.length > 0" class="fill-height" id="panelAppPanel" (resized)="onResized($event, 'panelAppPanel', 'panelAppPanelData')">
-                        <google-chart *ngIf="visibleDelayed[item.id]" [type]="'BarChart'" [columns]='panelAppPanelCols' [data]='panelAppPanelData' [options]="panelAppPanelOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
+                    <div *ngIf="item.id === 'panelAppPanel'" class="fill-height" id="panelAppPanel" (resized)="onResized($event, 'panelAppPanel', 'panelAppPanelData')">
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*Selected cohorts only</div>    
+                        <google-chart *ngIf="visibleDelayed[item.id] && panelAppPanelData.length > 0" [type]="'BarChart'" [columns]='panelAppPanelCols' [data]='panelAppPanelData' [options]="panelAppPanelOptions" style="height: 80%;width: 90%" [dynamicResize]="true"></google-chart>
                     </div>
-                    <div *ngIf="item.id === 'monthlyLogin' && monthlyLoginData.length > 0" class="fill-height" id="monthlyLogin" (resized)="onResized($event, 'monthlyLogin', 'monthlyLoginData')">
-                          <google-chart *ngIf="visibleDelayed[item.id]" [type]="'LineChart'" [columns]='monthlyLoginCols' [data]='monthlyLoginData' [options]="monthlyLoginOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
+                    <div *ngIf="item.id === 'monthlyLogin' && monthlyLoginData.length > 0" class="fill-height" id="monthlyLogin" (resized)="onResized($event, 'monthlyLogin', 'monthlyLoginData')">                          
+                        <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*All cohorts</div>
+                        <google-chart *ngIf="visibleDelayed[item.id]" [type]="'LineChart'" [columns]='monthlyLoginCols' [data]='monthlyLoginData' [options]="monthlyLoginOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
                       </div>
                   </gridster-item>
                 </gridster>
