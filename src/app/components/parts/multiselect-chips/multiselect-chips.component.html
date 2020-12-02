@@ -1,0 +1,33 @@
+<div class="container">
+    <mat-form-field>
+        <mat-label>{{label}}</mat-label>
+        <mat-chip-list #chipList aria-label="selection">
+            <mat-chip
+            *ngFor="let item of selectedList"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(item)">
+            {{item}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+            placeholder="selections"
+            #selectionInput
+            [formControl]="selectionsControl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <ng-container *ngFor="let item of filteredSelections | async">
+                <mat-option *ngIf="!selectedList.includes(item)" [value]="item">
+                    {{item}}
+                </mat-option>
+            </ng-container>
+        </mat-autocomplete>
+    </mat-form-field>
+    <div class="button-container">
+        <button mat-stroked-button color="primary" class="button" (click)="clearCohorts()">Clear cohorts</button>
+    </div>
+</div>

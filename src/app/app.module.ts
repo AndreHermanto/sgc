@@ -127,6 +127,7 @@ import { GridsterModule } from 'angular-gridster2';
 import { AngularResizedEventModule } from 'angular-resize-event';
 
 import {keys } from './keys/keys';
+import { MultiselectChipsComponent } from './components/parts/multiselect-chips/multiselect-chips.component';
 
 const CRITICAL_ERROR_WAIT_DURATION = 1000;
 
@@ -249,7 +250,8 @@ export class RavenErrorHandler implements ErrorHandler {
         PcaPlotComponent,
         MgrbInformationComponent,
         AboutVaComponent,
-        AnalyticsComponent
+        AnalyticsComponent,
+        MultiselectChipsComponent,
     ],
     entryComponents: [
         SignUpComponent,
