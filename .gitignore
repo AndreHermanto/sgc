@@ -13,6 +13,7 @@ coverage/*
 npm-debug.log
 **/*.log
 src/app/data
+src/app/keys
 
 .vscode
 1
