@@ -14,9 +14,11 @@ export class GeneticImmunologyInformationComponent implements OnInit{
     @Input() unconsentedAccess: boolean = false;
     permission: string = 'gi/pheno'
     clinicalFields: ClinicalFields[] = [
+        new ClinicalFields('Consent for future research', 'consent', 'Consent for future research', 'pie'),
         new ClinicalFields('sex', 'sex', 'Sex', 'pie'),
         new ClinicalFields('diagnosis', 'diagnosis', 'Diagnosis', 'row'),
-
+        new ClinicalFields('Test Result', 'testResult', 'Test Result', 'pie'),
+        new ClinicalFields('Test Type', 'testType','Test Type', 'pie', false)
     ];
     phenoService: string = 'getGeneticImmunology'
 

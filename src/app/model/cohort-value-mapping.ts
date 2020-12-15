@@ -10,7 +10,7 @@ export const COHORT_VALUE_MAPPING_VSAL = {
     ICCon: 'iccon',
     Childranz: 'demo',
     HIDDEN: 'demo',
-    ['Genetic Immunology']: 'demo',
+    ['Genetic Immunology']: 'gi',
     Cardiac: 'demo',
     KidGen: 'kidgen',
 }
@@ -27,7 +27,7 @@ export const COHORT_VALUE_MAPPING_SSVS = {
     ICCon: 'iccon',
     Childranz: 'demo',
     HIDDEN: 'demo',
-    ['Genetic Immunology']: 'demo',
+    ['Genetic Immunology']: 'gi',
     Cardiac: 'demo',
     KidGen: 'kidgen'
 }
@@ -44,7 +44,7 @@ export const COHORT_VALUE_MAPPING_MAPD = {
     ICCon: 'iccon',
     Childranz: 'demo',
     HIDDEN: 'demo',
-    ['Genetic Immunology']: 'demo',
+    ['Genetic Immunology']: 'gi',
     Cardiac: 'demo',
     KidGen: 'kidgen'
 }
@@ -169,8 +169,18 @@ export const COHORT_SAMPLES_INFO = {
         wes: 0
     },
     HIDDEN: null,
-    ['Genetic Immunology']: null,
-    Cardiac: null,
+    ['Genetic Immunology']: {
+        gen: '90',
+        phen: '90',
+        wgs: 0,
+        wes: 90
+    },
+    Cardiac: null /*{        
+        gen: '0',
+        phen: '0',
+        wgs: 1,
+        wes: 0
+    }*/,
     KidGen: {
         gen: '200',
         phen: '200',
