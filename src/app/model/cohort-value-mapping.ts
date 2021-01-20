@@ -11,7 +11,7 @@ export const COHORT_VALUE_MAPPING_VSAL = {
     Childranz: 'demo',
     HIDDEN: 'demo',
     ['Genetic Immunology']: 'gi',
-    Cardiac: 'demo',
+    Cardiac: 'cardiac',
     KidGen: 'kidgen',
 }
 
@@ -28,7 +28,7 @@ export const COHORT_VALUE_MAPPING_SSVS = {
     Childranz: 'demo',
     HIDDEN: 'demo',
     ['Genetic Immunology']: 'gi',
-    Cardiac: 'demo',
+    Cardiac: 'cardiac',
     KidGen: 'kidgen'
 }
 
@@ -45,7 +45,7 @@ export const COHORT_VALUE_MAPPING_MAPD = {
     Childranz: 'demo',
     HIDDEN: 'demo',
     ['Genetic Immunology']: 'gi',
-    Cardiac: 'demo',
+    Cardiac: 'cardiac',
     KidGen: 'kidgen'
 }
 
@@ -175,12 +175,12 @@ export const COHORT_SAMPLES_INFO = {
         wgs: 0,
         wes: 90
     },
-    Cardiac: null /*{        
-        gen: '0',
-        phen: '0',
-        wgs: 1,
+    Cardiac: {        
+        gen: '215',
+        phen: '215',
+        wgs: 215,
         wes: 0
-    }*/,
+    },
     KidGen: {
         gen: '200',
         phen: '200',
