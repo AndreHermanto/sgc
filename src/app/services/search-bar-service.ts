@@ -321,6 +321,15 @@ export class SearchBarService {
         }
     }
 
+    isCoord(query): boolean {
+        const results = new RegExp(/^([\dxy]+|mt+)[:\-\.,\\/](\d+)$/, "i").exec(query);
+        if(results !== null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     private navigateToSearch(query: string) {
         const cohort = this.options[0].getValue();
         const obj = {query: query, cohort:cohort, timestamp: Date.now()};

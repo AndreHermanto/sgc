@@ -25,7 +25,8 @@ export class VecticAnalyticsService {
             panel_source: panel_source,
             panel: panel,
             cohort: cohort,
-            data_access: data_access
+            data_access: data_access,
+            platform: PLATFORM
         }
         if(ignoredEmails.includes(email)){
             return of({});
@@ -50,7 +51,8 @@ export class VecticAnalyticsService {
         const body = {
             email: email,
             cohort: cohort,
-            data_access: data_access
+            data_access: data_access,
+            platform: PLATFORM
         }
         if(ignoredEmails.includes(email)){
             return of({});
