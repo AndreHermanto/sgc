@@ -239,7 +239,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                     if(this.searchBarService.query){
                         const terms = this.searchBarService.query.split(',');
                         terms.forEach(t => {
-                            if(!this.searchBarService.isRegion(t)){
+                            if(!this.searchBarService.isRegion(t) && !this.searchBarService.isCoord(t)){
                                 this.vas.addSearchQueries(t,'', '', this.selectedCohort, 'clinical', user.email).subscribe((res) => {
                                     return res;
                                 })
