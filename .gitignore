@@ -14,6 +14,7 @@ npm-debug.log
 **/*.log
 src/app/data
 src/app/keys
+src/app/shared/ignoredMail.ts
 
 
 .vscode
