@@ -3,7 +3,7 @@
     <div *ngIf="showOptions" class="options">
         <div *ngFor="let option of option.allOptions(); let i = index;"
              (mousedown)="selectOption(option); showOptions = false">
-            <span class="name" *ngIf="cohortAccess.includes(option)">{{ option === 'Circa' ? option.toUpperCase() : option }}
+            <span class="name" *ngIf="cohortAccess.includes(option)">{{ option  }}
                 <span *ngIf="cohortSamplesInfo[option] !== null">
                     (
                     <span *ngIf="cohortSamplesInfo[option]['wgs'] > 0">{{cohortSamplesInfo[option]['wgs']}} WGS</span>
@@ -12,7 +12,7 @@
                     )
                 </span>
             </span>
-            <span class="name-disabled" *ngIf="!cohortAccess.includes(option)">{{ option === 'Circa' ? option.toUpperCase() : option }}
+            <span class="name-disabled" *ngIf="!cohortAccess.includes(option)">{{ option }}
                 <span *ngIf="cohortSamplesInfo[option] !== null">
                     (
                     <span *ngIf="cohortSamplesInfo[option]['wgs'] > 0">{{cohortSamplesInfo[option]['wgs']}} WGS</span>

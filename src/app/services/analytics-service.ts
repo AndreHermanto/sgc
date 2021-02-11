@@ -6,7 +6,7 @@ import { of, Observable, forkJoin } from "rxjs";
 import {map, catchError} from 'rxjs/operators';
 import { ignoredEmails } from '../shared/ignoredMail';
 
-const PLATFORM = "CIRCA";
+const PLATFORM = "AUTISM";
 
 @Injectable()
 export class VecticAnalyticsService {

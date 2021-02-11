@@ -166,4 +166,9 @@ export class SearchOptionComponent implements OnInit {
             }
         }
     }
+
+    goToAboutVA(){
+        event.stopPropagation();
+        this.router.navigate(['/aboutva']);
+    }
 }
