@@ -28,9 +28,9 @@
 
 .dropdown-item {
     padding: 30px 50px 30px 30px;
-    background-color: var(--second-theme);
+    background-color: var(--fourth-theme);
     border-bottom: 1px solid var(--theme);
-    color: var(--second-font-color);
+    color: var(--third-font-color);
 }
 
 .right-side {

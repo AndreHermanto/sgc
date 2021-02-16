@@ -18,8 +18,9 @@
     margin-bottom: 0.5em;
     height: 170px;
 }
+    
 
-.logoAbbreviation{
+.logoName{
     display: block;
     font-size: 1.7em;
     font-weight: 600;
