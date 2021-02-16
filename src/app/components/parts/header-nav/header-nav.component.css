@@ -28,9 +28,9 @@
 
 .dropdown-item {
     padding: 30px 50px 30px 30px;
-    background-color: whitesmoke;
+    background-color: var(--second-theme);
     border-bottom: 1px solid var(--theme);
-    color: var(--theme);
+    color: var(--second-font-color);
 }
 
 .right-side {
@@ -50,12 +50,12 @@
 }
 
 nav a.is-active {
-    border-bottom: 3px solid #00aedb;
+    border-bottom: 5px solid var(--second-theme);
 }
 
 nav a.is-active.transparent {
     border-bottom: 0;
-    color: #00aedb !important;
+    color: var(--second-theme) !important;
 }
 
 nav {
@@ -66,7 +66,7 @@ nav {
 nav a {
     padding: 0 1.5rem 17px 1.5rem;
     position: relative;
-    color: white;
+    color: var(--font-color);
     text-decoration: none;
     font-size: medium;
 }
@@ -80,7 +80,7 @@ nav a {
     display: inline;
     font-size: medium;
     padding: 0 1rem 17px 1rem;
-    color: white;
+    color: var(--font-color);
 }
 
 a.disabled {
