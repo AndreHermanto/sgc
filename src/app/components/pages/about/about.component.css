@@ -13,15 +13,6 @@ article {
     align-self: flex-start;
 }
 
-.sponsor-images {
-    display: flex;
-    justify-content: flex-start;
-    float: right;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 5rem;
-}
-
 .sponsor-images img {
     margin: 2rem;
     width: 330px;
