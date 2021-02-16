@@ -1,8 +1,12 @@
 @import '../node_modules/font-awesome/css/font-awesome.css';
 
 :root{
-    --theme: #4c00c7;
-}
+    --theme: #ffffff;
+    --second-theme: #b455a0;
+    --third-theme: #1d1752;
+    --font-color: #1d1752;
+    --second-font-color: #ffffff;
+}   
 
 html {
     height: 100%;

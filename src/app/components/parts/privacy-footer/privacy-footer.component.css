@@ -1,8 +1,9 @@
 .footer {
     width: 100%;
     display: flex;
-    background-color: white;
+    background-color: var(--third-theme);
     border-top: 1px solid lightgrey;
+    color: var(--second-font-color);
 }
 
 .footer img {

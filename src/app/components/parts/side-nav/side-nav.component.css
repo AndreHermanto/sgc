@@ -1,9 +1,9 @@
 nav a.is-active {
-    border-left: 5px solid #00aedb;
+    border-left: 5px solid var(--second-theme);
 }
 
 nav a {
-    color: white;
+    color: var(--font-color);
     text-decoration: none;
     font-size: medium;
     padding: 1rem 1rem 1rem 2rem;

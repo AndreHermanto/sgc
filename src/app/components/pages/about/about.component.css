@@ -12,13 +12,6 @@ article {
     align-self: flex-start;
 }
 
-.sponsor-images {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-}
-
 .sponsor-images img {
     margin: 2rem;
     width: 330px;
