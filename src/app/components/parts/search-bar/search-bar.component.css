@@ -59,7 +59,8 @@ form input {
 
 .mat-mini-fab {
     border-radius: 0;
-    background-color: var(--theme);
+    background-color: var(--second-theme);
+    color: var(--font-color);
 }
 
 @media (min-width: 0px) and (max-width: 800px) {
