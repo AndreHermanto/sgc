@@ -7,6 +7,7 @@
     "agha-staging": "agha-staging",
     "agha-prod": "agha-5a493",
     "circa-prod": "circa-garvan",
-    "circa-staging": "circa-staging-e3399"
+    "circa-staging": "circa-staging-e3399",
+    "autism-prod": "autismcrc-prod"
   }
 }
