@@ -98,6 +98,259 @@ export class VecticAnalyticsService {
             );
     }
 
+    getData(query): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            query: query
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/temp-query`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getTopLogin(start,end): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            platform: PLATFORM,
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/top-login`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getLoginLocation(start,end): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            platform: PLATFORM,
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/login-location`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getSinglePanel(panel,start,end): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            platform: PLATFORM,
+            panel: panel
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/single-panel`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getPanelData(start,end): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            platform: PLATFORM
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/panel-data`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getQueryType(start,end): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            platform: PLATFORM
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/query-type`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getGeneCount(start,end): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            platform: PLATFORM
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/gene-count`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getDailyLogin(start,end): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            platform: PLATFORM
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/daily-login`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getDomainLogin(start,end): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            platform: PLATFORM
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/email-domain`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getCohortSearch(start,end): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            platform: PLATFORM
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/cohort-queries`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getMonthlyLogin(start,end,year): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            start: start,
+            end: end,
+            year:year,
+            platform: PLATFORM
+        }
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/monthly-login`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
 
 }
 

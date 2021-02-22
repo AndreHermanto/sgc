@@ -74,6 +74,7 @@ import { ErrorDialogComponent } from './components/parts/error-dialog/error-dial
 import { HttpClientModule } from '@angular/common/http';
 import { SnackbarDemoComponent } from './components/parts/snackbar-demo/snackbar-demo.component';
 import { MaterialModule } from './app.material';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MapdRowChartComponent } from './components/parts/mapd-row-chart/mapd-row-chart.component';
 import { MapdPieChartComponent } from './components/parts/mapd-pie-chart/mapd-pie-chart.component';
 import { MapdAvgAfChartComponent } from './components/parts/mapd-avg-af-chart/mapd-avg-af-chart.component';
@@ -116,6 +117,12 @@ import { RelationshipInformationComponent } from './components/parts/relationshi
 import { FamilialFiltersComponent } from './components/parts/familial-filters/familial-filters.component';
 import { CircaInformationComponent } from './components/parts/circa-information/circa-information.component';
 import { AboutVaComponent } from './components/pages/about-va/about-va.component';
+import { AnalyticsComponent } from './components/pages/analytics/analytics.component';
+import { GoogleChartsModule } from 'angular-google-charts';
+import { GridsterModule } from 'angular-gridster2';
+import { AngularResizedEventModule } from 'angular-resize-event';
+
+import {keys } from './keys/keys';
 
 const CRITICAL_ERROR_WAIT_DURATION = 1000;
 
@@ -153,7 +160,14 @@ export class RavenErrorHandler implements ErrorHandler {
         NgxDatatableModule,
         MaterialModule,
         MatDialogModule,
-        MatTableModule
+        MatTableModule,
+        MatDatepickerModule,
+        GoogleChartsModule.forRoot({
+            version: '49',
+            mapsApiKey: keys.gmapApiKey
+        }),
+        GridsterModule,
+        AngularResizedEventModule
     ],
     declarations: [
         AppComponent,
@@ -227,6 +241,7 @@ export class RavenErrorHandler implements ErrorHandler {
         FamilialFiltersComponent,
         CircaInformationComponent,
         AboutVaComponent,
+        AnalyticsComponent,
     ],
     entryComponents: [
         SignUpComponent,
