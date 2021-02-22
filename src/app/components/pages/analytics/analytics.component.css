@@ -1,0 +1,42 @@
+.alignleft {
+  float: left;
+}
+
+.alignright {
+  float: right;
+}
+
+.header-container{
+  width: 100%;
+}
+
+.fill-height {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  min-height: 100px;
+}
+
+mat-sidenav {
+  width: 220px;
+  padding: 0 8px;
+  box-shadow: 3px 0 6px rgba(0, 0, 0, .24);
+}
+
+.mat-list, .mat-nav-list, .mat-selection-list {
+  padding-top: 0px;
+}
+
+.mat-sidenav-container{
+  position: unset!important;
+} 
+
+.content{
+  max-width: 98%;
+  margin: 0 auto;
+}
+
+.button-container{
+  text-align: center;
+  padding: 5px;
+}

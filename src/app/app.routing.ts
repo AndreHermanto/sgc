@@ -12,6 +12,7 @@ import { ExploreComponent } from './components/pages/explore/explore.component';
 import { ClinicalComponent } from './components/pages/clinical/clinical.component';
 import { ProfileComponent } from './components/pages/profile/profile.component';
 import { FindingsComponent } from './components/pages/findings/findings.component';
+import { AnalyticsComponent } from './components/pages/analytics/analytics.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
     { path: 'search', component: SearchComponent },
     { path: 'explore/:cohort', component: ExploreComponent },
     { path: 'beacon', component: BeaconComponent },
+    { path: 'analytics', component: AnalyticsComponent },
     { path: 'error', component: ErrorComponent },
     { path: '', redirectTo: '/', pathMatch: 'full'},
     { path: '**', redirectTo: '/', pathMatch: 'full'},
