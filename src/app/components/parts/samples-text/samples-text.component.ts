@@ -33,7 +33,7 @@ export class SamplesTextComponent implements OnInit {
     this.loadingSamplesFilter=true;
     if(samples.length >= 1 && samples[0] !== ""){
       if(this.multiple){
-        this.txtSamplesChanged.next(samples.split(','));
+        this.txtSamplesChanged.next(samples.split(/[\n,]+/));
       }else{
         this.txtSamplesChanged.next([samples]);
       }
