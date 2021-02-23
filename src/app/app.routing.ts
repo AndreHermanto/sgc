@@ -15,6 +15,7 @@ import { GcmpComponent } from './components/pages/programmes/gcmp/gcmp.component
 import { NswgpComponent } from './components/pages/programmes/nswgp/nswgp.component';
 import { MgrbComponent } from './components/pages/programmes/mgrb/mgrb.component';
 import { MgrbTermsComponent } from './components/pages/mgrb-terms/mgrb-terms.component';
+import { AnalyticsComponent } from './components/pages/analytics/analytics.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
     { path: 'initiatives/mgrb', component: MgrbComponent },
     { path: 'initiatives/nswgp', component: NswgpComponent },
     { path: 'initiatives/gcmp', component: GcmpComponent },
+    { path: 'analytics', component: AnalyticsComponent },
     { path: 'error', component: ErrorComponent },
     { path: '', redirectTo: '/', pathMatch: 'full'},
     { path: '**', redirectTo: '/', pathMatch: 'full'},
