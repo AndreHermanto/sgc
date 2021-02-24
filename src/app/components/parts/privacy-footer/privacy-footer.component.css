@@ -1,13 +1,9 @@
 .footer {
     width: 100%;
     display: flex;
-    background-color: var(--third-theme);
+    background-color: var(--theme);
     border-top: 1px solid lightgrey;
-    color: var(--second-font-color);
-}
-
-.footer img {
-    height: auto;
+    color: var(--font-color);
 }
 
 .footer .logo {
@@ -40,7 +36,7 @@
 }
 
 .garvan-logo{
-    width: 70px;
+    height: 30px;
     vertical-align: middle;
 }
 

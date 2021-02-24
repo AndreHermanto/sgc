@@ -6,6 +6,7 @@ article {
 
 .title {
     font-size: xx-large;
+    color: var(--font-color);
 }
 
 .content {

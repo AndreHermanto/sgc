@@ -6,7 +6,7 @@
 }
 
 .band {
-    margin-top: 2%;
+    margin-top: 1%;
     width: 100%;
 }
 
@@ -15,21 +15,21 @@
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 2em;
-    height: 170px;
+    /*height: 170px;*/
 }
 
 .logoAbbreviation{
+    font: arial;
     display: block;
-    font-size: 5vw;
+    font-size: 3vw;
     font-weight: 700;
-    color: #07607a;
-    letter-spacing: 1.28em;
-    height: 100px;
+    color: var(--font-color);
+    /*height: 100px;*/
 }
     
 
 .logoName{
     display: block;
     font-size: 1.5vw;
-    color: #07607a;
+    color: var(--font-color);
 }
