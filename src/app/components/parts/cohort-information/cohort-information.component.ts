@@ -110,7 +110,7 @@ export class CohortInformationComponent implements AfterViewInit, OnDestroy, OnI
             this.selectedExternalIDs = validExternalSamples;
             this.ClinicalFilterService.clearFilters();
     
-            this.loadCharts();
+            this.reloadCharts();
             this.getVariantsFromFilter(this.selectedExternalIDs);
         }else{
             this.sampleNotFound = true;
@@ -147,6 +147,12 @@ export class CohortInformationComponent implements AfterViewInit, OnDestroy, OnI
         dc.renderAll();
 
         this.cd.detectChanges();
+    }
+
+    reloadCharts(){
+        this.charts = null;
+        this.cd.detectChanges();
+        this.loadCharts();
     }
 
     onHidden(chartName: string){
