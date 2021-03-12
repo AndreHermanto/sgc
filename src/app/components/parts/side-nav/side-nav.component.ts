@@ -77,11 +77,11 @@ export class SideNavComponent implements OnInit {
         this.router.navigate(['/terms/mgrb']);
     }
 
-    openSignUpDialog() {
+    /*openSignUpDialog() {
         this.dialog.open(
             SignUpComponent,
             {}
         );
-    }
+    }*/
 
 }
