@@ -18,7 +18,7 @@
     <div *ngIf="!auth.authenticated()" class="sign-up">
         <a (click)="auth.login()">LOG IN</a>
         <div class="spacer">|</div>
-        <a (click)="openSignUpDialog()">SIGN UP</a>
+        <a (click)="auth.signUpPage()">SIGN UP</a>
     </div>
     <a (click)="auth.logout()" *ngIf="auth.authenticated()">LOG OUT</a>
 </nav>
