@@ -129,12 +129,12 @@ export class HeaderNavComponent implements OnInit {
         }
     };
 
-    openSignUpDialog() {
+    /*openSignUpDialog() {
         this.dialog.open(
             SignUpComponent,
             {}
         );
-    }
+    }*/
 
     goToAbout(){
         event.stopPropagation();
