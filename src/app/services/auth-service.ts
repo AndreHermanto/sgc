@@ -50,6 +50,13 @@ export class Auth {
 		this.auth0.authorize();
     };
 
+    public signUpPage() {
+        localStorage.setItem(urlStateKey, location.pathname);
+		this.auth0.authorize({
+            action: 'signup'
+          });
+    };
+
     public signUp(email, password, cb) {
         this.auth0.signupAndAuthorize({
             email: email,
