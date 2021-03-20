@@ -1,0 +1,16 @@
+<div class="loading-message" *ngIf="loadingVariantsSummary">
+    <mat-spinner color="primary"></mat-spinner>
+</div>
+<div class="message message-error" *ngIf="!loadingVariantsSummary && variantsSummary.length <= 0">No Variants found for the query</div>
+<div class="search-result-content" *ngIf="searchSummaryService.commenced">
+    <app-gene-information-new *ngIf="showGeneInformation()" [autocomplete]="autocompleteSummary" [variants]="variantsSummary"></app-gene-information-new>
+    <app-region-information-new *ngIf="showRegionInformation()"></app-region-information-new>
+
+    <div *ngIf="!showVirtualCohortFlag&&variantsSummary.length > 10000" class="message message-error">
+            This region contains too many variants to visualize with our genome browser, please choose a smaller region like:
+            <a (click)="goToSmallerRegion()">{{searchSummaryService.getSmallerRegionString()}}</a>
+        </div>
+
+    <app-genome-browser-summary-resizable-new *ngIf="!showVirtualCohortFlag&&variantsSummary.length <= maximumNumberOfVariants"></app-genome-browser-summary-resizable-new>
+    <app-variants-summary-table-new *ngIf="!showVirtualCohortFlag" [variants]="variantsSummary"></app-variants-summary-table-new>
+</div>

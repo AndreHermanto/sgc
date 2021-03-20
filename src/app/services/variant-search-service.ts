@@ -7,7 +7,7 @@ import { VariantRequest } from '../model/variant-request';
 import { Region } from '../model/region';
 import { of, Observable } from "rxjs";
 import { VariantSearch } from '../shared/variant-search';
-
+import { SearchBarService } from './search-bar-service';
 
 const DEBOUNCE_TIME = 100;
 
@@ -30,12 +30,13 @@ export class VariantSearchService {
     private searchQuery = new Subject<SearchQueries>();
     private variantSearch = new VariantSearch();
 
-    constructor(private vsal: VsalService
+    constructor(private vsal: VsalService,
+                private searchBarService: SearchBarService
     ) {
         this.results = this.searchQuery
             .debounceTime(DEBOUNCE_TIME)
             .switchMap((query: SearchQueries) => {
-                return this.vsal.getVariants(query, this.samples, this.noSamples, this.refInput, this.altInput, this.het, this.hom, this.conj).map((vr: VariantRequest) => {
+                return this.vsal.getVariants(query, this.searchBarService.getBuild(), this.samples, this.noSamples, this.refInput, this.altInput, this.het, this.hom, this.conj).map((vr: VariantRequest) => {
                     if (this.filter) {
                         vr.variants = this.filter(vr.variants);
                     }
@@ -101,7 +102,7 @@ export class VariantSearchService {
         this.lastQuery = query;
         this.samples = samples;
         const promise = new Promise<any[]>((resolve, reject) => {
-            this.vsal.getVariants(query, samples, false, ref, alt, het, hom, conj).subscribe((vr: VariantRequest) => {
+            this.vsal.getVariants(query, this.searchBarService.getBuild(),samples, false, ref, alt, het, hom, conj).subscribe((vr: VariantRequest) => {
                 vr.variants.forEach(v =>{
                     this.lastQuery.regions.find(r =>{
                         return typeof r.genes.find(region => {

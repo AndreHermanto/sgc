@@ -27,7 +27,7 @@ export class AlleleFreqSummaryComponent implements OnInit {
 
     ngOnInit() {
         this.style = this.highlight?{'background-color': 'red'}:{'background-color': this.color};
-        if (this.freq !== null) {
+        if (this.freq && this.freq !== null) {
             this.formattedFreq = this.freq.toFixed(6);
             this.tooltipFormattedFreq = this.formattedFreq;
             if(this.highlight){
