@@ -29,21 +29,34 @@ export const COHORT_PHENO_GET_MAPPING = {
 }
 
 export const COHORT_SAMPLES_INFO = {
-    Demo: {
-        gen: '51',
-        phen: '51',
-        wgs: 51,
-        wes: 0
+    GRCh37:{
+        Demo: {
+            gen: '51',
+            phen: '51',
+            wgs: 51,
+            wes: 0
+        },    
+        ['Autism CRC']: null,    
     },
-    ['Autism CRC']: null
+    GRCh38: null
 }
 
 export const COHORT_FAMILY_WITH_PHENO = {
     Demo: true,
     ['Autism CRC']: true
 }
-
 export const COHORT_PERMISSION_UNCONSENTED_SAMPLES = {
     Demo: '',
     ['Autism CRC']: ''
 }
+
+export const AVAILABLE_BUILD = {
+    GRCh37: ['Demo', 'Autism CRC'],
+    GRCh38: []
+}
+
+export const COHORT_LABELS = {
+    Demo: 'Demo',
+    ['Autism CRC']: 'Autism CRC'
+}
+

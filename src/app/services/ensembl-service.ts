@@ -9,7 +9,9 @@ const HEALTH_CHECK_URL = `${ environment.ensemblProtocol }://${ environment.ense
 
 @Injectable()
 export class EnsemblService {
-    constructor(private http: HttpClient) {}
+    build: string = 'GRCh38';
+    constructor(private http: HttpClient) {
+                }
 
     healthCheck(): Promise<boolean> {
         const headers = new HttpHeaders()
@@ -27,8 +29,14 @@ export class EnsemblService {
             .append('Accept', 'application/json');
         const params = new HttpParams()
             .set('feature', 'gene');
-
-        const ensemblBaseUrl = `${ environment.ensemblProtocol }://${ environment.ensemblDomain }`;
+            
+        let ensemblDomain = "";
+        if(this.build === 'GRCh38'){
+            ensemblDomain = environment.ensemblDomain;
+        }else if(this.build === 'GRCh37'){
+            ensemblDomain = environment.ensemblDomain38;
+        }
+        const ensemblBaseUrl = `${ environment.ensemblProtocol }://${ ensemblDomain }`;
         const url = `${ ensemblBaseUrl }/overlap/region/human/${ region }`;
         return this.http.get(url, {headers: headers, params: params})
             .timeout(TIMEOUT)

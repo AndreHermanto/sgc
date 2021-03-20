@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { MapdFilterService } from './mapd-filter.service';
+import { reject } from '../../../node_modules/@types/q';
 
 @Injectable()
 export class MapdService {
@@ -9,15 +10,35 @@ export class MapdService {
     constructor(private mfs: MapdFilterService) {
     }
 
-    connect(cohort): Promise<any> {
+    connect(cohort, build): Promise<any> {
+        let config = {
+            protocol: '',
+            host: '',
+            port: '',
+            dbName: '',
+            user: '',
+            pwd: ''
+        };
+        let buildUrl = '';
+        if(build === "GRCh37"){
+            config = environment.mapd37;
+            buildUrl = '/' + cohort; 
+        }else if(build === "GRCh38"){
+            config = environment.mapd38;
+            buildUrl = '/grch38/' + cohort;
+        }else{
+            return Promise.reject('Build is not correct');
+        }
+
+
         return new Promise((resolve, reject) => {
             new MapdCon()
-                .protocol([environment.mapd.protocol])
-                .host([environment.mapd.host])
-                .port([environment.mapd.port + '/' + cohort])
-                .dbName([environment.mapd.dbName])
-                .user([environment.mapd.user])
-                .password([environment.mapd.pwd])
+                .protocol([config.protocol])
+                .host([config.host])
+                .port([config.port + buildUrl])
+                .dbName([config.dbName])
+                .user([config.user])
+                .password([config.pwd])
                 .connect((error, session) => {
                     if (error) {
                         reject(error);
