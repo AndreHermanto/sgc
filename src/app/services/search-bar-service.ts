@@ -26,6 +26,7 @@ export class SearchBarService {
     panelGroup = '';
     autocompleteServices: AutocompleteService<any>[] = [];
     options: SearchOption[];
+    buildOptions: SearchOption[];
     autocompleteError = '';
     altInput = '';
     refInput = '';
@@ -44,6 +45,9 @@ export class SearchBarService {
     private selectedCohortSource = new BehaviorSubject<string>('Demo');
     selectedCohort = this.selectedCohortSource.asObservable();
 
+    private selectedBuiltSource = new BehaviorSubject<string>('GRCh37');
+    selectedBuilt = this.selectedBuiltSource.asObservable();
+
     geneListPanelFull: any;
 
     constructor(private geneService: ElasticGeneSearch,
@@ -61,6 +65,9 @@ export class SearchBarService {
         this.query = '';
         this.options = [
             new SearchOption('Cohort', 'dataset', ['Demo', 'MGRB'], 'Demo'),
+        ];
+        this.buildOptions = [
+            new SearchOption('Build', 'build', ['GRCh37', 'GRCh38'], 'GRCh37')
         ];
     }
 
@@ -248,6 +255,10 @@ export class SearchBarService {
         this.selectedCohortSource.next(value);
     }
 
+    setBuild(value){
+        this.selectedBuiltSource.next(value);
+    }
+
     checkErrorRegion(query){
         const results = new RegExp(/^([\dxy]+|mt+)[:\-\.,\\/](\d+)[:\-\.,\\/](\d+)$/, "i").exec(query);
         const checkChromosome = new RegExp(/^([\dxy]+|mt+)$/, "i")
@@ -283,7 +294,7 @@ export class SearchBarService {
 
     searchAutocompleteServices(term: string): Observable<VariantAutocompleteResult<any>[]> {
         return combineLatest(...this.autocompleteServices.map((autocompleteService) => {
-            return autocompleteService.search(term).catch(e => of<GenericAutocompleteResult<any>[]>([]));
+            return autocompleteService.search(term, this.buildOptions[0].getValue()).catch(e => of<GenericAutocompleteResult<any>[]>([]));
         }), this.combineStreams);
     }
 
@@ -295,7 +306,7 @@ export class SearchBarService {
         }
 
         return combineLatest(this.autocompleteServices.map((autocompleteService) => {
-            return autocompleteService.search(term).startWith(startsWith).catch(e => of([]));
+            return autocompleteService.search(term, this.buildOptions[0].getValue()).startWith(startsWith).catch(e => of([]));
         }), this.combineStreams);
     }
 

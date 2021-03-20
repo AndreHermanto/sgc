@@ -118,11 +118,6 @@ mat-sidenav .title {
     height: 23px;
     width: 70px;
 }
-.mat-icon {
-    font-size: 19px;
-    padding-top: 0.75em;
-    color: var(--font-color);
-}
 
 ::ng-deep .cohort-info{
     white-space: pre-line;

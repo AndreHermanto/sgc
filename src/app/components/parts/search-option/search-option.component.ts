@@ -14,7 +14,9 @@ import { Auth } from '../../../services/auth-service';
 })
 export class SearchOptionComponent implements OnInit {
     @Input() option: SearchOption;
+    @Input() buildOption: SearchOption;
     showOptions = false;
+    showBuiltOptions = false;
     subscriptions: Subscription[] = [];
     @HostListener('document:click', ['$event']) outsideClick($event: Event) {
         if (!$event) {
@@ -22,9 +24,11 @@ export class SearchOptionComponent implements OnInit {
         }
         if (!this.elf.nativeElement.contains($event.target)) {
             this.showOptions = false;
+            this.showBuiltOptions = false;
         }
     }
     cohort: string;
+    build: string;
     query: string;
     panel: string;
     panelGroup: string;
@@ -37,6 +41,9 @@ export class SearchOptionComponent implements OnInit {
     cohortSamplesInfo = COHORT_SAMPLES_INFO;
     cohortAccess = ['Demo'];
 
+    totalSamplesGen = '';
+    totalSamplesPhen = '';
+
     constructor(private elf: ElementRef, 
         private searchBarService: SearchBarService, 
         private route: ActivatedRoute, 
@@ -48,6 +55,24 @@ export class SearchOptionComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.searchBarService.selectedCohort.subscribe(cohort => {
+            this.cohort = cohort;
+            if(this.cohort === 'Demo'){
+                this.cohort = 'Demo from 1000 Genome Project';
+            }
+            if(COHORT_SAMPLES_INFO[cohort]){
+                this.totalSamplesGen = COHORT_SAMPLES_INFO[cohort]['gen'];
+                this.totalSamplesPhen = COHORT_SAMPLES_INFO[cohort]['phen'];
+            }else{
+                this.totalSamplesGen = '';
+                this.totalSamplesPhen = ''; 
+            }
+        })
+
+        this.searchBarService.selectedBuilt.subscribe(build => {
+            this.build = build;
+        })
+
         this.subscriptions.push(this.route.params.subscribe(p => {
             if(p['cohort']){
                 this.option.setValue(p['cohort']);
@@ -101,6 +126,11 @@ export class SearchOptionComponent implements OnInit {
             }else{
                 this.conjSamples = false
             }
+            if(p['build'] === '37'){
+                this.build = 'GRCh37';
+            }else if(p['build'] === '38'){
+                this.build === 'GRCh38';
+            }
         }));
 
         if(!this.auth.authenticated()){
@@ -153,17 +183,28 @@ export class SearchOptionComponent implements OnInit {
     selectOption(selected: string) {
         if(this.cohortAccess.includes(selected)){
             this.option.setValue(selected);
-            this.searchBarService.setCohort(selected);
-            this.searchBarService.options[0].setValue(selected);
-            this.searchBarService.refInput = this.ref;
-            this.searchBarService.altInput = this.alt;
-            this.searchBarService.hetInput = this.het;
-            this.searchBarService.homInput = this.hom;
-            this.searchBarService.conj = this.conj;
-            this.searchBarService.conjSamples = this.conjSamples;
-            if(this.router.url.includes('/explore')){
-                this.router.navigate([`/explore/${this.option.getValue()}`]);
-            }
+            this.setSearchBarValue();
+        }
+    }
+
+    selectBuilt(selected: string) {
+        this.buildOption.setValue(selected);
+        this.setSearchBarValue();
+    }
+
+    setSearchBarValue(){
+        this.searchBarService.setCohort(this.option.getValue());
+        this.searchBarService.setBuild(this.buildOption.getValue());
+        this.searchBarService.options[0].setValue(this.option.getValue());
+        this.searchBarService.buildOptions[0].setValue(this.buildOption.getValue());
+        this.searchBarService.refInput = this.ref;
+        this.searchBarService.altInput = this.alt;
+        this.searchBarService.hetInput = this.het;
+        this.searchBarService.homInput = this.hom;
+        this.searchBarService.conj = this.conj;
+        this.searchBarService.conjSamples = this.conjSamples;
+        if(this.router.url.includes('/explore')){
+            this.router.navigate([`/explore/${this.option.getValue()}`]);
         }
     }
 
