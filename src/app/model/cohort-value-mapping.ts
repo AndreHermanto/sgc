@@ -29,26 +29,39 @@ export const COHORT_PHENO_GET_MAPPING = {
 }
 
 export const COHORT_SAMPLES_INFO = {
-    Demo: {
-        gen: '51',
-        phen: '51',
-        wgs: 51,
-        wes: 0
+    GRCh37:{
+        Demo: {
+            gen: '51',
+            phen: '51',
+            wgs: 51,
+            wes: 0
+        },    
+        MGRB: {
+            gen: '2845',
+            phen: '2845',
+            wgs: 2845,
+            wes: 0
+        }    
     },
-    MGRB: {
-        gen: '2845',
-        phen: '2845',
-        wgs: 2845,
-        wes: 0
-    }
+    GRCh38: null
 }
 
 export const COHORT_FAMILY_WITH_PHENO = {
     Demo: true,
     MGRB: true
 }
-
 export const COHORT_PERMISSION_UNCONSENTED_SAMPLES = {
     Demo: '',
     MGRB: 'mgrb/unconsented',
 }
+
+export const AVAILABLE_BUILD = {
+    GRCh37: ['Demo', 'MGRB'],
+    GRCh38: []
+}
+
+export const COHORT_LABELS = {
+    Demo: 'Demo',
+    ['MGRB']: 'MGRB'
+}
+

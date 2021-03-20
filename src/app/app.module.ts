@@ -54,6 +54,7 @@ import { PositionService } from './services/autocomplete/position-service';
 import { TableService } from './services/table-service';
 import { TableFamilyService } from './services/table-family-service';
 import { TableSummaryService } from './services/table-summary-service';
+import { TableSummaryNewService } from './services/table-summary-new-service';
 import { FilterAutoComponent } from './components/parts/filter-auto/filter-auto.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageContainerComponent } from './components/parts/page-container/page-container.component';
@@ -125,9 +126,20 @@ import { AnalyticsComponent } from './components/pages/analytics/analytics.compo
 import { GoogleChartsModule } from 'angular-google-charts';
 import { GridsterModule } from 'angular-gridster2';
 import { AngularResizedEventModule } from 'angular-resize-event';
+import { ClipboardModule } from '@angular/cdk/clipboard'
 
 import {keys } from './keys/keys';
 import { MultiselectChipsComponent } from './components/parts/multiselect-chips/multiselect-chips.component';
+import { SearchResultsNewComponent } from './components/parts/search-results-new/search-results-new.component';
+import { GeneInformationNewComponent } from './components/parts/gene-information-new/gene-information-new.component';
+import { RegionInformationNewComponent } from './components/parts/region-information-new/region-information-new.component';
+import { GenomeBrowserSummaryResizableNewComponent } from './components/parts/genome-browser-summary-resizable-new/genome-browser-summary-resizable-new.component';
+import { VariantsSummaryTableNewComponent } from './components/parts/variants-summary-table-new/variants-summary-table-new.component';
+import { GenomeBrowserSummaryNewComponent } from './components/parts/genome-browser-summary-new/genome-browser-summary-new.component';
+import { FilterAutoSummaryNewComponent } from './components/parts/filter-auto-summary-new/filter-auto-summary-new.component';
+import { VariantSummaryNewComponent } from './components/pages/variant-summary-new/variant-summary-new.component';
+import { VariantsTablePaginatedNewComponent } from './components/parts/variants-table-paginated-new/variants-table-paginated-new.component';
+import { SearchUserPermissionsComponent, OverviewDialog } from './components/parts/search-user-permissions/search-user-permissions.component';
 
 const CRITICAL_ERROR_WAIT_DURATION = 1000;
 
@@ -172,7 +184,8 @@ export class RavenErrorHandler implements ErrorHandler {
             mapsApiKey: keys.gmapApiKey
         }),
         GridsterModule,
-        AngularResizedEventModule
+        AngularResizedEventModule,
+        ClipboardModule
     ],
     declarations: [
         AppComponent,
@@ -252,6 +265,17 @@ export class RavenErrorHandler implements ErrorHandler {
         AboutVaComponent,
         AnalyticsComponent,
         MultiselectChipsComponent,
+        SearchResultsNewComponent,
+        GeneInformationNewComponent,
+        RegionInformationNewComponent,
+        GenomeBrowserSummaryResizableNewComponent,
+        VariantsSummaryTableNewComponent,
+        GenomeBrowserSummaryNewComponent,
+        FilterAutoSummaryNewComponent,
+        VariantSummaryNewComponent,
+        VariantsTablePaginatedNewComponent,
+        SearchUserPermissionsComponent,
+        OverviewDialog
     ],
     entryComponents: [
         SignUpComponent,
@@ -274,6 +298,7 @@ export class RavenErrorHandler implements ErrorHandler {
         TableService,
         TableFamilyService,
         TableSummaryService,
+        TableSummaryNewService,
         LocalStorageService,
         ClinicalFilteringService,
         SearchBarService,

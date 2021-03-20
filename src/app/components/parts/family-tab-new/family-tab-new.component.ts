@@ -121,12 +121,11 @@ export class FamilyTabNewComponent implements AfterViewInit {
     if(this.familyMembers.length > 0){
       //Make the order proband -> father -> mother
       let sortedFamilyMembers = [];
-      sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "proband"))
+      sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "child"))
       sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "father"))
       sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "mother"))
 
       this.familyMembers = sortedFamilyMembers;
-
 
       this.selectedInternalIDs = this.familyMembers.map(s => s.internalIDs);
       const allQueries = this.selectedInternalIDs.map(id => {

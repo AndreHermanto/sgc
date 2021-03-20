@@ -20,7 +20,7 @@ export class SearchBarOptions {
 })
 export class SearchBarClinicalComponent implements OnInit, OnDestroy {
   @Input() options = new SearchBarOptions();
-  @Input() placeholder = 'Gene or region';
+  @Input() placeholder = 'Search genes, e.g TP53';
   @Input() action;
   @Input() geneAdd: boolean = false;
   @Input() regError: Observable<any>;

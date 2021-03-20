@@ -52,7 +52,6 @@ export class SearchResultsComponent implements OnInit, OnDestroy, AfterViewInit 
         ){
             this.subscriptions.push(this.searchSummaryService.results.subscribe(v => {
                 this.variantsSummary = v.variants;
-
                 if(this.selectedCohort !== 'Demo' && this.searchBarService.query !== ''){
                     this.auth.userProfile.subscribe(user => {
                         this.vas.addUserQuery(user.email, this.selectedCohort, 'summary').subscribe((res) => {

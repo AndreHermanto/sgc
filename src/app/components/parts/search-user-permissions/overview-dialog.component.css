@@ -1,0 +1,20 @@
+.roles-table {
+    width: 100%;
+}
+
+table, th, td {
+    border: 2px solid black;
+    border-collapse: collapse;
+  }
+
+th, td {
+    padding: 10px;
+}
+
+th {
+    font-weight: 500;
+}
+
+.content-container{
+    min-height: 150px;
+}

@@ -7,6 +7,7 @@ import { SearchComponent } from './components/pages/search/search.component';
 import { BeaconComponent } from './components/pages/beacon/beacon.component';
 import { VariantComponent } from './components/pages/variant/variant.component';
 import { VariantSummaryComponent } from './components/pages/variant-summary/variant-summary.component';
+import { VariantSummaryNewComponent } from './components/pages/variant-summary-new/variant-summary-new.component';
 import { ErrorComponent } from './components/pages/error/error.component';
 import { ExploreComponent } from './components/pages/explore/explore.component';
 import { ClinicalComponent } from './components/pages/clinical/clinical.component';
@@ -28,8 +29,9 @@ const appRoutes: Routes = [
     { path: 'search/results', component: SearchComponent },
     { path: 'clinical/variant', component: VariantComponent },
     { path: 'search/variant-summary', component: VariantSummaryComponent },
+    { path: 'search/variant-summary38', component: VariantSummaryNewComponent },
     { path: 'search', component: SearchComponent },
-    { path: 'explore/:cohort', component: ExploreComponent },
+    { path: 'explore/:build/:cohort', component: ExploreComponent },
     { path: 'beacon', component: BeaconComponent },
     { path: 'terms/mgrb', component: MgrbTermsComponent },
     { path: 'initiatives/mgrb', component: MgrbComponent },
