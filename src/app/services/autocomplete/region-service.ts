@@ -14,7 +14,7 @@ export class RegionService implements AutocompleteService<Region> {
     constructor(protected ensemblService: EnsemblService) {
     }
 
-    search(query: string): Observable<GenericAutocompleteResult<Region>[]> {
+    search(query: string, build: string): Observable<GenericAutocompleteResult<Region>[]> {
         const results = this.parseQuery(query.trim());
         if (results) {
             const chromosome = results[1];

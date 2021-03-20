@@ -1,9 +1,11 @@
 import { Variant } from './variant';
 import { VariantSummary } from './variant-summary';
+import { VariantSummaryNew } from './variant-summary-new';
 import { GenericAutocompleteResult } from './autocomplete-result';
 import { Gene } from './gene';
 import { VariantSearchService } from '../services/variant-search-service';
 import { VariantSummarySearchService } from '../services/variant-summary-search-service';
+import { VariantSummarySearchNewService } from '../services/variant-summary-search-new-service';
 import { SearchOption } from './search-option';
 import { SearchQueries } from './search-query';
 import { Region, GeneDetails } from './region';
@@ -16,6 +18,12 @@ export class GeneAutocomplete extends GenericAutocompleteResult<Gene> {
     }
 
     searchSummary(vsal2: VariantSummarySearchService, options: SearchOption[]): Promise<VariantSummary[]> {
+        return this.autocompleteService.getDetails(this).toPromise().then((gene: Gene) => {
+            return vsal2.getVariants(new SearchQueries([new Region(gene.chromosome, gene.start, gene.end, [new GeneDetails(gene.chromosome, gene.start, gene.end, gene.symbol)])], options));
+        }).catch(e => e);
+    }
+
+    searchSummaryNew(vsal2: VariantSummarySearchNewService, options: SearchOption[]): Promise<VariantSummaryNew[]> {
         return this.autocompleteService.getDetails(this).toPromise().then((gene: Gene) => {
             return vsal2.getVariants(new SearchQueries([new Region(gene.chromosome, gene.start, gene.end, [new GeneDetails(gene.chromosome, gene.start, gene.end, gene.symbol)])], options));
         }).catch(e => e);

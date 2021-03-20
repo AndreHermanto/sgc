@@ -10,7 +10,7 @@ export class RsidService implements AutocompleteService<Rsid> {
 
     constructor() {};
 
-    search(query: string): Observable<GenericAutocompleteResult<Rsid>[]> {
+    search(query: string, build: string): Observable<GenericAutocompleteResult<Rsid>[]> {
         const results = this.parseQuery(query.trim());
         if (results) {
             const rsids = [new RsidAutocomplete(new Rsid(results[0]), results[0], '', this)];

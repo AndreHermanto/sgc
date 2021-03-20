@@ -66,6 +66,7 @@ export class ClinicalComponent implements OnInit, OnDestroy {
       this.autocomplete = null;
       this.searching = true;
       this.searchBarService.setCohort(params['cohort']);
+      this.searchBarService.setBuild(params['build']);
       this.searchBarService.searchWithMultipleParams(params).then((v) => {
         this.autocomplete = v;
         this.loadingParseParams = false;
