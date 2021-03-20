@@ -23,6 +23,7 @@ export class SearchComponent implements  OnInit, OnDestroy {
     private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH}px)`);
     selectedOption: string = this.searchBarService.options[0].getValue();
     authors = [];
+    build: string = this.searchBarService.buildOptions[0].getValue();
 
     constructor(public searchBarService: SearchBarService,
                 public auth: Auth,
@@ -44,10 +45,12 @@ export class SearchComponent implements  OnInit, OnDestroy {
         }
 
     parseParams(params: Params) {
-        if (!params['query'] && !params['cohort']) {
+        if (!params['query'] && !params['cohort'] && !params['build']) {
             return;
         }
+        this.searchBarService.setBuild(params['build']);
         this.searchBarService.setCohort(params['cohort']);
+        this.build = params['build'];
         this.error = '';
         this.autocomplete = null;
         this.searching = true;

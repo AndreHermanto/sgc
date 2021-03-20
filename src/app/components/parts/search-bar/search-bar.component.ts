@@ -20,7 +20,7 @@ export class SearchBarOptions {
 })
 export class SearchBarComponent implements OnInit, OnDestroy {
     @Input() options = new SearchBarOptions();
-    @Input() placeholder = 'Search genes or regions, e.g TP53 or 17:41322498-41363708';
+    @Input() placeholder = 'Search genes or regions, e.g HBB or 17:41322498-41363708';
     @Input() action;
     @Input() regError: Observable<any>;
     @Output() focused = new EventEmitter();
