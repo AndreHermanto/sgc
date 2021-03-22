@@ -16,6 +16,7 @@ export class SideNavComponent implements OnInit {
     termsDropdown = false;
     termsLinkActive = false;
     cohort = this.searchBarService.options[0].getValue();
+    build = this.searchBarService.buildOptions[0].getValue();
     @Input() isMobile = false;
     cohortAccessSummary = ['Demo'];
     cohortAccessClinical = ['Demo'];
@@ -36,6 +37,10 @@ export class SideNavComponent implements OnInit {
         
         this.searchBarService.selectedCohort.subscribe(cohort => {
             this.cohort = cohort;
+        })
+
+        this.searchBarService.selectedBuilt.subscribe(build => {
+            this.build = build;
         })
 
         if(!this.auth.authenticated()){

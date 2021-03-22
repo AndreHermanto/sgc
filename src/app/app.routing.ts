@@ -29,7 +29,7 @@ const appRoutes: Routes = [
     { path: 'clinical/variant', component: VariantComponent },
     { path: 'search/variant-summary', component: VariantSummaryComponent },
     { path: 'search', component: SearchComponent },
-    { path: 'explore/:cohort', component: ExploreComponent },
+    { path: 'explore/:build/:cohort', component: ExploreComponent },
     { path: 'beacon', component: BeaconComponent },
     { path: 'terms/mgrb', component: MgrbTermsComponent },
     { path: 'initiatives/mgrb', component: MgrbComponent },

@@ -44,9 +44,10 @@ export class SearchComponent implements  OnInit, OnDestroy {
         }
 
     parseParams(params: Params) {
-        if (!params['query'] && !params['cohort']) {
+        if (!params['query'] && !params['cohort'] && !params['build']) {
             return;
         }
+        this.searchBarService.setBuild(params['build']);
         this.searchBarService.setCohort(params['cohort']);
         this.error = '';
         this.autocomplete = null;

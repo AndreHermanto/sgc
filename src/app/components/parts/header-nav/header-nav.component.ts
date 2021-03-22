@@ -22,6 +22,7 @@ export class HeaderNavComponent implements OnInit {
     userEmail = localStorage.getItem('uid')?localStorage.getItem('uid'):null;
     userPicture;
     cohort = this.searchBarService.options[0].getValue();
+    build = this.searchBarService.buildOptions[0].getValue();
     cohortAccessSummary = ['Demo'];
     cohortAccessClinical = ['Demo'];
 
@@ -57,6 +58,9 @@ export class HeaderNavComponent implements OnInit {
 
         this.subscriptions.push(this.searchBarService.selectedCohort.subscribe(cohort => {
             this.cohort = cohort;
+        }))
+        this.subscriptions.push(this.searchBarService.selectedBuilt.subscribe(build => {
+            this.build = build;
         }))
 
         if(!this.auth.authenticated()){

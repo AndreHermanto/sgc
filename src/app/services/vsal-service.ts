@@ -20,7 +20,7 @@ export class VsalService {
     constructor(private http: HttpClient) {
     }
 
-    getVariants(query: SearchQueries, samples, noSamples, ref, alt, het, hom, conj): Observable<VariantRequest> {
+    getVariants(query: SearchQueries, build, samples, noSamples, ref, alt, het, hom, conj): Observable<VariantRequest> {
         const chromosome = query.regions.map(q => q.chromosome).join();
         const start = query.regions.map(q => q.start).join();
         const end = query.regions.map(q => q.end).join();
@@ -72,7 +72,7 @@ export class VsalService {
             .append('Content-Type', 'application/json')
             .append('Accept', '*/*')
             .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
-        return this.requests(objParams, headers).reduce((acc: VariantRequest, x: VariantRequest, i: number) => {
+        return this.requests(objParams, headers, build).reduce((acc: VariantRequest, x: VariantRequest, i: number) => {
             acc.variants = acc.variants.concat(x.variants);
             acc.error += x.error;
             acc.total = x.total;
@@ -83,7 +83,7 @@ export class VsalService {
         });
     }
 
-    getVariantsSummary(query: SearchQueries): Observable<VariantSummaryRequest> {
+    getVariantsSummary(query: SearchQueries, build: string): Observable<VariantSummaryRequest> {
         let urlParams = new HttpParams()
             .append('chr', query.regions[0].chromosome)
             .append('start', String(query.regions[0].start))
@@ -114,7 +114,7 @@ export class VsalService {
             .append('Content-Type', 'application/json')
             .append('Accept', '*/*')
             .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
-        return this.requestsSummary(urlParams, headers).reduce((acc: VariantSummaryRequest, x: VariantSummaryRequest, i: number) => {
+        return this.requestsSummary(urlParams, headers, build).reduce((acc: VariantSummaryRequest, x: VariantSummaryRequest, i: number) => {
             acc.variants = acc.variants.concat(x.variants);
             acc.error += x.error;
             acc.total = x.total;
@@ -125,7 +125,13 @@ export class VsalService {
         });
     }
 
-    getSamples(query: SearchQueries, ref, alt, het, hom): Observable<SampleRequest> {
+    getSamples(query: SearchQueries, build, ref, alt, het, hom): Observable<SampleRequest> {
+        let url = "";
+        if(build === 'GRCh38'){
+            url = environment.vsalUrlClinical38;
+        }else if(build === 'GRCh37'){
+            url = environment.vsalUrlClinical37;
+        }
         const chromosome = query.regions.map(q => q.chromosome).join();
         const start = query.regions.map(q => q.start).join();
         const end = query.regions.map(q => q.end).join();
@@ -169,8 +175,8 @@ export class VsalService {
             .append('Content-Type', 'application/json')
             .append('Accept', '*/*')
             .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
-        //this.http.post(environment.vsalUrl2, objParams, {headers: headers})
-        return this.http.post(environment.vsalUrl2, objParams, {headers: headers})
+        //this.http.post(environment.vsalUrlClinical37, objParams, {headers: headers})
+        return this.http.post(url, objParams, {headers: headers})
             .timeout(VSAL_TIMEOUT)
             .map((data) => {
                 if (data['error']) {
@@ -214,9 +220,9 @@ export class VsalService {
     //     });
     // }
 
-    private requests(params: any, headers: HttpHeaders): Observable<VariantRequest> {
+    private requests(params: any, headers: HttpHeaders, build: string): Observable<VariantRequest> {
         return Observable.create((observer) => {
-            this.request(params, headers).subscribe((vs: VariantRequest) => {
+            this.request(params, headers, build).subscribe((vs: VariantRequest) => {
                 observer.next(vs);
                 if (vs.error) {
                     observer.complete();
@@ -228,7 +234,7 @@ export class VsalService {
                         for (i = VSAL_VARIANT_LIMIT; i < vs.total; i += VSAL_VARIANT_LIMIT) {
                             //params = params.set('skip', String(i));
                             params['skip'] = String(i);
-                            this.request(params, headers).subscribe((svs: VariantRequest) => {
+                            this.request(params, headers, build).subscribe((svs: VariantRequest) => {
                                 observer.next(svs);
                                 completed++;
                                 if (completed === queued || svs.error) {
@@ -244,8 +250,14 @@ export class VsalService {
         });
     }
 
-    private request(params: any, headers: HttpHeaders): Observable<VariantRequest> {
-        return this.http.post(environment.vsalUrl2, params, {headers: headers})
+    private request(params: any, headers: HttpHeaders, build: string): Observable<VariantRequest> {
+        let url = "";
+        if(build === 'GRCh38'){
+            url = environment.vsalUrlClinical38;
+        }else if(build === 'GRCh37'){
+            url = environment.vsalUrlClinical37;
+        }
+        return this.http.post(url, params, {headers: headers})
             .timeout(VSAL_TIMEOUT)
             .map((data) => {
                 if (data['error']) {
@@ -269,9 +281,9 @@ export class VsalService {
     }
 
 
-    private requestsSummary(params: HttpParams, headers: HttpHeaders): Observable<VariantSummaryRequest> {
+    private requestsSummary(params: HttpParams, headers: HttpHeaders, build: string): Observable<VariantSummaryRequest> {
         return Observable.create((observer) => {
-            this.requestSummary(params, headers).subscribe((vs: VariantSummaryRequest) => {
+            this.requestSummary(params, headers, build).subscribe((vs: VariantSummaryRequest) => {
                 observer.next(vs);
                 if (vs.error) {
                     observer.complete();
@@ -282,7 +294,7 @@ export class VsalService {
                         const queued = Math.floor(vs.total / VSAL_VARIANT_LIMIT);
                         for (i = VSAL_VARIANT_LIMIT; i < vs.total; i += VSAL_VARIANT_LIMIT) {
                             params = params.set('skip', String(i));
-                            this.requestSummary(params, headers).subscribe((svs: VariantSummaryRequest) => {
+                            this.requestSummary(params, headers, build).subscribe((svs: VariantSummaryRequest) => {
                                 observer.next(svs);
                                 completed++;
                                 if (completed === queued || svs.error) {
@@ -298,8 +310,14 @@ export class VsalService {
         });
     }
 
-    private requestSummary(params: HttpParams, headers: HttpHeaders): Observable<VariantSummaryRequest> {
-        return this.http.get(environment.vsalUrl+ '/' + params.get('dataset') + '/query', {params: params, headers: headers})
+    private requestSummary(params: HttpParams, headers: HttpHeaders, build: string): Observable<VariantSummaryRequest> {
+        let url = "";
+        if(build === 'GRCh38'){
+            url = environment.vsalUrlSummary38;
+        }else if(build === 'GRCh37'){
+            url = environment.vsalUrlSummary37;
+        }
+        return this.http.get(url+ '/' + params.get('dataset') + '/query', {params: params, headers: headers})
             .timeout(VSAL_TIMEOUT)
             .map((data) => {
                 if (data['error']) {

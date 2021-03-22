@@ -126,10 +126,10 @@ export class SearchOptionComponent implements OnInit {
             }else{
                 this.conjSamples = false
             }
-            if(p['build'] === '37'){
-                this.build = 'GRCh37';
-            }else if(p['build'] === '38'){
-                this.build === 'GRCh38';
+            if(p['build'] === 'GRCh37'){
+                this.buildOption.setValue('GRCh37');
+            }else if(p['build'] === 'GRCh38'){
+                this.buildOption.setValue('GRCh38');
             }
         }));
 
@@ -204,7 +204,7 @@ export class SearchOptionComponent implements OnInit {
         this.searchBarService.conj = this.conj;
         this.searchBarService.conjSamples = this.conjSamples;
         if(this.router.url.includes('/explore')){
-            this.router.navigate([`/explore/${this.option.getValue()}`]);
+            this.router.navigate([`/explore/${this.buildOption.getValue()}/${this.option.getValue()}`]);
         }
     }
 
