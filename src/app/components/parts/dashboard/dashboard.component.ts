@@ -20,6 +20,7 @@ import { Position } from '../../../model/position';
 import { Dimension, BasicFilter, DimensionFilter, MapdFilterService } from '../../../services/mapd-filter.service';
 import { SnackbarHelpComponent } from '../snackbar-help/snackbar-help.component';
 import { VariantsTablePaginatedComponent } from '../variants-table-paginated/variants-table-paginated.component';
+import { VariantsTablePaginatedNewComponent } from '../variants-table-paginated-new/variants-table-paginated-new.component';
 import { RsidService } from '../../../services/autocomplete/rsid-service';
 import { Rsid } from '../../../model/rsid';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -42,6 +43,8 @@ const SMALL_WIDTH = 720;
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(VariantsTablePaginatedComponent, {static: false})
     private variantTable: VariantsTablePaginatedComponent;
+    @ViewChild(VariantsTablePaginatedNewComponent, {static: false})
+    private variantTableNew: VariantsTablePaginatedNewComponent;
     private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH}px)`);
     subscriptions: Subscription[] = [];
 
@@ -233,7 +236,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     downloadVariants() {
-        this.variantTable.downloadFile();
+        if(this.build === 'GRCh37'){
+            this.variantTable.downloadFile();
+        }else if(this.build === 'GRCh38'){
+            this.variantTableNew.downloadFile();
+        }
     }
 
     isSmallScreen(): boolean {

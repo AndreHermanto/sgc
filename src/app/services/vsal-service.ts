@@ -3,11 +3,13 @@ import * as Raven from 'raven-js';
 import { constants } from '../app.constants';
 import { Variant } from '../model/variant';
 import { VariantSummary } from '../model/variant-summary'
+import { VariantSummaryNew } from '../model/variant-summary-new'
 import { environment } from '../../environments/environment';
 import { SearchQueries } from '../model/search-query';
 import { VariantRequest } from '../model/variant-request';
 import { SampleRequest } from '../model/sample-request';
 import { VariantSummaryRequest } from '../model/variant-summary-request';
+import { VariantSummaryRequestNew } from '../model/variant-summary-request-new';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { of, Observable } from "rxjs";
 import { COHORT_VALUE_MAPPING_SSVS, COHORT_VALUE_MAPPING_VSAL } from '../model/cohort-value-mapping';
@@ -114,13 +116,55 @@ export class VsalService {
             .append('Content-Type', 'application/json')
             .append('Accept', '*/*')
             .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
-        return this.requestsSummary(urlParams, headers, build).reduce((acc: VariantSummaryRequest, x: VariantSummaryRequest, i: number) => {
+        return this.requestsSummary(urlParams, headers, build).reduce((acc: VariantSummaryRequest , x: VariantSummaryRequest, i: number) => {
             acc.variants = acc.variants.concat(x.variants);
             acc.error += x.error;
             acc.total = x.total;
             return acc;
         }, new VariantSummaryRequest([])).map((v: VariantSummaryRequest) => {
             v.variants.sort((a: VariantSummary, b: VariantSummary) => a.start - b.start);
+            return v;
+        });
+    }
+
+    getVariantsSummaryNew(query: SearchQueries, build: string): Observable<VariantSummaryRequestNew> {
+        let urlParams = new HttpParams()
+            .append('chr', query.regions[0].chromosome)
+            .append('start', String(query.regions[0].start))
+            .append('end', String(query.regions[0].end))
+            .append('limit', VSAL_VARIANT_LIMIT.toString())
+            .append('sortBy', 'start')
+            .append('descend', 'false')
+            .append('skip', '0')
+            .append('count', 'true')
+            .append('annot', 'true');
+
+        let dataset;
+
+        query.options.forEach(o => {
+            if (o.key) {
+                if(o.key === 'dataset'){
+                    if(COHORT_VALUE_MAPPING_SSVS[o.getValue()]){
+                        urlParams = urlParams.append('dataset', COHORT_VALUE_MAPPING_SSVS[o.getValue()]);
+                        dataset = COHORT_VALUE_MAPPING_SSVS[o.getValue()];
+                    }
+                }else {
+                    urlParams = urlParams.append(o.key, o.getValue());
+                }           
+            }
+        });
+
+        const headers = new HttpHeaders()
+            .append('Content-Type', 'application/json')
+            .append('Accept', '*/*')
+            .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+        return this.requestsSummary(urlParams, headers, build).reduce((acc: VariantSummaryRequestNew , x: VariantSummaryRequestNew, i: number) => {
+            acc.variants = acc.variants.concat(x.variants);
+            acc.error += x.error;
+            acc.total = x.total;
+            return acc;
+        }, new VariantSummaryRequestNew([])).map((v: VariantSummaryRequestNew) => {
+            v.variants.sort((a: VariantSummaryNew, b: VariantSummaryNew) => a.start - b.start);
             return v;
         });
     }
@@ -281,9 +325,9 @@ export class VsalService {
     }
 
 
-    private requestsSummary(params: HttpParams, headers: HttpHeaders, build: string): Observable<VariantSummaryRequest> {
+    private requestsSummary(params: HttpParams, headers: HttpHeaders, build: string): Observable<VariantSummaryRequest | VariantSummaryRequestNew> {
         return Observable.create((observer) => {
-            this.requestSummary(params, headers, build).subscribe((vs: VariantSummaryRequest) => {
+            this.requestSummary(params, headers, build).subscribe((vs: VariantSummaryRequest | VariantSummaryRequestNew) => {
                 observer.next(vs);
                 if (vs.error) {
                     observer.complete();
@@ -294,7 +338,7 @@ export class VsalService {
                         const queued = Math.floor(vs.total / VSAL_VARIANT_LIMIT);
                         for (i = VSAL_VARIANT_LIMIT; i < vs.total; i += VSAL_VARIANT_LIMIT) {
                             params = params.set('skip', String(i));
-                            this.requestSummary(params, headers, build).subscribe((svs: VariantSummaryRequest) => {
+                            this.requestSummary(params, headers, build).subscribe((svs: VariantSummaryRequest | VariantSummaryRequestNew) => {
                                 observer.next(svs);
                                 completed++;
                                 if (completed === queued || svs.error) {
@@ -310,7 +354,7 @@ export class VsalService {
         });
     }
 
-    private requestSummary(params: HttpParams, headers: HttpHeaders, build: string): Observable<VariantSummaryRequest> {
+    private requestSummary(params: HttpParams, headers: HttpHeaders, build: string): Observable<VariantSummaryRequest | VariantSummaryRequestNew> {
         let url = "";
         if(build === 'GRCh38'){
             url = environment.vsalUrlSummary38;
@@ -322,9 +366,19 @@ export class VsalService {
             .map((data) => {
                 if (data['error']) {
                     Raven.captureMessage("VSAL ERROR: " + data['error']);
-                    return new VariantSummaryRequest([], constants.GENERIC_SERVICE_ERROR_MESSAGE);
+                    if(build === 'GRCh37'){
+                        return new VariantSummaryRequest([], constants.GENERIC_SERVICE_ERROR_MESSAGE);
+                    }else if(build === 'GRCh38'){
+                        return new VariantSummaryRequestNew([], constants.GENERIC_SERVICE_ERROR_MESSAGE);
+                    }
+                    
                 }
-                const vs = new VariantSummaryRequest(data['variants']);
+                let vs;
+                if(build === 'GRCh37'){
+                    vs = new VariantSummaryRequest(data['variants']);
+                }else if(build === 'GRCh38'){
+                    vs = new VariantSummaryRequestNew(data['variants']);
+                }
                 if (data['total'] && data['total'] !== -1) {
                     vs.total = data['total'];
                 }
@@ -332,7 +386,12 @@ export class VsalService {
             })
             .catch((e) => {
                 Raven.captureMessage("VSAL ERROR: " + JSON.stringify(e));
-                return of(new VariantSummaryRequest([], constants.GENERIC_SERVICE_ERROR_MESSAGE));
+                if(build === 'GRCh37'){
+                    return of(new VariantSummaryRequest([], constants.GENERIC_SERVICE_ERROR_MESSAGE));
+                }else if(build === 'GRCh38'){
+                    return of(new VariantSummaryRequestNew([], constants.GENERIC_SERVICE_ERROR_MESSAGE));
+                }
+                
             });
     }
 }

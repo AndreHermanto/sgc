@@ -17,6 +17,7 @@ export const environment = {
     production: false,
     ci: false,
     ensemblDomain: '',
+    ensemblDomain38: 'rest.ensembl.org',
     ensemblProtocol: 'https',
     baseHref: '',
     auth0ClientId: '',

@@ -32,7 +32,7 @@ export class VariantSummarySearchService {
                 return this.vsal.getVariantsSummary(query, this.searchBarService.getBuild()).map((vr: VariantSummaryRequest) => { 
                     if (this.filter) {
                         vr.variants = this.filter(vr.variants);
-                    }
+                    }                    
                     return vr;
                 });
             })

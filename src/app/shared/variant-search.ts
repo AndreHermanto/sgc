@@ -1,12 +1,13 @@
 import { Region } from '../model/region';
 import { SearchQueries } from '../model/search-query';
 import { VariantSummaryRequest } from '../model/variant-summary-request';
+import { VariantSummaryRequestNew } from '../model/variant-summary-request-new';
 
 export class VariantSearch {
     getVariants(query: SearchQueries, results, errors, searchQuery): Promise<any[]> {
         const promise = new Promise<any[]>((resolve, reject) => {
             results.take(1).subscribe(
-                (vr: VariantSummaryRequest) => {
+                (vr: VariantSummaryRequest | VariantSummaryRequestNew) => {
                     if (vr.error) {
                         errors.next(vr.error);
                         resolve([]);

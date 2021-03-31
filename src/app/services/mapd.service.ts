@@ -19,18 +19,23 @@ export class MapdService {
             user: '',
             pwd: ''
         };
+        let buildUrl = '';
         if(build === "GRCh37"){
             config = environment.mapd37;
+            buildUrl = '/' + cohort; 
         }else if(build === "GRCh38"){
             config = environment.mapd38;
+            buildUrl = '/grch38/' + cohort;
         }else{
             return Promise.reject('Build is not correct');
         }
+
+
         return new Promise((resolve, reject) => {
             new MapdCon()
                 .protocol([config.protocol])
                 .host([config.host])
-                .port([config.port + '/' + cohort])
+                .port([config.port + buildUrl])
                 .dbName([config.dbName])
                 .user([config.user])
                 .password([config.pwd])
