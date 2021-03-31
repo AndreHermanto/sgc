@@ -3,7 +3,8 @@
     <div *ngIf="showBuiltOptions" class="options-build">
         <div *ngFor="let option of buildOption.allOptions(); let i = index;"
                 (mousedown)="selectBuilt(option); showBuiltOptions = false">
-                <span class="name">{{ option }}</span>
+                <span class="name" *ngIf="availableBuild[option].length > 0">{{ option }}</span>
+                <span class="name-disabled" *ngIf="availableBuild[option].length === 0">{{ option }}</span>
         </div>
     </div>
 </div>
@@ -19,7 +20,7 @@ class="cohort-information"
     <div *ngIf="showOptions" class="options">
         <div *ngFor="let option of option.allOptions(); let i = index;"
              (mousedown)="selectOption(option); showOptions = false">
-            <span class="name" *ngIf="cohortAccess.includes(option)">{{ option }} 
+            <span class="name" *ngIf="cohortAccess.includes(option) && availableBuild[build].includes(option)">{{ option }} 
                 <span *ngIf="cohortSamplesInfo[option] !== null">
                     (
                     <span *ngIf="cohortSamplesInfo[option]['wgs'] > 0">{{cohortSamplesInfo[option]['wgs']}} WGS</span>
@@ -28,7 +29,7 @@ class="cohort-information"
                     )
                 </span>
             </span>
-            <span class="name-disabled" *ngIf="!cohortAccess.includes(option)">{{ option }} 
+            <span class="name-disabled" *ngIf="!cohortAccess.includes(option) || !availableBuild[build].includes(option)">{{ option }} 
                 <span *ngIf="cohortSamplesInfo[option] !== null">
                     (
                     <span *ngIf="cohortSamplesInfo[option]['wgs'] > 0">{{cohortSamplesInfo[option]['wgs']}} WGS</span>

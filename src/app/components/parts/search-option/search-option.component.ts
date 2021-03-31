@@ -4,7 +4,7 @@ import { SearchBarService } from '../../../services/search-bar-service';
 import { Subscription } from 'rxjs/Subscription';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
-import { COHORT_SAMPLES_INFO, COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING } from '../../../model/cohort-value-mapping';
+import { COHORT_SAMPLES_INFO, COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING, AVAILABLE_BUILD_SUMMARY, AVAILABLE_BUILD_CLINICAL } from '../../../model/cohort-value-mapping';
 import { Auth } from '../../../services/auth-service';
 
 @Component({
@@ -39,6 +39,7 @@ export class SearchOptionComponent implements OnInit {
     conj: boolean;
     conjSamples: boolean;
     cohortSamplesInfo = COHORT_SAMPLES_INFO;
+    availableBuild = AVAILABLE_BUILD_SUMMARY;
     cohortAccess = ['Demo'];
 
     totalSamplesGen = '';
@@ -143,6 +144,9 @@ export class SearchOptionComponent implements OnInit {
         this.route.url.subscribe(url => {
             if(url.length && url[0].path === 'clinical'){
                 this.checkPermissionsOnClinical();
+                this.availableBuild = AVAILABLE_BUILD_CLINICAL;
+            }else{
+                this.availableBuild = AVAILABLE_BUILD_SUMMARY;
             }
         })
 
@@ -181,15 +185,20 @@ export class SearchOptionComponent implements OnInit {
     }
 
     selectOption(selected: string) {
-        if(this.cohortAccess.includes(selected)){
+        if(this.cohortAccess.includes(selected)  && this.availableBuild[this.build].includes(selected)){
             this.option.setValue(selected);
             this.setSearchBarValue();
         }
     }
 
     selectBuilt(selected: string) {
-        this.buildOption.setValue(selected);
-        this.setSearchBarValue();
+        if(this.availableBuild[selected].length > 0){
+            this.buildOption.setValue(selected);
+            if(!this.availableBuild[selected].includes(this.cohort)){
+                this.option.setValue(this.availableBuild[selected][0]);
+            }
+            this.setSearchBarValue();
+        }
     }
 
     setSearchBarValue(){
