@@ -122,7 +122,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   });
   loginLimit = new BehaviorSubject<number>(10);
   selectedTopLogin = 10;
-  cohortsList = ['Acute Care Probands', 'Acute Care Trios', 'Brain Malformations', 'Cardiac', 'Childranz', 'Epileptic Encephalopathies', 'Genetic Immunology', 'KidGen', 'ICCon', 'Mitochondria', 'Leukodystrophies', 'HIDDEN', 'Neuromuscular']
+  cohortsList = ['MGRB']
   cohortsFilter = new BehaviorSubject<string[]>([]);
   cohortsFilterArr = [];
 
