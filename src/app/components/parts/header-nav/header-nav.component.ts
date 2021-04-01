@@ -17,7 +17,6 @@ export class HeaderNavComponent implements OnInit {
     subscriptions: Subscription[] = [];
     termsDropdown = false;
     userDropdown = false;
-    termsDropdown2 = false;
     termsLinkActive = false;
     userEmail = localStorage.getItem('uid')?localStorage.getItem('uid'):null;
     userPicture;
@@ -115,28 +114,10 @@ export class HeaderNavComponent implements OnInit {
         if (!this.termsDropdown) {
             this.termsDropdown = true;
             this.userDropdown = false;
-            this.termsDropdown2 = false;
         }
     };
 
-    toggleTerms2(event: Event) {
-        event.stopPropagation();
-        this.termsDropdown2 ? this.hideTerms2() : this.showTerms2();
-    }
 
-    hideTerms2 = () => {
-        if (this.termsDropdown2) {
-            this.termsDropdown2 = false;
-        }
-    };
-
-    showTerms2 = () => {
-        if (!this.termsDropdown2) {
-            this.termsDropdown2 = true;
-            this.termsDropdown = false;
-            this.userDropdown = false;
-        }
-    };
 
     toggleUser(event: Event) {
         event.stopPropagation();
@@ -153,7 +134,6 @@ export class HeaderNavComponent implements OnInit {
         if (!this.userDropdown) {
             this.userDropdown = true;
             this.termsDropdown = false;
-            this.termsDropdown2 = false;
         }
     };
 

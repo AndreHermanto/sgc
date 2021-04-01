@@ -13,16 +13,7 @@
             <div *ngIf="termsDropdown" [ngClass]="['terms', 'dropdown']">
                 <div class="dropdown-item" (click)="goToAbout($event)">SGC</div>
                 <div class="dropdown-item" (click)="goToAboutVA($event)">Vectis</div>
-            </div>
-        </a>
-        <a [ngClass]="{'is-active': termsLinkActive}" (click)="toggleTerms2($event)">
-            <div class="terms-link">
-                <span class="label">Data access</span>
-                <i *ngIf="!termsDropdown2" class="material-icons">keyboard_arrow_down</i>
-                <i *ngIf="termsDropdown2" class="material-icons">keyboard_arrow_up</i>
-            </div>
-            <div *ngIf="termsDropdown2" [ngClass]="['terms', 'dropdown']">
-                <div class="dropdown-item" (click)="goToMgrbTerms($event)">MGRB</div>
+                <div class="dropdown-item" (click)="goToMgrbTerms($event)">MGRB - Data Access</div>
             </div>
         </a>
         <a *ngIf="auth.authenticated() && auth.hasAnalyticsAccess()" routerLink="/analytics" routerLinkActive="is-active">Cohort Use</a>
