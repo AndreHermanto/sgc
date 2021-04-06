@@ -12,7 +12,7 @@ export const environment = {
     auth0MachineClientId: '9O0wRIq6yuPaUYp7YGskT0DwFQ3C6Bvj',
     beaconNetworkUrl: 'https://beacon-network.org/api',
     vsalUrlSummary37: 'https://vsal.garvan.org.au/ssvs',
-    vsalUrlSummary38: 'https://vsal.garvan.org.au/ssvs',
+    vsalUrlSummary38: 'https://vsal.garvan.org.au/ssvs/grch38',
     vsalUrlClinical37: 'https://vsal.garvan.org.au/vsal/core/find',
     vsalUrlClinical38: 'https://vsal.garvan.org.au/vsal/core/find',
     elasticUrl37: 'https://dr-sgc.kccg.garvan.org.au/_elasticsearch',
@@ -23,7 +23,7 @@ export const environment = {
     vectisAnalyticsUrl: 'https://vectis-analytics.public.garvan.org.au/analytics',
     mapd37: {
         protocol: 'https',
-        host: 'mapd.vectis-api.com',
+        host: 'vsal.garvan.org.au',
         port: '443',
         dbName: 'mapd',
         user: 'mapd',
@@ -31,7 +31,7 @@ export const environment = {
     },
     mapd38: {
         protocol: 'https',
-        host: 'mapd.vectis-api.com',
+        host: 'vsal.garvan.org.au',
         port: '443',
         dbName: 'mapd',
         user: 'mapd',
