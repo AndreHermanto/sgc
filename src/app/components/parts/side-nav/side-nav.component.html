@@ -1,7 +1,7 @@
 <nav>
-    <a routerLink="/search" routerLinkActive="is-active" [class.disabled]="cohortAccessSummary.includes(cohort) && availableBuildSummary[build].includes(cohort) ? null : true">SUMMARY</a>
-    <a [routerLink]="['/explore', build, cohort]" routerLinkActive="is-active" [class.disabled]="cohortAccessSummary.includes(cohort) && availableBuildSummary[build].includes(cohort) ? null : true">EXPLORE</a>
-    <a *ngIf="!isMobile" routerLink="/clinical" routerLinkActive="is-active" [class.disabled]="cohortAccessClinical.includes(cohort) && availableBuildClinical[build].includes(cohort) ? null : true">CLINICAL FILTERING</a>
+    <a routerLink="/search" routerLinkActive="is-active" [class.disabled]="cohortAccessSummary.includes(cohort) ? null : true">SUMMARY</a>
+    <a [routerLink]="['/explore', build, cohort]" routerLinkActive="is-active" [class.disabled]="cohortAccessSummary.includes(cohort) ? null : true">EXPLORE</a>
+    <a *ngIf="!isMobile" routerLink="/clinical" routerLinkActive="is-active" [class.disabled]="cohortAccessClinical.includes(cohort) ? null : true">CLINICAL FILTERING</a>
 
     <a routerLink="/beacon" routerLinkActive="is-active">BEACON</a>
     <a routerLink="/about" routerLinkActive="is-active">ABOUT SGC</a>

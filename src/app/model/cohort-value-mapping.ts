@@ -52,13 +52,3 @@ export const COHORT_PERMISSION_UNCONSENTED_SAMPLES = {
     Demo: '',
     MGRB: 'mgrb/unconsented',
 }
-
-export const AVAILABLE_BUILD_SUMMARY = {
-    GRCh37: ['Demo', 'MGRB'],
-    GRCh38: ['MGRB']
-}
-
-export const AVAILABLE_BUILD_CLINICAL = {
-    GRCh37: ['Demo', 'MGRB'],
-    GRCh38: []
-}
