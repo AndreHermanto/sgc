@@ -6,7 +6,7 @@ import { ScrollService } from '../../../services/scroll-service';
 import { SearchBarService } from '../../../services/search-bar-service';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 import { Subscription } from 'rxjs/Subscription';
-import { COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING } from '../../../model/cohort-value-mapping';
+import { COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING, AVAILABLE_BUILD } from '../../../model/cohort-value-mapping';
 
 @Component({
     selector: 'app-header-nav',
@@ -24,6 +24,7 @@ export class HeaderNavComponent implements OnInit {
     build = this.searchBarService.buildOptions[0].getValue();
     cohortAccessSummary = ['Demo'];
     cohortAccessClinical = ['Demo'];
+    availableBuild = AVAILABLE_BUILD;
 
     @HostListener('document:click', ['$event']) outsideClick($event: Event) {
         if (!$event) {

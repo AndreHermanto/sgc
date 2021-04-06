@@ -1,8 +1,8 @@
 <div class="right-side">
     <nav>
-        <a routerLink="/search" routerLinkActive="is-active" [class.disabled]="cohortAccessSummary.includes(cohort) ? null : true">Summary</a>
-        <a [routerLink]="['/explore', build, cohort]" routerLinkActive="is-active" [class.disabled]="cohortAccessSummary.includes(cohort) ? null : true">Explore</a>
-        <a routerLink="/clinical" routerLinkActive="is-active" [class.disabled]="cohortAccessClinical.includes(cohort) ? null : true">Clinical Filtering</a>
+        <a routerLink="/search" routerLinkActive="is-active" [class.disabled]="cohortAccessSummary.includes(cohort) && availableBuild[build].includes(cohort) ? null : true">Summary</a>
+        <a [routerLink]="['/explore', build, cohort]" routerLinkActive="is-active" [class.disabled]="cohortAccessSummary.includes(cohort) && availableBuild[build].includes(cohort) ? null : true">Explore</a>
+        <a routerLink="/clinical" routerLinkActive="is-active" [class.disabled]="cohortAccessClinical.includes(cohort) && availableBuild[build].includes(cohort) ? null : true">Clinical Filtering</a>
         <a routerLink="/beacon" routerLinkActive="is-active">Beacon</a>
         <a [ngClass]="{'is-active': termsLinkActive}" (click)="toggleTerms($event)">
             <div class="terms-link">

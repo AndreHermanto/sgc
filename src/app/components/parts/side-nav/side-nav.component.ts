@@ -5,7 +5,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 import { SearchBarService } from '../../../services/search-bar-service';
 import { Subscription } from 'rxjs/Subscription';
-import { COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING } from '../../../model/cohort-value-mapping';
+import { COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING, AVAILABLE_BUILD } from '../../../model/cohort-value-mapping';
 
 @Component({
     selector: 'app-side-nav',
@@ -20,6 +20,7 @@ export class SideNavComponent implements OnInit {
     @Input() isMobile = false;
     cohortAccessSummary = ['Demo'];
     cohortAccessClinical = ['Demo'];
+    availableBuild = AVAILABLE_BUILD;
 
     constructor(public auth: Auth,
                 private router: Router,
