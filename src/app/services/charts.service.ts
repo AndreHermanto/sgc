@@ -141,7 +141,7 @@ export class ChartsService {
         new Chart("Impact", "impact", ChartType.Row),
         new Chart("Biotype", "biotype", ChartType.Row),
         new Chart(
-            "cadd_raw",
+            "CADD Raw",
             "cadd_raw",
             ChartType.Row,
             dim => {
@@ -155,7 +155,7 @@ export class ChartsService {
             },
             false
         ),
-        new Chart("cadd_phred", "cadd_phred", ChartType.Row),
+        new Chart("CADD PHRED", "cadd_phred", ChartType.Row),
         new Chart("PolyPhen", "polyPhen", ChartType.Pie, null, false),
         new Chart("Sift", "sift", ChartType.Pie, null, false)
     ];
