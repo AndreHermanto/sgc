@@ -23,11 +23,20 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="side-list">
-                    <div mat-menu-item *ngFor="let c of cs.charts" (click)="toggleChart($event, c)">
-                        <mat-slide-toggle [checked]="c.enabled" (change)="c.enabled = $event.checked" (click)="$event.stopPropagation()">
-                            {{ c.name }}
-                        </mat-slide-toggle>
-                    </div>
+                    <ng-container *ngIf="build=== 'GRCh37'">
+                        <div mat-menu-item *ngFor="let c of cs.charts" (click)="toggleChart($event, c)">
+                            <mat-slide-toggle [checked]="c.enabled" (change)="c.enabled = $event.checked" (click)="$event.stopPropagation()">
+                                {{ c.name }}
+                            </mat-slide-toggle>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="build=== 'GRCh38'">
+                            <div mat-menu-item *ngFor="let c of cs.charts38" (click)="toggleChart($event, c)">
+                                <mat-slide-toggle [checked]="c.enabled" (change)="c.enabled = $event.checked" (click)="$event.stopPropagation()">
+                                    {{ c.name }}
+                                </mat-slide-toggle>
+                            </div>
+                        </ng-container>
                 </div>
             </mat-expansion-panel>
             <div mat-menu-item (click)="toggleSql($event)">
