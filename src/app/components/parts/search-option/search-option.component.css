@@ -57,7 +57,7 @@
     color: var(--font-color);
     display: flex;
     align-items: center;
-    min-width: 170px;
+    min-width: 130px;
 }
 
 .mat-icon {

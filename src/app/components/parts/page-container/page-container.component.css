@@ -43,7 +43,7 @@ mat-sidenav-container {
     flex-direction: row;
     align-items: center;
     height: 70px;
-    max-width: 110em;
+    max-width: 95%;
     margin: auto;
 }
 .menu-title {
@@ -91,7 +91,7 @@ mat-sidenav {
 
 mat-sidenav .title {
     font-size: larger;
-    margin: 2rem;
+    margin: 1rem;
     color: var(--font-color);
 }
 
