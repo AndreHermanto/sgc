@@ -56,22 +56,21 @@ export class SearchOptionComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.searchBarService.selectedCohort.subscribe(cohort => {
-            this.cohort = cohort;
-            if(this.cohort === 'Demo'){
-                this.cohort = 'Demo from 1000 Genome Project';
-            }
-            if(COHORT_SAMPLES_INFO[cohort]){
-                this.totalSamplesGen = COHORT_SAMPLES_INFO[cohort]['gen'];
-                this.totalSamplesPhen = COHORT_SAMPLES_INFO[cohort]['phen'];
-            }else{
-                this.totalSamplesGen = '';
-                this.totalSamplesPhen = ''; 
-            }
-        })
-
         this.searchBarService.selectedBuilt.subscribe(build => {
             this.build = build;
+            this.searchBarService.selectedCohort.subscribe(cohort => {
+                this.cohort = cohort;
+                if(this.cohort === 'Demo'){
+                    this.cohort = 'Demo from 1000 Genome Project';
+                }
+                if(COHORT_SAMPLES_INFO[this.build][cohort]){
+                    this.totalSamplesGen = COHORT_SAMPLES_INFO[this.build][cohort]['gen'];
+                    this.totalSamplesPhen = COHORT_SAMPLES_INFO[this.build][cohort]['phen'];
+                }else{
+                    this.totalSamplesGen = '';
+                    this.totalSamplesPhen = ''; 
+                }
+            })
         })
 
         this.subscriptions.push(this.route.params.subscribe(p => {

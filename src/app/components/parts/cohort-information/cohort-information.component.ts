@@ -48,6 +48,7 @@ export class CohortInformationComponent implements AfterViewInit, OnDestroy, OnI
     cohortSamplesInfo = COHORT_SAMPLES_INFO;
     selectedOption;
     toggleChartSearch = "";
+    build = "";
 
     constructor(private cs: ClinapiService,
                 private cd: ChangeDetectorRef,
@@ -60,6 +61,10 @@ export class CohortInformationComponent implements AfterViewInit, OnDestroy, OnI
 
     ngOnInit() {
         this.selectedOption = this.searchBarService.options[0].getValue();
+
+        this.searchBarService.selectedBuilt.subscribe(build => {
+            this.build = build;
+        })
     }
 
     ngAfterViewInit() {

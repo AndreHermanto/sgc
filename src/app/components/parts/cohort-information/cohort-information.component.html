@@ -1,18 +1,18 @@
 <div *ngIf="sampleNotFound" class="message message-error">Sample not found</div>
-<div *ngIf="!error && !denied">
+<div *ngIf="!error && !denied && cohortSamplesInfo[build][selectedOption] !== undefined">
     <div class="toolbar">
-        <div>
+        <div >
             <div class='dc-data-count'>
-                <div *ngIf="cohortSamplesInfo[selectedOption] !== null">
+                <div *ngIf="cohortSamplesInfo[build][selectedOption] !== null">
                     <span class='total-count'></span>
-                    samples records selected out of <span style="color: #3182bd">{{cohortSamplesInfo[selectedOption]['gen']}}</span> samples by genotype filters.
+                    samples records selected out of <span style="color: #3182bd">{{cohortSamplesInfo[build][selectedOption]['gen']}}</span> samples by genotype filters.
                 </div>
                 <div>
                     <span class='filter-count'></span>
                     samples records selected out of <span class='total-count'></span> samples by phenotype filters.
                 </div>
-                <div *ngIf="cohortSamplesInfo[selectedOption] !== null">
-                    #WGS samples: <span style="color: #3182bd">{{cohortSamplesInfo[selectedOption]['wgs']}}</span> and #WES samples: <span style="color: #3182bd">{{cohortSamplesInfo[selectedOption]['wes']}}</span>
+                <div *ngIf="cohortSamplesInfo[build][selectedOption] !== null">
+                    #WGS samples: <span style="color: #3182bd">{{cohortSamplesInfo[build][selectedOption]['wgs']}}</span> and #WES samples: <span style="color: #3182bd">{{cohortSamplesInfo[build][selectedOption]['wes']}}</span>
                 </div>
             </div>
         </div>
@@ -53,5 +53,5 @@
     </div>
   </div>
   <div *ngIf="denied" class="message message-error">You do not have permission to view this data.</div>
-  <div *ngIf="error" class="message message-error">An unexpected error occurred, please try again or contact support</div>
+  <div *ngIf="error || cohortSamplesInfo[build][selectedOption] === undefined" class="message message-error">An unexpected error occurred, please try again or contact support</div>
   
