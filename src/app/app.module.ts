@@ -126,6 +126,7 @@ import { AnalyticsComponent } from './components/pages/analytics/analytics.compo
 import { GoogleChartsModule } from 'angular-google-charts';
 import { GridsterModule } from 'angular-gridster2';
 import { AngularResizedEventModule } from 'angular-resize-event';
+import { ClipboardModule } from '@angular/cdk/clipboard'
 
 import {keys } from './keys/keys';
 import { MultiselectChipsComponent } from './components/parts/multiselect-chips/multiselect-chips.component';
@@ -182,7 +183,8 @@ export class RavenErrorHandler implements ErrorHandler {
             mapsApiKey: keys.gmapApiKey
         }),
         GridsterModule,
-        AngularResizedEventModule
+        AngularResizedEventModule,
+        ClipboardModule
     ],
     declarations: [
         AppComponent,

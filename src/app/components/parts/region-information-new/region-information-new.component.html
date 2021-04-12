@@ -5,11 +5,14 @@
             Location:
         </div>
         <div class="detail-value">
-                <span><a id="region_location_id" target="_blank"
-                         href="http://grch37.ensembl.org/Homo_sapiens/Location/View?r={{ region.name() }}">
-                    {{ region.name() }}<i class="fa fa-external-link" aria-hidden="true"></i>
-                </a>
-                </span>
+            <span style="margin-right: 5px;"><a id="region_location_id" target="_blank"
+                        href="http://ensembl.org/Homo_sapiens/Location/View?r={{ region.name() }}">
+                {{ region.name() }}<i class="fa fa-external-link" aria-hidden="true"></i>
+            </a>
+            </span>
+            <button mat-icon-button [cdkCopyToClipboard]="region.name()" matTooltip="Copy region" matTooltipPosition="above">
+                <mat-icon>file_copy</mat-icon>
+            </button>
         </div>
     </div>
 
