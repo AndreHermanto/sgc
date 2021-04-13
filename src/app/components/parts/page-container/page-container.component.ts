@@ -22,9 +22,7 @@ export class PageContainerComponent implements OnInit {
     smallTitle = '';
     showHamburger = false;
     isMobile = false;
-    totalSamplesGen = '';
-    totalSamplesPhen = '';
-    cohort = ''
+
 
 
     @HostListener('window:resize') windowResized() {
@@ -53,20 +51,6 @@ export class PageContainerComponent implements OnInit {
         
     ngOnInit() {
         
-
-        this.searchBarService.selectedCohort.subscribe(cohort => {
-            this.cohort = cohort;
-            if(this.cohort === 'Demo'){
-                this.cohort = 'Demo from 1000 Genome Project';
-            }
-            if(COHORT_SAMPLES_INFO[cohort]){
-                this.totalSamplesGen = COHORT_SAMPLES_INFO[cohort]['gen'];
-                this.totalSamplesPhen = COHORT_SAMPLES_INFO[cohort]['phen'];
-            }else{
-                this.totalSamplesGen = '';
-                this.totalSamplesPhen = ''; 
-            }
-        })
     }
 
     updateScroll($event: any) {

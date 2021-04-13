@@ -19,15 +19,24 @@
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        {{cs.enabledCharts().length}} Charts
+                        {{cs.enabledCharts(build).length}} Charts
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="side-list">
-                    <div mat-menu-item *ngFor="let c of cs.charts" (click)="toggleChart($event, c)">
-                        <mat-slide-toggle [checked]="c.enabled" (change)="c.enabled = $event.checked" (click)="$event.stopPropagation()">
-                            {{ c.name }}
-                        </mat-slide-toggle>
-                    </div>
+                    <ng-container *ngIf="build=== 'GRCh37'">
+                        <div mat-menu-item *ngFor="let c of cs.charts" (click)="toggleChart($event, c)">
+                            <mat-slide-toggle [checked]="c.enabled" (change)="c.enabled = $event.checked" (click)="$event.stopPropagation()">
+                                {{ c.name }}
+                            </mat-slide-toggle>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="build=== 'GRCh38'">
+                            <div mat-menu-item *ngFor="let c of cs.charts38" (click)="toggleChart($event, c)">
+                                <mat-slide-toggle [checked]="c.enabled" (change)="c.enabled = $event.checked" (click)="$event.stopPropagation()">
+                                    {{ c.name }}
+                                </mat-slide-toggle>
+                            </div>
+                        </ng-container>
                 </div>
             </mat-expansion-panel>
             <div mat-menu-item (click)="toggleSql($event)">
@@ -80,7 +89,7 @@
                         more charts from the side bar on the left.</app-help-icon>
 
                     <div class="charts" *ngIf="subtotal > 0 && !loading">
-                        <div class="chart" *ngFor="let c of cs.enabledCharts()">
+                        <div class="chart" *ngFor="let c of cs.enabledCharts(build)">
                             <app-mapd-avg-af-chart *ngIf="c.type === chartType.Custom"></app-mapd-avg-af-chart>
                             <app-mapd-row-chart *ngIf="c.type === chartType.Row" [chart]="c"></app-mapd-row-chart>
                             <app-mapd-pie-chart *ngIf="c.type === chartType.Pie" [chart]="c"></app-mapd-pie-chart>
@@ -89,7 +98,8 @@
                     <div class="table" *ngIf="subtotal > 0">
                         <app-help-icon *ngIf="helpEnabled">This table contains the filtered variants from the current query. Due to performance limitations, we
                             are currently limited to 100 variants, but we hope to increase this in the future.</app-help-icon>
-                        <app-variants-table-paginated #table [cohort]='cohortMapping.toUpperCase()'></app-variants-table-paginated>
+                        <app-variants-table-paginated *ngIf="build=== 'GRCh37'" #table [cohort]='cohortMapping.toUpperCase()'></app-variants-table-paginated>
+                        <app-variants-table-paginated-new *ngIf="build=== 'GRCh38'" #table [cohort]='cohortMapping.toUpperCase()'></app-variants-table-paginated-new>
                     </div>
                 </div>
             </div>

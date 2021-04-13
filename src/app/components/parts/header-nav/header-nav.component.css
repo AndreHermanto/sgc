@@ -64,7 +64,7 @@ nav {
 }
 
 nav a {
-    padding: 0 0.7rem 17px 0.7rem;
+    padding: 0 0.5rem 17px 0.5rem;
     position: relative;
     color: var(--font-color);
     text-decoration: none;
