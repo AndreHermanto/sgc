@@ -60,7 +60,7 @@ export class SearchBarService {
         this.autocompleteError = '';
         this.query = '';
         this.options = [
-            new SearchOption('Cohort', 'dataset', ['Demo'], 'Demo'),
+            new SearchOption('Cohort', 'dataset', ['Demo', 'Autism CRC'], 'Demo'),
         ];
     }
 

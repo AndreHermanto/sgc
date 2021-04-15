@@ -123,6 +123,7 @@ import { AngularResizedEventModule } from 'angular-resize-event';
 
 import {keys } from './keys/keys';
 import { MultiselectChipsComponent } from './components/parts/multiselect-chips/multiselect-chips.component';
+import { AutismInformationComponent } from './components/parts/autism-information/autism-information.component';
 
 const CRITICAL_ERROR_WAIT_DURATION = 1000;
 
@@ -242,6 +243,7 @@ export class RavenErrorHandler implements ErrorHandler {
         AboutVaComponent,
         AnalyticsComponent,
         MultiselectChipsComponent,
+        AutismInformationComponent,
     ],
     entryComponents: [
         SignUpComponent,

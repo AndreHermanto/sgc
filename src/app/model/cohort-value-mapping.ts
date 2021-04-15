@@ -1,25 +1,31 @@
 export const COHORT_VALUE_MAPPING_VSAL = {
-    Demo: 'demo'
+    Demo: 'demo',
+    ['Autism CRC']: 'demo'
 }
 
 export const COHORT_VALUE_MAPPING_SSVS = {
-    Demo: 'demo'
+    Demo: 'demo',
+    ['Autism CRC']: 'demo'
 }
 
 export const COHORT_VALUE_MAPPING_MAPD = {
-    Demo: 'demo'
+    Demo: 'demo',
+    ['Autism CRC']: 'demo'
 }
 
 export const COHORT_PERMISSION_SUMMARY_MAPPING = {
-    Demo: ''
+    Demo: '',
+    ['Autism CRC']: 'autism/summary'
 }
 
 export const COHORT_PERMISSION_VSAL_PHENO_MAPPING = {
-    Demo: ''
+    Demo: '',
+    ['Autism CRC']: 'autism/pheno'
 }
 
 export const COHORT_PHENO_GET_MAPPING = {
-    Demo: 'getDemo'
+    Demo: 'getDemo',
+    ['Autism CRC']: 'getAutism'
 }
 
 export const COHORT_SAMPLES_INFO = {
@@ -28,13 +34,16 @@ export const COHORT_SAMPLES_INFO = {
         phen: '51',
         wgs: 51,
         wes: 0
-    }
+    },
+    ['Autism CRC']: null
 }
 
 export const COHORT_FAMILY_WITH_PHENO = {
-    Demo: true
+    Demo: true,
+    ['Autism CRC']: true
 }
 
 export const COHORT_PERMISSION_UNCONSENTED_SAMPLES = {
-    Demo: ''
+    Demo: '',
+    ['Autism CRC']: ''
 }

@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FAKE_CLINICAL_DATA } from "../mocks/clindata";
-import { FAKE_DEMO_DATA } from "../mocks/demodata";
+import { FAKE_DEMO_DATA, AUTISM_MAP_DEMO } from "../mocks/demodata";
 import { VariantSearchService } from './variant-search-service';
 import { SearchBarService } from './search-bar-service';
 import { Subscription } from 'rxjs/Subscription';
@@ -75,6 +75,25 @@ export class ClinapiService implements OnDestroy {
         };
         if(authorize){
             return of<any>(FAKE_DEMO_DATA);
+            /*return this.http.get<any>(`${environment.vsalUrl2}?pheno=true&dataset=demo`, httpOptions).map(res => {
+                return JSON.parse(res.pheno)
+            });*/
+        }//if not authorize but want to see demo
+        else if(demo){
+            console.log("DEMO")
+            return of<any>(FAKE_DEMO_DATA);
+        }//if not authorize and not opt to see demo
+        else {
+            return throwError({ status: 401 });
+        }
+    }
+
+    getAutism(demo = false, authorize = false): Observable<any> {
+        const httpOptions = {
+            headers: new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('idToken')}`})
+        };
+        if(authorize){
+            return of<any>(AUTISM_MAP_DEMO);
             /*return this.http.get<any>(`${environment.vsalUrl2}?pheno=true&dataset=demo`, httpOptions).map(res => {
                 return JSON.parse(res.pheno)
             });*/
