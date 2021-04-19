@@ -283,7 +283,6 @@ export class VariantSummaryTrackNewService implements TrackService {
     private variantHash(variant: VariantSummaryNew) {
         const d = [
             variant.chr,
-            variant.id,
             variant.af,
             variant.ac,
             variant.alt,

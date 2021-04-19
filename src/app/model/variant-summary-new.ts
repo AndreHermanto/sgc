@@ -3,7 +3,6 @@ export const HETEROZYGOTES_KEY = '0/1';
 const DB_SNP_URL = 'https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi';
 
 export class VariantSummaryNew {
-    id: string;//1
     chr: string;
     start: number;
     ref: string;
