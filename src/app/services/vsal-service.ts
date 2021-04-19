@@ -51,6 +51,10 @@ export class VsalService {
             objParams['altAllele'] = alt;
         }
 
+        if(build === 'GRCh38'){
+            objParams['ref']= build;
+        }
+
         if(samples.length){
             urlParams = urlParams.append('samples', samples);
             objParams['samples'] = samples;
@@ -200,6 +204,10 @@ export class VsalService {
         }
         if(alt !== ''){
             objParams['altAllele'] = alt;
+        }
+
+        if(build === 'GRCh38'){
+            objParams['ref']= build;
         }
 
         query.options.forEach(o => {
