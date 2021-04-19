@@ -79,9 +79,9 @@ export class FamilyTabNewComponent implements AfterViewInit {
     this.familyMembers = this.pheno.filter(s => {
       return sample[0].familyId === s.familyId
     });
-    //Make the order child -> father -> mother
+    //Make the order proband -> father -> mother
     let sortedFamilyMembers = [];
-    sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "child"))
+    sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "proband"))
     sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "father"))
     sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "mother"))
 
@@ -119,9 +119,9 @@ export class FamilyTabNewComponent implements AfterViewInit {
     });
 
     if(this.familyMembers.length > 0){
-      //Make the order child -> father -> mother
+      //Make the order proband -> father -> mother
       let sortedFamilyMembers = [];
-      sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "child"))
+      sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "proband"))
       sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "father"))
       sortedFamilyMembers.push(this.familyMembers.find(fam => fam.Relationship.toLowerCase() === "mother"))
 
