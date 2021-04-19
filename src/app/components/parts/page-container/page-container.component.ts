@@ -57,7 +57,7 @@ export class PageContainerComponent implements OnInit {
         this.searchBarService.selectedCohort.subscribe(cohort => {
             this.cohort = cohort;
             if(this.cohort === 'Demo'){
-                this.cohort = 'Demo from 1000 Genome Project';
+                this.cohort = 'Demo from 1000 Genomes Project';
             }
             if(this.cohort === 'Circa'){
                 this.cohort = 'CIRCA';
