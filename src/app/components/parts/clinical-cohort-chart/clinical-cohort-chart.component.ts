@@ -57,7 +57,11 @@ export class ClinicalCohortChartComponent implements AfterViewInit, OnDestroy {
                 objKeys.forEach(dim => {
                     if(dim === this.data.name){
                         if(this.data.type === "pie")
-                            this.chart.replaceFilter(this.saveSearches[this.selectedCohort][name][dim]);
+                            if(this.saveSearches[this.selectedCohort][name][dim].length > 1){
+                                this.chart.replaceFilter([this.saveSearches[this.selectedCohort][name][dim]]);
+                            }else{
+                                this.chart.replaceFilter(this.saveSearches[this.selectedCohort][name][dim]);
+                            }                     
                         if(this.data.type === "bar")
                             this.chart.replaceFilter(this.saveSearches[this.selectedCohort][name][dim][0]);
                         if(this.data.type === "row"){
