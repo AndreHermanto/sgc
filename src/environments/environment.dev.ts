@@ -17,6 +17,7 @@ export const environment = {
     sentryUrl: 'https://91961fd51bf94364979610dea632f679@sentry.io/1471909',
     clinicalUrl: 'http://localhost:3000',
     vectisAnalyticsUrl: 'https://vectis-analytics.public.garvan.org.au/analytics',
+    vectisDomain: 'https://sgc.garvan.org.au',
     mapd: {
         protocol: 'https',
         host: 'vsal.garvan.org.au',
