@@ -17,6 +17,7 @@ export const environment = {
     sentryUrl: 'https://6d4633523e614c36a0ba2a92358ab4cc@sentry.io/1471908',
     clinicalUrl: 'http://localhost:3000',
     vectisAnalyticsUrl: '',
+    vectisDomain: 'https://variantatlas.org.au',
     mapd: {
         protocol: 'https',
         host: 'mapd.vectis-api.com',
