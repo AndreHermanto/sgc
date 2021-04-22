@@ -17,6 +17,7 @@ export const environment = {
     sentryUrl: 'https://6d4633523e614c36a0ba2a92358ab4cc@sentry.io/1471908',
     clinicalUrl: 'http://localhost:3000',
     vectisAnalyticsUrl: '',
+    vectisDomain: 'https://autismcrc-prod.web.app',
     mapd: {
         protocol: 'https',
         host: 'mapd.vectis-api.com',
