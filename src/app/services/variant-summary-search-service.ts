@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { VsalService } from './vsal-service';
+import { SearchBarService } from './search-bar-service';
 import { VariantSummary } from '../model/variant-summary';
 import { Subject } from 'rxjs';
 import { SearchQueries } from '../model/search-query';
@@ -22,14 +23,16 @@ export class VariantSummarySearchService {
     private searchQuery = new Subject<SearchQueries>();
     private variantSearch = new VariantSearch();
 
-    constructor(private vsal: VsalService) {
+    constructor(private vsal: VsalService,
+                private searchBarService: SearchBarService
+    ) {
         this.results = this.searchQuery
             .debounceTime(DEBOUNCE_TIME)
             .switchMap((query: SearchQueries) => {
-                return this.vsal.getVariantsSummary(query).map((vr: VariantSummaryRequest) => { 
+                return this.vsal.getVariantsSummary(query, this.searchBarService.getBuild()).map((vr: VariantSummaryRequest) => { 
                     if (this.filter) {
                         vr.variants = this.filter(vr.variants);
-                    }
+                    }                    
                     return vr;
                 });
             })

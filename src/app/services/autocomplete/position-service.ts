@@ -9,7 +9,7 @@ import { of, Observable } from "rxjs";
 @Injectable()
 export class PositionService extends RegionService {
 
-    search(query: string): Observable<GenericAutocompleteResult<Region>[]> {
+    search(query: string, build: string): Observable<GenericAutocompleteResult<Region>[]> {
         const results = this.parseQuery(query.trim());
         if (results) {
             const chromosome = results[1];
