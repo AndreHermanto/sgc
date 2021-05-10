@@ -16,10 +16,16 @@ export class ElasticGeneSearch implements AutocompleteService<Gene> {
     constructor(private http: HttpClient) {
     }
 
-    getChromosome(chromosome: string): Observable<Chromosome> {
+    getChromosome(chromosome: string, build: string): Observable<Chromosome> {
         const headers = new HttpHeaders()
             .append('Accept', 'application/json');
-        return this.http.get(`${ environment.elasticUrl }/chromosomes/chromosome/${chromosome.toUpperCase()}`, {headers: headers})
+        let grch = "";
+        if(build === 'GRCh37'){
+            grch = environment.elasticUrl37;
+        }else{
+            grch = environment.elasticUrl38;
+        }
+        return this.http.get(`${ grch }/chromosomes/chromosome/${chromosome.toUpperCase()}`, {headers: headers})
             .timeout(TIMEOUT)
             .catch(() => {
                 return throwError('An error occurred while trying to connect to elasticsearch');
@@ -33,7 +39,7 @@ export class ElasticGeneSearch implements AutocompleteService<Gene> {
             });
     }
 
-    search(query: string): Observable<GenericAutocompleteResult<Gene>[]> {
+    search(query: string, build: string): Observable<GenericAutocompleteResult<Gene>[]> {
         const headers = new HttpHeaders()
             .append('Accept', 'application/json');
         const body = {
@@ -82,7 +88,15 @@ export class ElasticGeneSearch implements AutocompleteService<Gene> {
                 {'_score': {'order': 'desc'}},
             ]
         };
-        return this.http.post(environment.elasticUrl + '/_search', body, {headers: headers})
+
+        let grch = "";
+        if(build === 'GRCh37'){
+            grch = environment.elasticUrl37;
+        }else{
+            grch = environment.elasticUrl38;
+        }
+
+        return this.http.post(grch + '/_search', body, {headers: headers})
             .timeout(TIMEOUT)
             .catch(() => {
                 return throwError('An error occurred while trying to connect to elasticsearch');

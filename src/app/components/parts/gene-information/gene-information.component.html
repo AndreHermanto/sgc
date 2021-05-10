@@ -35,6 +35,9 @@
             </div>
             <div class="detail-value">
                 <span>{{ geneLocation(autocomplete.result) }}</span>
+                <button mat-icon-button [cdkCopyToClipboard]="geneLocation(autocomplete.result)" matTooltip="Copy region" matTooltipPosition="above">
+                    <mat-icon>file_copy</mat-icon>
+                </button>
             </div>
         </div>
 

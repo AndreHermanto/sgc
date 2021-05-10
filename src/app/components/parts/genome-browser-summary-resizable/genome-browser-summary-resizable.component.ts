@@ -5,6 +5,7 @@ import {
 import { Subject } from 'rxjs';
 import { Subscription } from 'rxjs/Subscription';
 import { ScrollService } from '../../../services/scroll-service';
+import { SearchBarService } from '../../../services/search-bar-service';
 import { ElasticGeneSearch } from '../../../services/autocomplete/elastic-gene-search-service';
 
 @Component({
@@ -26,7 +27,9 @@ export class GenomeBrowserSummaryResizableComponent implements AfterContentInit,
   constructor(private elf: ElementRef,
               private scrollService: ScrollService,
               private cd: ChangeDetectorRef,
-              private elastic: ElasticGeneSearch) {
+              private elastic: ElasticGeneSearch,
+              private searchBarService: SearchBarService,
+            ) {
 
   }
 
@@ -56,7 +59,7 @@ export class GenomeBrowserSummaryResizableComponent implements AfterContentInit,
   }
 
   ngAfterContentInit() {
-      this.elastic.getChromosome('1')
+      this.elastic.getChromosome('1', this.searchBarService.buildOptions[0].getValue())
           .toPromise()
           .then(() => {
               this.loading = false;

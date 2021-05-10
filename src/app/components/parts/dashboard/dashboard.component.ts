@@ -20,6 +20,7 @@ import { Position } from '../../../model/position';
 import { Dimension, BasicFilter, DimensionFilter, MapdFilterService } from '../../../services/mapd-filter.service';
 import { SnackbarHelpComponent } from '../snackbar-help/snackbar-help.component';
 import { VariantsTablePaginatedComponent } from '../variants-table-paginated/variants-table-paginated.component';
+import { VariantsTablePaginatedNewComponent } from '../variants-table-paginated-new/variants-table-paginated-new.component';
 import { RsidService } from '../../../services/autocomplete/rsid-service';
 import { Rsid } from '../../../model/rsid';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -42,6 +43,8 @@ const SMALL_WIDTH = 720;
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(VariantsTablePaginatedComponent, {static: false})
     private variantTable: VariantsTablePaginatedComponent;
+    @ViewChild(VariantsTablePaginatedNewComponent, {static: false})
+    private variantTableNew: VariantsTablePaginatedNewComponent;
     private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH}px)`);
     subscriptions: Subscription[] = [];
 
@@ -55,6 +58,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     sql = '';
     helpEnabled = false;
     cohort: string = this.searchBarService.options[0].getValue();
+    build: string = this.searchBarService.buildOptions[0].getValue();
     cohortMapping = COHORT_VALUE_MAPPING_MAPD[this.searchBarService.options[0].getValue()]
     permissions = [];
 
@@ -95,10 +99,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.searchError = '';
                 this.errors.next('');
                 this.searchBarService.query = '';
-                if(p['cohort']){
+                if(p['cohort'] && p['build']){
                     this.cohort = p['cohort'];
                     this.searchBarService.options[0].setValue(p['cohort']);
                     this.searchBarService.setCohort(p['cohort']);
+                    this.build = p['build'];
+                    this.searchBarService.buildOptions[0].setValue(p['build']);
+                    this.searchBarService.setBuild(p['build']);
                     this.cohortMapping = COHORT_VALUE_MAPPING_MAPD[p['cohort']];
                 }
                 this.permissions = localStorage.getItem('userPermissions') ? JSON.parse(localStorage.getItem('userPermissions')) : [];
@@ -108,7 +115,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 if(
                     this.auth.checkPermissions(p['cohort'], this.permissions)
                 ){
-                    this.mapd.connect(this.cohortMapping).then((session) => {
+                    this.mapd.connect(this.cohortMapping, this.build).then((session) => {
                         let sess = this.cohortMapping.toUpperCase()
                         return this.cf.create(session, sess);                       
                     }).then(() => {
@@ -229,7 +236,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     downloadVariants() {
-        this.variantTable.downloadFile();
+        if(this.build === 'GRCh37'){
+            this.variantTable.downloadFile();
+        }else if(this.build === 'GRCh38'){
+            this.variantTableNew.downloadFile();
+        }
     }
 
     isSmallScreen(): boolean {

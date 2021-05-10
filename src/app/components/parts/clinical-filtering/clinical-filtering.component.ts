@@ -163,7 +163,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                         if(this.searchBarService.conjSamples){
                             let queries = this.searchQueries.regions.map(q => {
                                 let sq = new SearchQueries([q], this.searchQueries.options)
-                                return this.vsal.getSamples(sq, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput).map((sr: SampleRequest) => {
+                                return this.vsal.getSamples(sq, this.searchBarService.getBuild(),this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput).map((sr: SampleRequest) => {
                                     return sr;
                                 })
                             })
@@ -190,7 +190,7 @@ export class ClinicalFilteringComponent implements OnInit, OnDestroy, AfterViewI
                                 this.errorEvent.emit(e);
                             })
                         }else{
-                            return this.vsal.getSamples(this.searchQueries, this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput).subscribe((result) => {
+                            return this.vsal.getSamples(this.searchQueries, this.searchBarService.getBuild(), this.searchBarService.refInput, this.searchBarService.altInput, this.searchBarService.hetInput, this.searchBarService.homInput).subscribe((result) => {
                                 if(result.error){
                                     this.loadingVariants = false;
                                     this.errorEvent.emit(result.error);

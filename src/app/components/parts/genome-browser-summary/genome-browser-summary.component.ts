@@ -2,6 +2,7 @@ import {
   Component, AfterViewInit, ChangeDetectorRef, OnDestroy,
   Input
 } from '@angular/core';
+import { SearchBarService } from '../../../services/search-bar-service';
 import { VariantSummarySearchService } from '../../../services/variant-summary-search-service';
 import { VariantSummaryTrackService } from '../../../services/genome-browser/variant-summary-track-service';
 import { TranscriptTrackService } from '../../../services/genome-browser/transcript-track-service';
@@ -35,6 +36,7 @@ export class GenomeBrowserSummaryComponent implements AfterViewInit, OnDestroy {
                 private transcriptTrackService: TranscriptTrackService,
                 private elastic: ElasticGeneSearch,
                 private ensembl: EnsemblService,
+                private searchBarService: SearchBarService,
                 cd: ChangeDetectorRef) {
         this.variants = searchService.variants;
         this.subscription = searchService.results.subscribe(v => {
@@ -70,7 +72,7 @@ drawBoard() {
         .from(this.searchService.lastQuery.regions[0].start).to(end)
         .zoom_out(MAX_REGION_SIZE)
         .width(this.width)
-        .max_coord(this.elastic.getChromosome(this.searchService.lastQuery.regions[0].chromosome).toPromise());
+        .max_coord(this.elastic.getChromosome(this.searchService.lastQuery.regions[0].chromosome, this.searchBarService.buildOptions[0].getValue()).toPromise());
 
     const rest = this.genomeBrowser.rest();
     rest.domain(environment.ensemblDomain);
