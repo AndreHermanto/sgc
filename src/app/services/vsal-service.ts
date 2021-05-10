@@ -52,7 +52,7 @@ export class VsalService {
         }
 
         if(build === 'GRCh38'){
-            objParams['ref']= build;
+            objParams['asm']= build;
         }
 
         if(samples.length){
@@ -207,7 +207,7 @@ export class VsalService {
         }
 
         if(build === 'GRCh38'){
-            objParams['ref']= build;
+            objParams['asm']= build;
         }
 
         query.options.forEach(o => {
