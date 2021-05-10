@@ -65,5 +65,5 @@ export const COHORT_PERMISSION_UNCONSENTED_SAMPLES = {
 
 export const AVAILABLE_BUILD = {
     GRCh37: ['Demo', 'MGRB'],
-    GRCh38: ['MGRB']
+    GRCh38: []
 }
