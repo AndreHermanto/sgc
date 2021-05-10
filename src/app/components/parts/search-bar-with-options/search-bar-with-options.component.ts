@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class SearchBarWithOptionsComponent implements AfterViewInit, OnInit {
     @Input() expanded = false;
     @Input() expandable = false;
-    @Input() example1 = 'FAM110C';
+    @Input() example1 = 'CFTR';
     @Input() example2 = '22:46546424-46639653';
     @Input() action = (query) => {
         this.searchBarService.query = query;
