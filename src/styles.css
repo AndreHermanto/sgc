@@ -1,13 +1,13 @@
 @import '../node_modules/font-awesome/css/font-awesome.css';
 
 :root{
-    --theme: #01acd7;
-    --second-theme: #01acd7;
+    --theme: #1b75bc;
+    --second-theme: #1b75bc;
     --third-theme: #ffffff;
     --fourth-theme: #f5f5f5;
     --font-color: #ffffff;
     --second-font-color: black;
-    --third-font-color: #01acd7;
+    --third-font-color: #1b75bc;
 }   
 
 html {
