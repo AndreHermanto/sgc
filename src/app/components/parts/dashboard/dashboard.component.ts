@@ -82,7 +82,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             if(e !== '' || e !== constants.GENERIC_SERVICE_ERROR_MESSAGE){
                 Raven.captureMessage(e);
             }
-
             this.error = e;
             this.cd.detectChanges();
         }));
@@ -120,7 +119,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                         return this.cf.create(session, sess);                       
                     }).then(() => {
                         this.cf.updates.next();
-                    }).catch((e) => this.errors.next(e));
+                    }).catch((e) => { 
+                        this.mapd.session = null;
+                        this.errors.next('MAPD service is down. Please try again later.')
+                    });
                 }else{
                     if(this.permissions){
                         this.errors.next(constants.PERMISSION_ERROR_MESSAGE);
