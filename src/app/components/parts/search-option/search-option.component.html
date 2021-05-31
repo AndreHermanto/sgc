@@ -16,11 +16,11 @@ class="cohort-information"
 [matTooltipClass]="'cohort-info'"
 >help_outline</mat-icon>
 <div class="option">
-    <div class="selected-option" (click)="showOptions = showOptions ? false : true"><span>{{ option.display() }}</span><i class="material-icons">arrow_drop_down</i></div>
+    <div class="selected-option" (click)="showOptions = showOptions ? false : true"><span>{{ cohortLabels[option.getValue()] }}</span><i class="material-icons">arrow_drop_down</i></div>
     <div *ngIf="showOptions" class="options">
         <div *ngFor="let option of option.allOptions(); let i = index;"
              (mousedown)="selectOption(option); showOptions = false">
-             <span class="name" *ngIf="cohortAccess.includes(option) && availableBuild[build].includes(option)">{{ option }} 
+             <span class="name" *ngIf="cohortAccess.includes(option) && availableBuild[build].includes(option)">{{ cohortLabels[option] }} 
                 <span *ngIf="cohortSamplesInfo[build][option] !== null && cohortSamplesInfo[build][option] !== undefined">
                     (
                     <span *ngIf="cohortSamplesInfo[build][option]['wgs'] > 0">{{cohortSamplesInfo[build][option]['wgs']}} WGS</span>
@@ -29,7 +29,7 @@ class="cohort-information"
                     )
                 </span>
             </span>
-            <span class="name-disabled" *ngIf="!cohortAccess.includes(option) || !availableBuild[build].includes(option)">{{ option }} 
+            <span class="name-disabled" *ngIf="!cohortAccess.includes(option) || !availableBuild[build].includes(option)">{{ cohortLabels[option] }} 
                 <span *ngIf="cohortSamplesInfo[build][option] !== null && cohortSamplesInfo[build][option] !== undefined">
                     (
                     <span *ngIf="cohortSamplesInfo[build][option]['wgs'] > 0">{{cohortSamplesInfo[build][option]['wgs']}} WGS</span>

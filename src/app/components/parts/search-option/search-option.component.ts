@@ -4,7 +4,7 @@ import { SearchBarService } from '../../../services/search-bar-service';
 import { Subscription } from 'rxjs/Subscription';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { ClinicalFilteringService } from '../../../services/clinical-filtering.service';
-import { COHORT_SAMPLES_INFO, COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING, AVAILABLE_BUILD } from '../../../model/cohort-value-mapping';
+import { COHORT_SAMPLES_INFO, COHORT_PERMISSION_VSAL_PHENO_MAPPING, COHORT_PERMISSION_SUMMARY_MAPPING, AVAILABLE_BUILD, COHORT_LABELS } from '../../../model/cohort-value-mapping';
 import { Auth } from '../../../services/auth-service';
 
 @Component({
@@ -41,6 +41,7 @@ export class SearchOptionComponent implements OnInit {
     cohortSamplesInfo = COHORT_SAMPLES_INFO;
     availableBuild = AVAILABLE_BUILD;
     cohortAccess = ['Demo'];
+    cohortLabels = COHORT_LABELS;
 
     totalSamplesGen = '';
     totalSamplesPhen = '';
