@@ -213,3 +213,19 @@ export const AVAILABLE_BUILD = {
     GRCh37: ['Demo', 'Mitochondria', 'Acute Care Trios', 'Acute Care Probands', 'Neuromuscular', 'Epileptic Encephalopathies', 'Brain Malformations', 'Leukodystrophies', 'ICCon', 'Childranz', 'HIDDEN', 'Genetic Immunology', 'Cardiac', 'KidGen'],
     GRCh38: []
 }
+export const COHORT_LABELS = {
+    Demo: 'Demo',
+    Mitochondria: 'Mitochondrial Disease',
+    ['Acute Care Trios']: 'Acute Care Trios',
+    ['Acute Care Probands']: 'Acute Care Probands',
+    Neuromuscular: 'Neuromuscular',
+    ['Epileptic Encephalopathies']: 'Epileptic Encephalopathies',
+    ['Brain Malformations']: 'Brain Malformations',
+    Leukodystrophies: 'Leukodystrophies',
+    ICCon: 'Inherited Cancers (ICCon)',
+    Childranz: 'Intersitial Lung Diseases (chILDRANZ)',
+    HIDDEN: 'HIDDEN Renal',
+    ['Genetic Immunology']: 'Genetic Immunology',
+    Cardiac: 'Cardiac',
+    KidGen: 'Renal (KidGen)'
+}
