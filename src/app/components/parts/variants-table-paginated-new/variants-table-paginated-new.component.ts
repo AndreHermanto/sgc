@@ -106,7 +106,7 @@ export class VariantsTablePaginatedNewComponent implements OnInit, OnDestroy {
     searchCLinical(variant){
         if(this.cohortAccessClinical.includes(this.selectedCohort)){
             let query = variant.split(':');
-            const obj = {query: `${query[0]}:${query[1]}`, cohort: this.selectedCohort, panel:"",ref:query[2], alt:query[3], het: 'true', hom: 'true', conj:'false', conjSamples: 'false', timestamp: Date.now()};
+            const obj = {query: `${query[0]}:${query[1]}`,build:"GRCh38", cohort: this.selectedCohort, panel:"",ref:query[2], alt:query[3], het: 'true', hom: 'true', conj:'false', conjSamples: 'false', timestamp: Date.now()};
             this.router.navigate(['/clinical/results', obj]);
         }
     }
