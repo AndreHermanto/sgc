@@ -299,7 +299,7 @@ export class VsalService {
     }
 
     private requestSummary(params: HttpParams, headers: HttpHeaders): Observable<VariantSummaryRequest> {
-        return this.http.get(environment.vsalUrl+ '/' + params.get('dataset') + '/query', {params: params, headers: headers})
+        return this.http.get(environment.vsalUrl+ '/' + params.get('dataset') + '/core/search', {params: params, headers: headers})
             .timeout(VSAL_TIMEOUT)
             .map((data) => {
                 if (data['error']) {
