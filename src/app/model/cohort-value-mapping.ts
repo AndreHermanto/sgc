@@ -223,7 +223,7 @@ export const COHORT_LABELS = {
     ['Brain Malformations']: 'Brain Malformations',
     Leukodystrophies: 'Leukodystrophies',
     ICCon: 'Inherited Cancers (ICCon)',
-    Childranz: 'Intersitial Lung Diseases (chILDRANZ)',
+    Childranz: 'Interstitial Lung Diseases (chILDRANZ)',
     HIDDEN: 'HIDDEN Renal',
     ['Genetic Immunology']: 'Genetic Immunology',
     Cardiac: 'Cardiac',
