@@ -164,9 +164,9 @@ export const COHORT_SAMPLES_INFO = {
         },
         Childranz: null,
         ICCon: {
-            gen: '137',
-            phen: '137',
-            wgs: 137,
+            gen: '195',
+            phen: '195',
+            wgs: 195,
             wes: 0
         },
         HIDDEN: null,
