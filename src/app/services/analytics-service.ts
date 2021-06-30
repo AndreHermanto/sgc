@@ -425,7 +425,7 @@ export class VecticAnalyticsService {
                 return response;
             }),
             catchError(error => {
-                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                //Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
                 return of(error);
                 })
             );
