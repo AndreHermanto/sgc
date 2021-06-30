@@ -20,7 +20,7 @@ export const environment = {
     durlUrl: 'https://wt-ec1ac815dce38c76c2e7662693b82189-0.run.webtask.io/durl-dev',
     sentryUrl: 'https://91961fd51bf94364979610dea632f679@sentry.io/1471909',
     clinicalUrl: 'http://localhost:3000',
-    vectisAnalyticsUrl: 'https://vectis-analytics.public.garvan.org.au/analytics',
+    vectisAnalyticsUrl: 'https://vectis-analytics.public.garvan.org.au',
     vectisDomain: 'https://variantatlas.org.au',
     mapd37: {
         protocol: 'https',

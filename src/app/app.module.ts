@@ -149,6 +149,7 @@ import { GenomeBrowserSummaryNewComponent } from './components/parts/genome-brow
 import { FilterAutoSummaryNewComponent } from './components/parts/filter-auto-summary-new/filter-auto-summary-new.component';
 import { VariantSummaryNewComponent } from './components/pages/variant-summary-new/variant-summary-new.component';
 import { VariantsTablePaginatedNewComponent } from './components/parts/variants-table-paginated-new/variants-table-paginated-new.component';
+import { SearchUserPermissionsComponent, OverviewDialog } from './components/parts/search-user-permissions/search-user-permissions.component';
 
 const CRITICAL_ERROR_WAIT_DURATION = 1000;
 
@@ -292,6 +293,8 @@ export class RavenErrorHandler implements ErrorHandler {
         FilterAutoSummaryNewComponent,
         VariantSummaryNewComponent,
         VariantsTablePaginatedNewComponent,
+        SearchUserPermissionsComponent,
+        OverviewDialog
     ],
     entryComponents: [
         SignUpComponent,

@@ -31,7 +31,7 @@ export class VecticAnalyticsService {
         if(ignoredEmails.includes(email)){
             return of({});
         }
-        return this.http.post(`${environment.vectisAnalyticsUrl}/search-query`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/search-query`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -58,7 +58,7 @@ export class VecticAnalyticsService {
             return of({});
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/user-query`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/user-query`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -87,7 +87,7 @@ export class VecticAnalyticsService {
             return of({});
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/user-login`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/user-login`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -108,7 +108,7 @@ export class VecticAnalyticsService {
             query: query
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/temp-query`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/temp-query`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -132,7 +132,7 @@ export class VecticAnalyticsService {
             platform: PLATFORM,
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/top-login`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/top-login`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -155,7 +155,7 @@ export class VecticAnalyticsService {
             platform: PLATFORM,
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/login-location`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/login-location`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -186,7 +186,7 @@ export class VecticAnalyticsService {
             body['cohortsOpt']= cohortsFilterOpt;
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/single-panel`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/single-panel`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -216,7 +216,7 @@ export class VecticAnalyticsService {
             body['cohortsOpt']= cohortsFilterOpt;
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/panel-data`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/panel-data`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -245,7 +245,7 @@ export class VecticAnalyticsService {
             body['cohortsOpt']= cohortsFilterOpt;
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/query-type`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/query-type`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -275,7 +275,7 @@ export class VecticAnalyticsService {
             body['cohortsOpt']= cohortsFilterOpt;
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/gene-count`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/gene-count`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -298,7 +298,7 @@ export class VecticAnalyticsService {
             platform: PLATFORM
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/daily-login`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/daily-login`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -321,7 +321,7 @@ export class VecticAnalyticsService {
             platform: PLATFORM
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/email-domain`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/email-domain`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -351,7 +351,7 @@ export class VecticAnalyticsService {
             body['cohortsOpt']= cohortsFilterOpt;
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/cohort-queries`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/cohort-queries`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -375,7 +375,7 @@ export class VecticAnalyticsService {
             platform: PLATFORM
         }
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/monthly-login`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/monthly-login`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),
@@ -398,7 +398,29 @@ export class VecticAnalyticsService {
             platform: PLATFORM
         } 
 
-        return this.http.post(`${environment.vectisAnalyticsUrl}/count-login`, body,{headers: headers}).pipe(
+        return this.http.post(`${environment.vectisAnalyticsUrl}/analytics/count-login`, body,{headers: headers}).pipe(
+            map(response => {
+                return response;
+            }),
+            catchError(error => {
+                Raven.captureMessage("Vectis Analytics: " + JSON.stringify(error));
+                return of(error);
+                })
+            );
+    }
+
+    getUserRoles(email): Observable<any>{
+        const headers = new HttpHeaders()
+        .append('Content-Type', 'application/json')
+        .append('Accept', '*/*')
+        .append('Authorization', `Bearer ${localStorage.getItem('idToken')}`);
+
+        const body = {
+            email: email,
+            platform: PLATFORM
+        } 
+
+        return this.http.post(`${environment.vectisAnalyticsUrl}/auth0/user-permissions`, body,{headers: headers}).pipe(
             map(response => {
                 return response;
             }),

@@ -1,0 +1,22 @@
+<h4 mat-dialog-title>Roles of {{data.email}}</h4>
+<div mat-dialog-content align="center">
+  <div class="content-container">
+      <table class="roles-table" *ngIf="roles.length > 0">
+          <tr>
+            <th>Roles</th>
+            <th>Descriptions</th>
+          </tr>
+          <tr *ngFor="let role of roles">
+            <td>{{role.name}}</td>
+            <td>{{role.description}}</td>
+          </tr>
+        </table>
+        <mat-error *ngIf="error !== ''">
+          {{error}}
+        </mat-error>
+        <mat-spinner *ngIf="loading"></mat-spinner>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>

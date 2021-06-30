@@ -36,7 +36,8 @@
                     </ul>
                   </span>
               </div>
-              <app-multiselect-chips [selectionsList]="cohortsList" label="Cohorts" (onSelectionChange)="onSelectionCohorts($event)"></app-multiselect-chips>
+							<app-multiselect-chips [selectionsList]="cohortsList" label="Cohorts" (onSelectionChange)="onSelectionCohorts($event)"></app-multiselect-chips>
+							<app-search-user-permissions></app-search-user-permissions>
           </mat-sidenav>
           <div class="content">
               <gridster [options]="options" style="background-color:#edf1f7">
@@ -102,7 +103,7 @@
                     <div *ngIf="item.id === 'monthlyLogin' && monthlyLoginData.length > 0" class="fill-height" id="monthlyLogin" (resized)="onResized($event, 'monthlyLogin', 'monthlyLoginData')">                          
                         <div *ngIf="cohortsFilterArr.length>0" style="margin: 0 5px;font-size: 10px;">*All cohorts</div>
                         <google-chart *ngIf="visibleDelayed[item.id]" [type]="'LineChart'" [columns]='monthlyLoginCols' [data]='monthlyLoginData' [options]="monthlyLoginOptions" style="height: 90%;width: 90%;" [dynamicResize]="true"></google-chart>
-                      </div>
+                    </div>
                   </gridster-item>
                 </gridster>
               </div>
