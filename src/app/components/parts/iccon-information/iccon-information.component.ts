@@ -30,7 +30,6 @@ export class IcconInformationComponent implements OnInit{
         },
         325,
         200),
-        new ClinicalFields('Test type', 'type', 'Test type', 'pie', false),
     ];
     phenoService: string = 'getIccon'
 
