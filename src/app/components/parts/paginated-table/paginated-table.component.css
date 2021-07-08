@@ -1,0 +1,14 @@
+table {
+    width: 100%;
+  }
+
+.table-container {
+  width: 96%;
+  margin: auto;
+  max-height: 353px;
+  overflow: auto;
+}
+
+.input-container {
+  margin-left: 2%;
+}
