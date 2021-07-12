@@ -23,11 +23,10 @@
                     routerLink="/">
                     <div class="logo-small">
                         <img src="assets/sgc/SGC_logo_rev.png"/>
-                        <div *ngIf="!isMobile" class="title">Sydney Genomics Collaborative</div>
                     </div>
             </div>
         </span>
-        <div class='container-nav' [ngStyle]="!showHamburger?{'min-width': '915px'}:null">
+        <div class='container-nav' [ngStyle]="!showHamburger?{'min-width': '1050px'}:null">
             <app-search-option [option]="searchBarService.options[0]" [buildOption]="searchBarService.buildOptions[0]" class="cohort-option" class="cohort-option"></app-search-option>
             <i *ngIf="showHamburger" class="material-icons"
             (click)="sidenav.open()">menu</i>

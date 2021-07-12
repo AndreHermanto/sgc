@@ -56,7 +56,6 @@ mat-sidenav-container {
 .menu-title .title {
     font-size: 20px;
     line-height: 1;
-    letter-spacing: .02em;
     font-weight: 400;
 }
 
@@ -115,8 +114,8 @@ mat-sidenav .title {
 }
 
 .logo-small img {
-    height: 23px;
-    width: 70px;
+    height: 30px;
+    width: 100px;
 }
 
 ::ng-deep .cohort-info{
