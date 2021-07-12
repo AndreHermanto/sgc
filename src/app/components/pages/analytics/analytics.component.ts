@@ -9,6 +9,7 @@ import { ResizedEvent } from 'angular-resize-event';
 import {Auth} from '../../../services/auth-service';
 import { start } from 'repl';
 import { mergeMap, take } from '../../../../../node_modules/rxjs/operators';
+import * as Papa from 'papaparse';
 
 @Component({
   selector: 'app-analytics',
@@ -57,7 +58,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     legend: 'none',
     colors: this.colorsPalette
   };
-  loginCount = 0;
+
   loginChartData=[];
   loginChartCols=[];
   loginChartOptions={
@@ -120,8 +121,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     start: '2020-06-20',
     end: this.formatDate(new Date())
   });
-  loginLimit = new BehaviorSubject<number>(10);
-  selectedTopLogin = 10;
+
   cohortsList = ['Circa']
   cohortsFilter = new BehaviorSubject<string[]>([]);
   cohortsFilterArr = [];
@@ -156,20 +156,11 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       y:0
     },
     {
-      id:'topLogin',
-      label: 'Top users logins',
-      visible: true,
-      cols: 4,
-      rows: 3,
-      x:0,
-      y:0
-    },
-    {
       id:'emailDomain',
       label: 'Email domains',
       visible: true,
       cols: 4,
-      rows: 5,
+      rows: 6,
       x:0,
       y:0
     },
@@ -178,7 +169,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       label: 'Total queries',
       visible: true,
       cols: 5,
-      rows: 5,
+      rows: 6,
       x:0,
       y:0
     },
@@ -187,7 +178,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       label: 'Query types',
       visible: true,
       cols: 3,
-      rows: 5,
+      rows: 6,
       x:0,
       y:0
     },
@@ -235,7 +226,16 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       rows: 3,
       x:0,
       y:0
-    }
+    },
+    {
+      id:'topLogin',
+      label: 'Top users logins',
+      visible: true,
+      cols: 12,
+      rows: 5,
+      x:0,
+      y:0
+    },
   ];
 
   visibleDelayed  = {}
@@ -273,16 +273,16 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
           this.loginAreaCols = this.convertToChartColumn(e);
         }));
 
-        this.subscriptions.push(this.loginLimit.subscribe(limit => {
-          this.vas.getTopLogin(date.start,date.end, limit).subscribe((e) => {
-            this.topLoginData = this.convertToChartFormat(e);
-            this.topLoginCols = this.convertToChartColumn(e);
-          });
-        }))
-
-        this.subscriptions.push(this.vas.getLoginCount(date.start, date.end).subscribe((e) => {
-          this.loginCount = e[0].count;
-        }));
+        this.subscriptions.push(
+          this.vas.getTopLogin(date.start,date.end, null).subscribe((e) => {
+            if(e.length> 0){
+              this.topLoginData = e;
+              this.topLoginCols = Object.keys(e[0]);
+            }else{
+              this.topLoginData = [];
+            }
+          })
+        )
     
         this.subscriptions.push(this.vas.getDailyLogin(date.start,date.end).subscribe((e) => {
           let temp = this.convertToChartFormat(e);
@@ -583,11 +583,19 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onTopLoginChange(e){
-    this.loginLimit.next(e);
-  }
-
   onSelectionCohorts(e){
     this.cohortsFilter.next(e);
   }
+
+  downloadTopLoginData() {
+    const data = this.topLoginData.map((e) => {
+        return {
+            'Email': e.email,
+            'Login Count': e.count
+        };
+    });
+    const csv = Papa.unparse(data);
+    const blob = new Blob([csv], {type: 'text/plain'});
+    saveAs(blob, 'data_user_login_' + new Date().getTime() + '.csv');
+}
 }
