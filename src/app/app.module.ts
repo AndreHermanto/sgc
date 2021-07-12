@@ -136,6 +136,7 @@ import { FilterAutoSummaryNewComponent } from './components/parts/filter-auto-su
 import { VariantSummaryNewComponent } from './components/pages/variant-summary-new/variant-summary-new.component';
 import { VariantsTablePaginatedNewComponent } from './components/parts/variants-table-paginated-new/variants-table-paginated-new.component';
 import { SearchUserPermissionsComponent, OverviewDialog } from './components/parts/search-user-permissions/search-user-permissions.component';
+import { PaginatedTableComponent } from './components/parts/paginated-table/paginated-table.component';
 
 const CRITICAL_ERROR_WAIT_DURATION = 1000;
 
@@ -267,7 +268,8 @@ export class RavenErrorHandler implements ErrorHandler {
         VariantSummaryNewComponent,
         VariantsTablePaginatedNewComponent,
         SearchUserPermissionsComponent,
-        OverviewDialog
+        OverviewDialog,
+        PaginatedTableComponent
     ],
     entryComponents: [
         SignUpComponent,
